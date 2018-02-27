@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.login.util.DBConnection;
 
 /**
- * Servlet implementation class AddProject
+ * Servlet implementation class AddProject//
  */
 @WebServlet("/AddProject")
 public class AddProject extends HttpServlet {
