@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.login.util.DBConnection;
 
 /**
- * Servlet implementation class AddProject//
+ * Servlet implementation class AddProject//l
  */
 @WebServlet("/AddProject")
 public class AddProject extends HttpServlet {
@@ -70,7 +70,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 					rd.include(request, response);
                 out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>Saved " +ProjName+ " failed</h4>");
             }
-            System.out.println("successfully inserted");
+            System.out.println("successfully inserted into Database");
            
           
             con.close();
