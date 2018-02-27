@@ -108,13 +108,18 @@ public class Drop extends HttpServlet {
                   String query2="SELECT distinct task.ProjName,task.proid,users.EmployeeName,users.EmployeeID ,task.date,task.TaskCat,sum(task.hours)hours FROM customers.task  INNER JOIN customers.users ON users.EmployeeID=task.EmployeeID ";
                  
                   String query3 ="SELECT distinct myproject.ProjName,myproject.ID,myproject.CustomerName,myproject.StartDate,myproject.EndDate,sum(task.hours)hours FROM customers.myproject  INNER JOIN customers.task ON myproject.ProjName=task.ProjName ";
-                 
+                  
+                  String option = request.getParameter("opts");
+                  System.out.println(option);
                   String[] dropdownValues = request.getParameterValues("projectReport");
                   String[] dropdownValues1 = request.getParameterValues("empreport");
                   String[] dropdownValues2 = request.getParameterValues("customerreport");
                  
                   if(dropdownValues!=null)
                   {
+                	  dropdownValues1=null;
+                	  dropdownValues2=null;
+                	  
                 	  System.out.println("projname");
                   for(int i =0;i<dropdownValues.length;i++){
                         if (i==0){
@@ -136,6 +141,9 @@ public class Drop extends HttpServlet {
                  
                   else if (dropdownValues1!=null)
                   {
+                	  dropdownValues=null;
+                	  dropdownValues2=null;
+                	  
                 	  System.out.println("employee");
                         System.out.println(dropdownValues1.length);
                         for(int i =0;i<dropdownValues1.length;i++){
@@ -154,6 +162,9 @@ public class Drop extends HttpServlet {
                  
                   else if (dropdownValues2!=null)
                   {
+                	  dropdownValues=null;
+                	  dropdownValues1=null;
+                	  
                 	  System.out.println("cust");
                         for(int i =0;i<dropdownValues2.length;i++){
                               if (i==0){
@@ -326,6 +337,9 @@ public class Drop extends HttpServlet {
                   os.close();
                   is.close();
                   wb.close();
+                  dropdownValues=null;
+                  dropdownValues1=null;
+                  dropdownValues2=null;
             }
             catch (Exception e2) {
                   System.out.println(e2);

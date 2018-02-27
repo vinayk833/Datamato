@@ -26,7 +26,7 @@ public class DeleteProject extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  /* public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	   projectName = request.getParameter("ProjName");
 		System.out.println(projectName);
 
@@ -34,7 +34,7 @@ public class DeleteProject extends HttpServlet {
 		Connection con = null;
 		con = DBConnection.createConnection();
 		System.out.println("connected!.....");
-		String query = "SELECT * FROM myproject WHERE ProjName =" +projectName;
+		String query = "SELECT * FROM myproject WHERE ProjName ='" + projectName + "'";
 		System.out.println(query);
 		try {
 			st = con.createStatement();
@@ -76,12 +76,12 @@ public class DeleteProject extends HttpServlet {
 		}
 	}
 
-
+*/
 
 	
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection con = null;
-		
+		projectName = request.getParameter("ProjName");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		 String ProjName = request.getParameter("PName");
@@ -99,7 +99,7 @@ public class DeleteProject extends HttpServlet {
 			prpStat.executeUpdate();
 			RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateProjects.jsp");
 			rd.include(request, response);
-			out.println("<h4 style='color:red;margin-left:400px;margin-top:-120px;'>" +ProjName+ " Deleted Successfully!</h4>");
+			out.println("<h4 style='color:red;margin-left:400px;margin-top:-120px;'>" +projectName+ " Deleted Successfully!</h4>");
 			
 			
 			con.close();

@@ -56,8 +56,10 @@ public class SendMailApproval extends HttpServlet {
 			Connection con = null;
 			con = DBConnection.createConnection();
 			System.out.println("connected!.....");
-			String employeeID  = (String) request.getSession().getAttribute("Admin");
+			//String employeeID  = (String) request.getSession().getAttribute("Admin");
 			String date = request.getParameter("date");
+			String employeeID = "132";
+			System.out.println(employeeID);
 			request.setAttribute(date, "dateValue");
 			SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -134,24 +136,43 @@ public class SendMailApproval extends HttpServlet {
 			baseUrl =request.getScheme() + "://" +
 			        request.getServerName() + ":" + request.getServerPort() +
 			        request.getContextPath();
+			
+			String textbody="<!DOCTYPE html><html><head><style>\r\n" + 
+              		"table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n" + 
+              		"td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}\r\n" + 
+              		"tr:nth-child(even) {background-color: #dddddd;}\r\n" + 
+              		".button {background-color: #28ce25;border: none;color: white;padding: 16px 32px;text-align: center;font-size: 16px;\r\n" + 
+              		"  margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;cursor: pointer;}\r\n" + 
+              		".button-success {background-color: #28ce25;border: none;color: white;padding: 16px 32px;text-align: center;\r\n" + 
+              		"  font-size: 16px;margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;\r\n" + 
+              		"  cursor: pointer;}\r\n" + 
+              		".button-danger {background-color: #d62613;border: none;color: white;padding: 16px 32px;text-align: center;\r\n" + 
+              		"  font-size: 16px;margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;\r\n" + 
+              		"  cursor: pointer;}\r\n" + 
+              		".button-success:hover {opacity: 1}  .button-danger:hover {opacity: 1}\r\n" + 
+              		"</style></head><body><h2>Daily Report</h2>\r\n" + 
+              		"<table><tr><th>Company</th><th>Contact</th><th>Country</th></tr>\r\n";
+              		
+              		while(rs.next()) {
+              			textbody += "<tr><td>" + rs.getString("projname") + "</td><td>" + rs.getString("proid") + "</td><td>" + rs.getString("description") +"</td></tr>\r\n";
+              		}
+              
+              		textbody +="<a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+employeeID+"&date="+date+"\">APPROVE\r\n" + 
+              		"<button type=\"button\" class=\"button-danger\"><a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+"\">REJECT</button></center></body></html>";
 
-			    
+			    System.out.println(textbody);
 			    //System.out.println(baseUrl);
 			// Send the actual HTML message, as big as you like
-			message.setContent(
-					"<h1><a href=\"" + baseUrl + "/ApprovalChecker?approval=yes&empid="+employeeID+"&date="+date+"\">Approve</a> task</h1>"
-					 +"\n" +
-					"<h1><a href=\"" + baseUrl + "/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+"\">Reject</a> task</h1>",
-					"text/html");
+			message.setContent(textbody,"text/html");
 
 			// Send message
 			Transport.send(message);
 
 			System.out.println("Sent message successfully....");
 
-		} catch (MessagingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			
 		}
 
 	}

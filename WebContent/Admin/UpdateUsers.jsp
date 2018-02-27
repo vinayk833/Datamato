@@ -173,41 +173,15 @@ $("#name").autocomplete("UserList.jsp");
                         ArrayList pList = (ArrayList) itr.next();
             %>
             <tr style="background-color:<%=color%>;">
-                <td><input type="text" name="EmployeeID" value="<%=pList.get(0)%>" readonly="readonly" ></td>
-                <td><input type="text" name="EmpName" value="<%=pList.get(1)%>" readonly="readonly"></td>
-                 <td><input type="text" name="EMAIL" value="<%=pList.get(2)%>" readonly="readonly"></td>
-                 
-                   <td><select name="ROLE"  style="width:150px" >
-                    <OPTION value="<%=pList.get(3)%>"><%=pList.get(3)%></OPTION>
-                   <%
-                   Statement statement = con.createStatement() ;
-
-                	resultset =statement.executeQuery("select distinct role from users") ;
-      while(resultset.next()){ %>
-            <option ><%= resultset.getString(1)%></option>
-          
-        <% } %></select></td>
-                   <td><select name="Department"  style="width:150px" >
-                    <OPTION value="<%=pList.get(4)%>"><%=pList.get(4)%></OPTION>
-                    <%
-                    Statement statement1 = con.createStatement() ;
-                    resultset1 =statement1.executeQuery("select distinct Department from department") ;
-   while(resultset1.next()){ %>
-            <option ><%= resultset1.getString(1)%></option>
-           
-        <% } %></select></td>
-                   <td><select name="Approver"  style="width:150px" >
-                    <OPTION value="<%=pList.get(5)%>"><%=pList.get(5)%></OPTION>
-                    <% 
-  
-                    Statement statement2 = con.createStatement() ;
-                    resultset2 =statement2.executeQuery("select distinct EmployeeName from users where(role='Manager' or role='Admin' or role='Product Manager');") ;
-   while(resultset2.next()){ %>
-            <option><%= resultset2.getString(1)%></option>
-           
-        <% } %></select></td>
-              
-                     <td><input type="submit" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/EditUser';" /></td>
+                 <td><%=pList.get(0)%></td>
+                <td><%=pList.get(1)%></td>
+                 <td><%=pList.get(2)%></td>
+                  <td><%=pList.get(3)%></td>
+                   <td><%=pList.get(4)%></td>
+                    <td><%=pList.get(5)%></td>
+                    
+                      
+                     <td><a href="<%=request.getContextPath()%>/EditUser?EmpName=<%=pList.get(1)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
                     
                  </tr>
             <%
