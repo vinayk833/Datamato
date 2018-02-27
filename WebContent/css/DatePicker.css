@@ -1,0 +1,16 @@
+@CHARSET "ISO-8859-1";
+#startdate
+        {
+            background-image: url(https://i.imgur.com/u6upaAs.png);
+            background-repeat: no-repeat;
+            padding-right:35px;
+            padding-left: 25px;
+            }
+ #enddate
+        {
+            background-image: url(https://i.imgur.com/u6upaAs.png);
+            background-repeat: no-repeat;
+       
+          padding-right:35px;
+            padding-left: 25px;
+            }

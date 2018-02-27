@@ -1,0 +1,152 @@
+@CHARSET "ISO-8859-1";
+div.container {
+    width: 100%;
+    
+}
+body {
+    margin-top: 20px;
+   font-family:Calibri; 
+}
+
+.HorizontalNav ul {
+    list-style-type: none;
+    margin: 0;
+    padding:0;
+    overflow: hidden;
+    background-color: #007BC0;
+    
+}
+.HorizontalNav li {
+    float: left;
+      border-right: 1px solid #bbb;
+}
+.HorizontalNav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: Calibri; 
+}
+.HorizontalNav li a.on {
+    background:yellow;
+    padding:2px 6px;
+}
+.HorizontalNav li a:hover:not(.active) {
+    background-color: #090C9B;
+}
+.HorizontalNav .active {
+    background-color: #090C9B;
+}
+.HorizontalNav li:last-child {
+    border-right: none;
+}
+.HorizontalNav li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.HorizontalNav li a:hover, .dropdown:hover .dropbtn {
+    background-color: #090C9B;
+}
+.HorizontalNav li.dropdown {
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:#007BC0;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    color: yellow;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-family: Calibri; 
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+header {
+   padding-top:20px;
+    padding-bottom:55px;
+    color: blue;
+    background-color: white;
+    clear: left;
+    text-align: center;
+    font-family: Calibri; 
+}
+header img{
+width: 12%;
+position:absolute;
+left:40px;
+top:20px;
+ padding-top:20px;
+}
+header tm{
+	postion:absolute;
+	right:50px;
+	top:80px;
+	 text-align:justify;
+	 font-size: 20px;
+	 font-family: Calibri; 
+}
+ footer {
+    padding: 1em;
+    color: white;
+    background-color: black;
+    clear: left;
+    text-align: center;
+    
+}
+  article {
+   padding: 1px;
+    overflow: hidden;
+    float: left
+    height:1050px;
+    
+    }
+  header user{
+  position: absolute;
+    right: 20px;
+    top:30px;
+ color: black;
+ padding-top:20px;
+ font-family: Calibri; 
+  }
+  #Button{
+   background-color: #8080ff;
+   font-family: Calibri; 
+  }
+  .box{
+	width:20px;
+	height:20px;
+}
+
+.red{
+	background:#D17D6F;
+	 border: 1px solid #ccc;
+}
+.darkGreen{
+	background:green;
+	 border: 1px solid #ccc;
+}
+.blue{
+	background:#FDF8E1;
+	 border: 1px solid #ccc;
+}
+
+
+.white{
+	background:#ffffff;
+	 border: 1px solid #ccc;
+}
