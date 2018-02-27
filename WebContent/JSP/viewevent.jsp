@@ -136,7 +136,7 @@ function myFunction() {
  <td style="width:100px" ><b>End Date:</b></td><td style="width:100px"><input type="date" name="enddate" id="enddate" style="width:150px" required name="title";"/></td>
  
 
-<td border="0" align="center"><span><input  type="submit" name="show" value="View" onclick="form.action='<%=request.getContextPath()%>/ViewUserTask';"></span></td>
+<td border="0" align="center"><span><input  type="submit" name="show" value="View" onclick="form.action='<%=request.getContextPath()%>/ViewUserTask2';"></span></td>
   
     </table><br><br>
     </form>
@@ -157,7 +157,6 @@ function myFunction() {
          <td><b>Task Description</b></td>
       <td><b>hours</b></td> 
       
-         
           </tr>
             <%
                 int count = 0;
