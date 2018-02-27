@@ -70,9 +70,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 					rd.include(request, response);
                 out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>Saved " +ProjName+ " failed</h4>");
             }
-            System.out.println("successfully inserted into Database");
-           
-          
+            System.out.println("Successfully inserted into DB");        
             con.close();
             System.out.println("Disconnected from database");
         } catch (Exception e) {
