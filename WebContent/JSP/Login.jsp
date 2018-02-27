@@ -97,6 +97,7 @@ html {
 							<p class="login button">
 								<input type="submit" value="Login" />
 							</p>
+							<a style="color:blue" href="${pageContext.request.contextPath}/JSP/forgotpasswordmail.jsp">Forgot Password?</a>
 						</form>
 
 					</div>

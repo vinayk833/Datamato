@@ -65,12 +65,29 @@ public class ApprovalChecker extends HttpServlet {
 				Statement stmt = null;
 				stmt = con.createStatement();
 				stmt.executeUpdate(query);
+				RequestDispatcher view = request.getRequestDispatcher("/Admin/confrimApproval.jsp");
+		        view.include(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}else if(approvalStatus.equalsIgnoreCase("no")){
+			try {
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				
+				String query = "UPDATE task SET approval='no' WHERE EmployeeID="+ empID + " AND " + "date='" +reformattedStr+"'";
+				System.out.println(query);
+				Statement stmt = null;
+				stmt = con.createStatement();
+				stmt.executeUpdate(query);
+				RequestDispatcher view = request.getRequestDispatcher("/Admin/rejectApproval.jsp");
+		        view.include(request, response);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
-		RequestDispatcher view = request.getRequestDispatcher("/Admin/confrimApproval.jsp");
-        view.include(request, response);
+		
 	
 	}
 

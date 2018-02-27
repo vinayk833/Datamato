@@ -42,7 +42,7 @@ public class EditProject extends HttpServlet {
 	public static void setParameters(HttpServletRequest request){
 		customerName = request.getParameter("CustName");
 		projectId = request.getParameter("id");
-		//projectName = request.getParameter("PName");
+		projectName = request.getParameter("PName");
 		projectDescription = request.getParameter("Description");
 		projectType = request.getParameter("Type");
 		productManagers = request.getParameter("ProductManager");
@@ -98,13 +98,14 @@ public class EditProject extends HttpServlet {
 	}
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		projectName = request.getParameter("PName");
+		projectName = request.getParameter("ProjName");
 		System.out.println(projectName);
 		Statement st=null;
 		Connection con = null;
 		con = DBConnection.createConnection();
 		System.out.println("connected!.....");
-		String query = "SELECT * FROM myproject WHERE ProjName =" +projectName;
+		String query = "SELECT * FROM myproject WHERE ProjName = '" + projectName +"'";
+		System.out.println(query);
 		try {
 			st = con.createStatement();
 		} catch (SQLException e) {

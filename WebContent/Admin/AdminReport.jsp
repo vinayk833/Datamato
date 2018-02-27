@@ -1792,7 +1792,13 @@
         var e = document.getElementById("txtName");
         e.value = val;
     }
-   
+    
+    $(function(){
+    	$('#image').click(function(){
+    		$('#lst').prop('selected',false);
+    	});  	
+    }); 
+    
    
 </script>
 
@@ -1886,11 +1892,11 @@
     <h1 style="color:#106E9B;font-family: Calibri;">Export Report</h1><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="3" cellpadding="3" width="40%" align="center" >
     <tr><td><select id="opts" name="opts" onchange="showForm()" style="width:200;height:35">
-	<option value="0">Select Report</option>
-      <option value="1">project name</option>
-      <option value="2">customer name</option>
-      <option value="3">employee name</option>
-      <option value="4">My Report</option>
+	<option value="0" name="Select Report">Select Report</option>
+      <option value="1" name="project name">project name</option>
+      <option value="2" name="customer name">customer name</option>
+      <option value="3" name="employee name">employee name</option>
+      <option value="4" name="My Report">My Report</option>
    </select></td>
    
    
@@ -1930,7 +1936,7 @@
   
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->
-  <INPUT TYPE="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/Drop';" style="height:40px;width:40px">
+  <INPUT TYPE="image" id="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/Drop';clear();" style="height:40px;width:40px">
     </td></tr>
     
     </table>

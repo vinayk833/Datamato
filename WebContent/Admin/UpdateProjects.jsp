@@ -169,8 +169,8 @@ $("#name").autocomplete("ProjectList.jsp");
                     <td><%=pList.get(5)%></td>
                      <td><%=pList.get(6)%></td>
                       <td><%=pList.get(7)%></td>
-                     <td><a href="<%=request.getContextPath()%>/EditProject?PName=<%=pList.get(2)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
-                    <td><a href="<%=request.getContextPath()%>/DeleteProject?PName=<%=pList.get(2)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white"/></a></td>
+                     <td><a href="<%=request.getContextPath()%>/EditProject?ProjName=<%=pList.get(2)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
+                    <td><a href="<%=request.getContextPath()%>/DeleteProject?ProjName=<%=pList.get(2)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DeleteProject'}else { return false; };"/></a></td>
                  </tr>
             <%
                     }
