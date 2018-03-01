@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
+
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -63,6 +63,7 @@ public class SendMailApproval extends HttpServlet {
 			//String employeeID = request;
 			System.out.println(employeeID);
 			request.setAttribute(date, "dateValue");
+			System.out.println(date);
 			SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String reformattedStr = null;
@@ -70,13 +71,16 @@ public class SendMailApproval extends HttpServlet {
 			try {
 
 				reformattedStr = myFormat.format(fromUser.parse(date));
+				System.out.println(reformattedStr);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			
 			
 			Statement stt = con.createStatement();
-			ResultSet res = stt.executeQuery("select EMAIL from users where EmployeeID ='" + employeeID + "'");
+			String squery = "select EMAIL from users where EmployeeID ='" + employeeID + "'";
+			ResultSet res = stt.executeQuery(squery);
+			
 			
 			while(res.next()){
 				emailid = res.getString("EMAIL");
@@ -190,89 +194,4 @@ public class SendMailApproval extends HttpServlet {
 		
 	}
 
-	/*public void sendMail(ResultSet rs, String employeeID,String emailid, String date, HttpServletRequest request ) {
-		// TODO Auto-generated method stub
-		// Recipient's email ID needs to be mentioned.
-		String to = emailid;
-		//String cc = "priyanka.jogdand@datamato.com";
-
-		// Sender's email ID needs to be mentioned
-		String from = "mathew.flicker123@gmail.com";
-		final String username = "mathewflicker123@gmail.com";//change accordingly
-		final String password = "flicker12345";//change accordingly
-
-		// Assuming you are sending email through relay.jangosmtp.net
-		String host = "smtp.gmail.com";
-
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", "587");
-
-		// Get the Session object.
-		Session session = Session.getInstance(props,
-				new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
-		
-		try {
-			// Create a default MimeMessage object.
-			Message message = new MimeMessage(session);
-
-			// Set From: header field of the header.
-			message.setFrom(new InternetAddress(from));
-
-			// Set To: header field of the header.
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(to));
-
-			// Set Subject: header field
-			message.setSubject("Task Approval");
-			String baseUrl = null;
-			baseUrl =request.getScheme() + "://" +
-			        request.getServerName() + ":" + request.getServerPort() +
-			        request.getContextPath();
-			
-			String textbody="<!DOCTYPE html><html><head><style>\r\n" + 
-              		"table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n" + 
-              		"td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}\r\n" + 
-              		"tr:nth-child(even) {background-color: #dddddd;}\r\n" + 
-              		".button {background-color: #28ce25;border: none;color: white;padding: 16px 32px;text-align: center;font-size: 16px;\r\n" + 
-              		"  margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;cursor: pointer;}\r\n" + 
-              		".button-success {background-color: #28ce25;border: none;color: white;padding: 16px 32px;text-align: center;\r\n" + 
-              		"  font-size: 16px;margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;\r\n" + 
-              		"  cursor: pointer;}\r\n" + 
-              		".button-danger {background-color: #d62613;border: none;color: white;padding: 16px 32px;text-align: center;\r\n" + 
-              		"  font-size: 16px;margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;\r\n" + 
-              		"  cursor: pointer;}\r\n" + 
-              		".button-success:hover {opacity: 1}  .button-danger:hover {opacity: 1}\r\n" + 
-              		"</style></head><body><h2>Daily Report</h2>\r\n" + 
-              		"<table><tr><th>Company</th><th>Contact</th><th>Country</th></tr>\r\n";
-              		
-              		while(rs.next()) {
-              			textbody += "<tr><td>" + rs.getString("projname") + "</td><td>" + rs.getString("proid") + "</td><td>" + rs.getString("description") +"</td></tr>\r\n";
-              		}
-              
-              		textbody +="</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+employeeID+"&date="+date+"\">APPROVE\r\n" + 
-              		"<button type=\"button\" class=\"button-danger\"><a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+"\">REJECT</button></center></body></html>";
-
-			    System.out.println(textbody);
-			    //System.out.println(baseUrl);
-			// Send the actual HTML message, as big as you like
-			message.setContent(textbody,"text/html");
-
-			// Send message
-			Transport.send(message);
-
-			System.out.println("Sent message successfully....");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		}
-
 	}
-*/}

@@ -329,6 +329,17 @@ function toggle(source) {
          
          return true;
         }
+      function validation2(){
+    	     var x = document.getElementById("v1").value;
+    	        if (x<8) {
+    	            alert ('Total hours must be more than 8 Hours');
+    	            return false;
+    	        }
+    	           
+    	  
+    	        return true;
+    	       
+    	}
 </SCRIPT>
 
 </head>
@@ -478,12 +489,15 @@ function toggle(source) {
 <tr>
 </tr>
 	<tr style="color:#090C9B">
+	<td><b>Task ID</b></td>
 		<td><b>Date</b></td>
 		<td><b>Project Name</b></td>
 		<td><b>Project ID</b></td>
 		<td><b>Task Category</b></td>
 		<td><b>Task Description</b></td>
 		<td><b>Hours</b></td>
+		<td><b>Edit</b></td>
+		<td><b>Delete</b></td>
 		</tr>
 		  <%
                 int count = 0;
@@ -507,6 +521,9 @@ function toggle(source) {
                  <td><%=pList.get(3)%></td>
                   <td><%=pList.get(4)%></td>
                    <td><%=pList.get(5)%></td>
+                      <td><%=pList.get(6)%></td>
+                       <td><a href="<%=request.getContextPath()%>/ManagerUpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
+                    <td><a href="<%=request.getContextPath()%>/ManagerDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/ManagerDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }
@@ -520,16 +537,18 @@ function toggle(source) {
             <%            }
             %>
             
-	</table><br><br>
-	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validate();return handleChange()"/ >
-        </article>
+            
+           </table><br><br>
+	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validation2(this)"/ >
+	</article>
                 </center>
             </div>
         </div>
     </form>
-   
-    
-    <%
+            
+            
+            
+             <%
 //**Should I input the codes here?**
         }
         catch(Exception e)

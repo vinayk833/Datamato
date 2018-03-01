@@ -300,36 +300,18 @@ function toggle(source) {
 	 }
 	 
 	 }
-  //  newvalidation /////////////////////////////
+ function validation2(){
+     var x = document.getElementById("v1").value;
+        if (x<8) {
+            alert ('Total hours must be more than 8 Hours');
+            return false;
+        }
+           
   
-      function validate() {
-      
-        if (document.frm.hours.value == "")  {
-            alert("Please Enter Hours.");
-            document.frm.Description.focus();
-            return false;
-        }
-        if (document.frm.TaskCat.value == "")  {
-            alert("Please Enter Task Category.");
-            document.frm.Description.focus();
-            return false;
-        }
-        
-        
-        var e = document.getElementById("selectBox");
-        var strUser = e.options[e.selectedIndex].value;
-
-        var strUser1 = e.options[e.selectedIndex].text;
-        if(strUser==0)
-        {
-            alert("Please select Project name");
-            return false;
-        }
-
-         
-         return true;
-        }
-</SCRIPT>
+        return true;
+       
+}
+</SCRIPT> 
 
 </head>
 <body onload="addDate();">
@@ -471,19 +453,22 @@ function toggle(source) {
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminAddTask';return validate()" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DirectorAddTask';return validate()" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">
 <tr>
 </tr>
 	<tr style="color:#090C9B">
+	<td><b>Task ID</b></td>
 		<td><b>Date</b></td>
 		<td><b>Project Name</b></td>
 		<td><b>Project ID</b></td>
 		<td><b>Task Category</b></td>
 		<td><b>Task Description</b></td>
 		<td><b>Hours</b></td>
+		<td><b>Edit</b></td>
+		<td><b>Delete</b></td>
 		</tr>
 		  <%
                 int count = 0;
@@ -507,6 +492,9 @@ function toggle(source) {
                  <td><%=pList.get(3)%></td>
                   <td><%=pList.get(4)%></td>
                    <td><%=pList.get(5)%></td>
+                      <td><%=pList.get(6)%></td>
+                       <td><a href="<%=request.getContextPath()%>/DirectorUpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
+                    <td><a href="<%=request.getContextPath()%>/DirectorDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DirectorDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }
@@ -519,15 +507,15 @@ function toggle(source) {
             </tr>
             <%            }
             %>
-            
-	</table><br><br>
-	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validate();return handleChange()"/ >
-        </article>
+        </table><br><br>
+	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validation2(this)"/ >
+	</article>
                 </center>
             </div>
         </div>
     </form>
-   
+	
+	    
     
     <%
 //**Should I input the codes here?**

@@ -83,7 +83,7 @@ public class ManagerDisplayTask extends HttpServlet {
           if(date!=null && !date.equals("")){
                query = "select * from holidays where date='" + date + "' ";
            }*/
-           String query = "select date,ProjName,proid,TaskCat,description,hours from task where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "' ";
+           String query = "select taskId,date,ProjName,proid,TaskCat,description,hours from task where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "' ";
            System.out.println("query " + query);
             st = con.createStatement();
            ResultSet rs = st.executeQuery(query);
@@ -97,11 +97,15 @@ public class ManagerDisplayTask extends HttpServlet {
                al.add(rs.getString(4));
                al.add(rs.getString(5));
                al.add(rs.getString(6));
+               al.add(rs.getString(7));
                System.out.println("al :: " + al);
                pid_list.add(al);
                
-               sum = sum + Integer.parseInt(rs.getString(6));
+          
+               sum = sum + Integer.parseInt(rs.getString(7).replaceAll("\\D+",""));
+              
            }
+           
            
            request.setAttribute("piList", pid_list);
            request.setAttribute("AgencyRating", sum);
