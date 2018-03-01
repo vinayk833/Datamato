@@ -2,7 +2,7 @@ package com.email.notification;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-
+//This servelt is to initialize emails notification on container load
 
 public class InitializeServlet extends HttpServlet {
 
