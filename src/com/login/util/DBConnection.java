@@ -6,8 +6,8 @@ public class DBConnection {
 public static Connection createConnection()
 {
 Connection con = null;
-String url = "jdbc:mysql://localhost:3306/customers";
-String username = "root";
+String url = "jdbc:mysql://192.168.30.134:3306/customers";
+String username = "priyanka";
 String password = "Datamato@123";
 //String password = "root";
 try
