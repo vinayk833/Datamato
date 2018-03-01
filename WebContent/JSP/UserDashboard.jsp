@@ -95,7 +95,7 @@ $(document).ready(function() {
 
 </head>
 <body>
-<div class="container">
+ <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%

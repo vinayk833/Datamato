@@ -1,4 +1,4 @@
-package com.login.controller;
+package com.timesheet.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,27 +15,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.login.controller.AdminAddTask;
 import com.login.util.DBConnection;
 
 /**
- * Servlet implementation class AdminDisplayTask
+ * Servlet implementation class UserDisplayTask
  */
-@WebServlet("/AdminDisplayTask")
-public class AdminDisplayTask extends HttpServlet {
+@WebServlet("/UserDisplayTask")
+public class UserDisplayTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static String mydate = null;
 	public int sum = 0;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminDisplayTask() {
+    public UserDisplayTask() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
@@ -43,12 +42,12 @@ public class AdminDisplayTask extends HttpServlet {
 		response.setContentType("text/html");
         
           try {
-        	 System.out.println("inside Admin display");
+        	 System.out.println("inside User display");
         	 Statement st=null;
         	 Connection con = null;
         	 con = DBConnection.createConnection();
         	 System.out.println("connected!.....");
-        	 String employeeID  = (String) request.getSession().getAttribute("Admin");
+        	 String employeeID  = (String) request.getSession().getAttribute("User");
              String date = request.getParameter("date");
              mydate = date;
              if(mydate!= null){
@@ -97,16 +96,17 @@ public class AdminDisplayTask extends HttpServlet {
                  pid_list.add(al);
                  
                  try{
-                 sum = sum + Integer.parseInt(rs.getString(7));
-                 }catch(NumberFormatException ex){ // handle your exception
-                	System.out.println("Exception in number format");
-                	}
+                     sum = sum + Integer.parseInt(rs.getString(7));
+                     }catch(NumberFormatException ex){ // handle your exception
+                    	System.out.println("Exception in number format");
+                    	}
+                 
              }
              
              request.setAttribute("piList", pid_list);
              request.setAttribute("AgencyRating", sum);
              System.out.println("Summation of hours is --===>" + sum);
-             RequestDispatcher view = request.getRequestDispatcher("/Admin/AddTask.jsp");
+             RequestDispatcher view = request.getRequestDispatcher("/JSP/emp_event.jsp");
              view.include(request, response);
              
              con.close();

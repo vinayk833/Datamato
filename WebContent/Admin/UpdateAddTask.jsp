@@ -362,7 +362,7 @@ $('#days').val("");
 	<br>
 
 <br><br>
-<input type="submit" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UpdateTaskLink';" />
+<input type="submit" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UpdateTask';" />
 
                     </article>
                 </center>

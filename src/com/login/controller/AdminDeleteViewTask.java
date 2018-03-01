@@ -85,7 +85,7 @@ public class AdminDeleteViewTask extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-Connection con = null;
+		Connection con = null;
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();

@@ -1,4 +1,4 @@
-package com.login.controller;
+package com.timesheet.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,38 +14,45 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.login.util.DBConnection;
 
-
-@WebServlet("/DeleteProject")
-public class DeleteProject extends HttpServlet {
+/**
+ * Servlet implementation class UserDeleteTask
+ */
+@WebServlet("/UserDeleteTask")
+public class UserDeleteTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static String projectName;
-   public DeleteProject() {
+	public static String taskID; 
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UserDeleteTask() {
         super();
         // TODO Auto-generated constructor stub
     }
-  
+
 	
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		Connection con = null;
-		projectName = request.getParameter("ProjName");
+		taskID = request.getParameter("taskid");
+		System.out.println(taskID);
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		 String ProjName = request.getParameter("PName");
-		System.out.println(ProjName);
+		// String TaskID = request.getParameter("taskId");
+		//System.out.println(TaskID);
 		System.out.println("MySQL Connect Example.");
 		try
 		{
 			con = DBConnection.createConnection();
-			String deleteQuery = "DELETE FROM myproject WHERE ProjName = ?";
+			String deleteQuery = "DELETE FROM task WHERE taskId = ?";
 			PreparedStatement prpStat = con.prepareStatement(deleteQuery);
 			
-			prpStat.setString(1, projectName);
+			prpStat.setString(1, taskID);
 			
 			System.out.println("prpStat :" + prpStat.toString());
 			prpStat.executeUpdate();
-			RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateProjects.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("/JSP/emp_event.jsp");
 			rd.include(request, response);
-			out.println("<h4 style='color:red;margin-left:400px;margin-top:-120px;'>" +projectName+ " Deleted Successfully!</h4>");
+			out.println("<h4 style='color:red;margin-left:400px;margin-top:-190px;'>" +taskID+ " Deleted Successfully!</h4>");
 			
 			
 			con.close();
@@ -55,6 +62,10 @@ public class DeleteProject extends HttpServlet {
 		}
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 
-}
+
+	}

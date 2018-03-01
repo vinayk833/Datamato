@@ -56,7 +56,7 @@ $("#name").autocomplete("ProjectList.jsp");
 
 <form name="form"  method="post" >
 
-    <div class="container">
+  <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%
@@ -79,6 +79,7 @@ $("#name").autocomplete("ProjectList.jsp");
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
       <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
@@ -111,14 +112,13 @@ $("#name").autocomplete("ProjectList.jsp");
     <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp" class="dropbtn">Holiday</a>
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp">Add Holiday</a>
-      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Update Holiday</a>
+      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Display Holiday</a>
      </div></li>
      <li><a href="${pageContext.request.contextPath}/Admin/AdminReport.jsp">Report</a></li>
      
        <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
 </div>
-
  <div style="align:center;height:100%;">
 <center>
 <article>
