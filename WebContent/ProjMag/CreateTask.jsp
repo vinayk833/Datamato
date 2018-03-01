@@ -334,7 +334,7 @@ function toggle(source) {
 </head>
 <body onload="addDate();">
 <form name="frm"  method="post">
-      <div class="container">
+    <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%
@@ -366,7 +366,7 @@ function toggle(source) {
 </div>
             <div  style="  height: 100%; margin-top: 40px;">
            <span  value='<%=AdminDisplayTask.mydate%>' style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" name="date" required name="title"/>
-           <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminDisplayTask';" /></span> 
+           <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerDisplayTask';" /></span> 
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -471,7 +471,7 @@ function toggle(source) {
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminAddTask';return validate()" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerAddTask';return validate()" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">

@@ -365,7 +365,7 @@ function toggle(source) {
 </div>
             <div  style="  height: 100%; margin-top: 40px;">
            <span  value='<%=AdminDisplayTask.mydate%>' style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" name="date" required name="title"/>
-           <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminDisplayTask';" /></span> 
+           <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UserDisplayTask ';" /></span> 
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -470,19 +470,22 @@ function toggle(source) {
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminAddTask';return validate()" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UserAddTask';return validate()" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">
 <tr>
 </tr>
 	<tr style="color:#090C9B">
+	<td><b>Task ID</b></td>
 		<td><b>Date</b></td>
 		<td><b>Project Name</b></td>
 		<td><b>Project ID</b></td>
 		<td><b>Task Category</b></td>
 		<td><b>Task Description</b></td>
 		<td><b>Hours</b></td>
+		<td><b>Edit</b></td>
+		<td><b>Delete</b></td>
 		</tr>
 		  <%
                 int count = 0;
@@ -506,6 +509,9 @@ function toggle(source) {
                  <td><%=pList.get(3)%></td>
                   <td><%=pList.get(4)%></td>
                    <td><%=pList.get(5)%></td>
+                      <td><%=pList.get(6)%></td>
+                       <td><a href="<%=request.getContextPath()%>/UserUpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
+                    <td><a href="<%=request.getContextPath()%>/UserDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/UserDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }

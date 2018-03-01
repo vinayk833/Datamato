@@ -117,8 +117,7 @@ public class Drop extends HttpServlet {
                  
                   if(dropdownValues!=null)
                   {
-                	  dropdownValues1=null;
-                	  dropdownValues2=null;
+                	  
                 	  
                 	  System.out.println("projname");
                   for(int i =0;i<dropdownValues.length;i++){
@@ -141,8 +140,6 @@ public class Drop extends HttpServlet {
                  
                   else if (dropdownValues1!=null)
                   {
-                	  dropdownValues=null;
-                	  dropdownValues2=null;
                 	  
                 	  System.out.println("employee");
                         System.out.println(dropdownValues1.length);
@@ -162,8 +159,7 @@ public class Drop extends HttpServlet {
                  
                   else if (dropdownValues2!=null)
                   {
-                	  dropdownValues=null;
-                	  dropdownValues1=null;
+                	 
                 	  
                 	  System.out.println("cust");
                         for(int i =0;i<dropdownValues2.length;i++){
@@ -241,7 +237,6 @@ public class Drop extends HttpServlet {
                        
                   while(rs2.next()){
                         HSSFRow rowhead=   sheet.createRow((short)0);
-                       
                         HSSFCellStyle style = wb.createCellStyle();
                         HSSFFont font = wb.createFont();
                         font.setFontName(HSSFFont.FONT_ARIAL);

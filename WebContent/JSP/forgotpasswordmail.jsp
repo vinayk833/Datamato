@@ -40,11 +40,11 @@
                                       <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
                                       <!--EMAIL ADDRESS-->
                                       <input id="emailInput" name="email" placeholder="email address" class="form-control" type="email" oninvalid="setCustomValidity('Please enter a valid email address!')" onchange="try{setCustomValidity('')}catch(e){}" required="">
-                                      <%-- <span style="color:red;font-size:12px"><%=(request.getAttribute("errMessage") == null) ? "" : request.getAttribute("errMessage")%></span> --%>
+                                       <span style="color:red;font-size:12px"><%=(request.getAttribute("Erroremailid") == null) ? "" : request.getAttribute("Erroremailid")%></span>
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <input class="btn btn-lg btn-primary btn-block" value="Send My Password" type="submit" onclick='form.action="<%=request.getContextPath()%>/Passwd"'>
+                                    <input class="btn btn-lg btn-primary btn-block" value="Send My Password" type="submit" onclick='form.action="<%=request.getContextPath()%>/PasswordMail"'>
                                   </div>
                                 </fieldset>
                               </form>

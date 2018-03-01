@@ -334,7 +334,7 @@ function toggle(source) {
 </head>
 <body onload="addDate();">
 <form name="frm"  method="post">
-       <div class="container">
+      <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%
@@ -357,6 +357,7 @@ function toggle(source) {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
       <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
@@ -389,7 +390,7 @@ function toggle(source) {
     <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp" class="dropbtn">Holiday</a>
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp">Add Holiday</a>
-      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Update Holiday</a>
+      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Display Holiday</a>
      </div></li>
      <li><a href="${pageContext.request.contextPath}/Admin/AdminReport.jsp">Report</a></li>
      
@@ -510,12 +511,15 @@ function toggle(source) {
 <tr>
 </tr>
 	<tr style="color:#090C9B">
+		<td><b>Task ID</b></td>
 		<td><b>Date</b></td>
 		<td><b>Project Name</b></td>
 		<td><b>Project ID</b></td>
 		<td><b>Task Category</b></td>
 		<td><b>Task Description</b></td>
 		<td><b>Hours</b></td>
+		 <td><b>Edit</b></td>
+          <td><b>Delete</b></td>
 		</tr>
 		  <%
                 int count = 0;
@@ -539,6 +543,9 @@ function toggle(source) {
                  <td><%=pList.get(3)%></td>
                   <td><%=pList.get(4)%></td>
                    <td><%=pList.get(5)%></td>
+                     <td><%=pList.get(6)%></td>
+                   <td><a href="<%=request.getContextPath()%>/UpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
+                    <td><a href="<%=request.getContextPath()%>/AdminDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/AdminDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }

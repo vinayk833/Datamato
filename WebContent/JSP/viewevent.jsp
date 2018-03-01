@@ -95,7 +95,7 @@ function myFunction() {
 
   </head>
 <body>
-<div class="container">
+ <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%
@@ -110,7 +110,7 @@ function myFunction() {
 		}
 	%></user>
   </header>
-     <div class="HorizontalNav">
+  <div class="HorizontalNav">
 <ul><li>
 <a class="active" href="${pageContext.request.contextPath}/UserDashboard">Home</a></li>
    <li class="dropdown">

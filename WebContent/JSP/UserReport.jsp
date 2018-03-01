@@ -37,7 +37,7 @@
     </style>
 </head>
 <body>
-<div class="container">
+ <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%
@@ -56,7 +56,7 @@
 <ul><li>
 <a class="active" href="${pageContext.request.contextPath}/UserDashboard">Home</a></li>
    <li class="dropdown">
-    <a href="#task" class="dropbtn">Task</a>
+    <a href="${pageContext.request.contextPath}/JSP/emp_event.jsp" class="dropbtn">Task</a>
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/JSP/emp_event.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/JSP/viewevent.jsp">Display Task </a>

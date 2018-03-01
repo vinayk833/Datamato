@@ -170,6 +170,7 @@ function myFunction() {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
       <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
@@ -202,7 +203,7 @@ function myFunction() {
     <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp" class="dropbtn">Holiday</a>
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp">Add Holiday</a>
-      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Update Holiday</a>
+      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Display Holiday</a>
      </div></li>
      <li><a href="${pageContext.request.contextPath}/Admin/AdminReport.jsp">Report</a></li>
      
@@ -260,8 +261,8 @@ Set<String> keys = resultMap.keySet();
          <td><b>Project ID</b></td>
         <td><b>Task Category</b></td>
          <td><b>Task Description</b></td>
-      <td><b>hours</b></td> 
-     <td><b>Update</b></td>
+      	<td><b>hours</b></td> 
+    	 <td><b>Update</b></td>
           <td><b>Delete</b></td>
            
           </tr>
@@ -289,17 +290,8 @@ Set<String> keys = resultMap.keySet();
                     <td><%=pList.get(5)%></td>
                      <td><%=pList.get(6)%></td>
                       <td><%=pList.get(7)%></td>
-               <!--  <td><input name="taskId" value="<%=pList.get(0)%>" style="width:40px;" readonly="readonly"></td>
-                  <td><input  name="EmployeeId" value="<%=pList.get(1)%>" style="width:80px;" readonly="readonly"></td>
-                  <td><input  name="date" value="<%=pList.get(2)%>" style="width:80px;" readonly="readonly"></td>
-                    <td><input  name="proname" value="<%=pList.get(3)%>" style="width:120px;" ></td>
-                    <td><input  value="<%=pList.get(4)%>" name="proid"  style="width:120px;" ></td>
-                    <td><input  name="TaskCat"  value="<%=pList.get(5)%>" style="width:120px;" ></td>
-                   <td><input   name="description" value="<%=pList.get(6)%>" style="width:120px;"></td>
-                    <td><input  name="hour" value="<%=pList.get(7)%>" style="width:120px;"></td>  -->
-             
           
-                 <td><a href="<%=request.getContextPath()%>/UpdateTaskLink?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
+         <td><a href="<%=request.getContextPath()%>/UpdateTaskLink?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
                     <td><a href="<%=request.getContextPath()%>/AdminDeleteViewTask?taskid=<%=pList.get(0)%>"><input  type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white"/></td> 
                  </tr>
             <%

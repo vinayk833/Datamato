@@ -126,6 +126,7 @@
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
       <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
@@ -158,7 +159,7 @@
     <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp" class="dropbtn">Holiday</a>
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddHolidays.jsp">Add Holiday</a>
-      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Update Holiday</a>
+      <a href="${pageContext.request.contextPath}/Admin/UpdateHoliday.jsp">Display Holiday</a>
      </div></li>
      <li><a href="${pageContext.request.contextPath}/Admin/AdminReport.jsp">Report</a></li>
      

@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>Task has been Approved</h2> 
-	<h4>Thank you</h4>
+An email has been sent to your email
 </body>
 </html>
