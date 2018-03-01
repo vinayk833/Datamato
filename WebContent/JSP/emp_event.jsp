@@ -365,7 +365,9 @@ function toggle(source) {
 </div>
             <div  style="  height: 100%; margin-top: 40px;">
            <span  value='<%=AdminDisplayTask.mydate%>' style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" name="date" required name="title"/>
+
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UserDisplayTask ';" /></span> 
+
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -448,7 +450,6 @@ function toggle(source) {
         }
 %>
 </select></td>		
-			
 			<TD> <textarea rows="1" cols="20" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
 			<TD><input type="text" name="hours" pattern="[0-9]+([\.,][0-9]+)?" title="Enter only numeric or decimal value" step="0.01"  style="fontfamily:Calibri;width:120px"class="code" id="code" onKeyUp = "calculateSum()"/></TD>
 		</TR>
