@@ -508,7 +508,7 @@ function toggle(source) {
             <%            }
             %>
         </table><br><br>
-	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validation2(this)"/ >
+	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DirSendMailApproval';return validation2(this)"/ >
 	</article>
                 </center>
             </div>
