@@ -1,4 +1,4 @@
-package com.login.controller;
+package com.timesheet.Director;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.mail.Message;
-
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -24,20 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.login.util.DBConnection;
 
 /**
- * Servlet implementation class SendMailApproval
+ * Servlet implementation class DirSendMailApproval
  */
-@WebServlet("/SendMailApproval")
-public class SendMailApproval extends HttpServlet {
+@WebServlet("/DirSendMailApproval")
+public class DirSendMailApproval extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public SendMailApproval() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DirSendMailApproval() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,15 +48,12 @@ public class SendMailApproval extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-
 		try {
 
 			Connection con = null;
 			con = DBConnection.createConnection();
 			System.out.println("connected!.....");
-			String employeeID  = (String) request.getSession().getAttribute("Admin");
+			String employeeID  = (String) request.getSession().getAttribute("Director");
 			String date = request.getParameter("date");
 			//String employeeID = request;
 			System.out.println(employeeID);
@@ -99,7 +94,7 @@ public class SendMailApproval extends HttpServlet {
 
 			sendMail(rs,employeeID,emailid,date,request);
 			
-			request.getRequestDispatcher("/Admin/AddTask.jsp").forward(request, response);
+			request.getRequestDispatcher("/Director/DirectorTask.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

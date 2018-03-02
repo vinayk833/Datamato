@@ -75,7 +75,7 @@ Set<String> keys = resultMap.keySet();
 <SCRIPT language="javascript">
 
 
-//////////////////////////////////////
+
 
  function calculateSum() {
 
@@ -101,7 +101,7 @@ Set<String> keys = resultMap.keySet();
         (document.getElementById('v1').value=sum).toFixed(2);
     }
 
-/////////////////////////////////////
+
     var date = new Date();
 
     document.getElementById("demo").value = (date.getMonth() + 1) + '/'
@@ -300,36 +300,47 @@ function toggle(source) {
 	 }
 	 
 	 }
-  //  newvalidation /////////////////////////////
+ function validation2(){
+     var x = document.getElementById("v1").value;
+        if (x<8) {
+            alert ('Total hours must be more than 8 Hours');
+            return false;
+        }
+           
   
-      function validate() {
+        return true;
+       
+}
+//   //  newvalidation /////////////////////////////
+  
+//       function validate() {
       
-        if (document.frm.hours.value == "")  {
-            alert("Please Enter Hours.");
-            document.frm.Description.focus();
-            return false;
-        }
-        if (document.frm.TaskCat.value == "")  {
-            alert("Please Enter Task Category.");
-            document.frm.Description.focus();
-            return false;
-        }
+//         if (document.frm.hours.value == "")  {
+//             alert("Please Enter Hours.");
+//             document.frm.Description.focus();
+//             return false;
+//         }
+//         if (document.frm.TaskCat.value == "")  {
+//             alert("Please Enter Task Category.");
+//             document.frm.Description.focus();
+//             return false;
+//         }
         
         
-        var e = document.getElementById("selectBox");
-        var strUser = e.options[e.selectedIndex].value;
+//         var e = document.getElementById("selectBox");
+//         var strUser = e.options[e.selectedIndex].value;
 
-        var strUser1 = e.options[e.selectedIndex].text;
-        if(strUser==0)
-        {
-            alert("Please select Project name");
-            return false;
-        }
+//         var strUser1 = e.options[e.selectedIndex].text;
+//         if(strUser==0)
+//         {
+//             alert("Please select Project name");
+//             return false;
+//         }
 
          
-         return true;
-        }
-</SCRIPT>
+//          return true;
+//         }
+ </SCRIPT> 
 
 </head>
 <body onload="addDate();">
@@ -504,7 +515,7 @@ function toggle(source) {
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminAddTask';return validate()" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminAddTask';" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">
@@ -558,16 +569,18 @@ function toggle(source) {
             </tr>
             <%            }
             %>
-            
+        
+	
 	</table><br><br>
-	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validate();return handleChange()"/ >
-        </article>
+	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validation2(this)"/ >
+	</article>
                 </center>
             </div>
         </div>
     </form>
    
-    
+   
+   
     <%
 //**Should I input the codes here?**
         }

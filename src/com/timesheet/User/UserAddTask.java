@@ -37,109 +37,120 @@ public class UserAddTask extends HttpServlet {
 	
     public static String mydate;
 	
-	@Override
+    @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-		throws ServletException, IOException {
-	// TODO Auto-generated method stub
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		super.doGet(req, resp);
 		String Test = null;
 		req.setAttribute(mydate, Test);
 		System.out.println(Test + "/" + mydate);
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-			
+
+		int status = 0;
 		PrintWriter out = response.getWriter();
-			String employeeID  = (String) request.getSession().getAttribute("User");
-			String date  = request.getParameter("date");
-			SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
-			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String reformattedStr = null;
-			
-			try {
+		String employeeID  = (String) request.getSession().getAttribute("User");
+		String date  = request.getParameter("date");
+		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String reformattedStr = null;
 
-			    reformattedStr = myFormat.format(fromUser.parse(date));
-			} catch (ParseException e) {
-			    e.printStackTrace();
-			}
-			
-			String[] projectName  = request.getParameterValues("proname");
-			String[] projectID  = request.getParameterValues("proid");
-			String[] taskCat  = request.getParameterValues("TaskCat");
-			String[] taskDescription  = request.getParameterValues("taskDescription");
-			String[] hours  = request.getParameterValues("hours");
-			String sum   = request.getParameter("AgencyRating");
-			
-			String  hours1  = request.getParameter("hours");
-			String  projectName1  = request.getParameter("proname");
+		try {
 
-			// validate given input
-			if ( projectName1.isEmpty()||  hours1.isEmpty()) {
-					RequestDispatcher rd = request.getRequestDispatcher("/JSP/emp_event.jsp");
-				//out.println("<font color=red>Please fill all the fields</font>");
-					rd.include(request, response);
-				} else {
+			reformattedStr = myFormat.format(fromUser.parse(date));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
-			try{
-				
-			
+		String[] projectName  = request.getParameterValues("proname");
+		String[] projectID  = request.getParameterValues("proid");
+		String[] taskCat  = request.getParameterValues("TaskCat");
+		String[] taskDescription  = request.getParameterValues("taskDescription");
+		String[] hours  = request.getParameterValues("hours");
+		String sum   = request.getParameter("AgencyRating");
+
+		String  hours1  = request.getParameter("hours");
+		String  projectName1  = request.getParameter("proname");
+
+
+		//				 validate given input
+
+
+		try{
+
+
 			Connection dbconnection = null;
 			dbconnection = DBConnection.createConnection();
 			// Printing out Connection
 			System.out.println("Connection------------->" + dbconnection);
 			//select Query
-			 Statement statement1 = dbconnection.createStatement() ;
-			 ResultSet resultset1 =null;
-			 resultset1 =statement1.executeQuery("select ProjName,ID from myproject") ;  
-			
-			 HashMap<String, String> checkProjName  = new HashMap<String, String>();
-			 
-			
-			
-			 while(resultset1.next()){
+			Statement statement1 = dbconnection.createStatement() ;
+			ResultSet resultset1 =null;
+			resultset1 =statement1.executeQuery("select ProjName,ID from myproject") ;  
+
+			HashMap<String, String> checkProjName  = new HashMap<String, String>();
+
+
+
+			while(resultset1.next()){
 				checkProjName.put(resultset1.getString(2),resultset1.getString(1));
 			}	
 			System.out.println("My HashMap" + checkProjName.toString());
-			
+
 			//iterate for each  row
 			for (int i=0;i<projectName.length;i++){
 				System.out.println(projectName[i].toString() + " / " + projectID[i].toString());
 				// Setting update query
-				String insertQuery = "insert into task(EmployeeID,date,ProjName,proid,TaskCat,description,hours,sum) values(?,?,?,?,?,?,?,?)";
-				
-				// Setting up Prepared Statement
-				PreparedStatement preparedStatement = (PreparedStatement) dbconnection.prepareStatement(insertQuery);
-				
-				//Passing parameters for Prepared Statement
-				preparedStatement.setString(1,employeeID);
-				preparedStatement.setString(2,reformattedStr);
-				preparedStatement.setString(3,checkProjName.get(projectName[i]));
-				preparedStatement.setString(4,projectID[i]);
-				preparedStatement.setString(5,taskCat[i]);
-				preparedStatement.setString(6,taskDescription[i]);
-				preparedStatement.setString(7,hours[i]);
-				preparedStatement.setString(8,sum);
-			
-				System.out.println(preparedStatement);
-				
-				// Execute update SQL statement
-				preparedStatement.executeUpdate();
+
+				if(hours[i]== "" || projectID[i] == "" || projectName[i] == ""){
+					status = 0;
+					break;
+				}else {
+					String insertQuery = "insert into task(EmployeeID,date,ProjName,proid,TaskCat,description,hours,sum) values(?,?,?,?,?,?,?,?)";
+					
+					System.out.println("hours=====>"+hours[i]);
+					// Setting up Prepared Statement
+					PreparedStatement preparedStatement = (PreparedStatement) dbconnection.prepareStatement(insertQuery);
+
+					//Passing parameters for Prepared Statement
+					preparedStatement.setString(1,employeeID);
+					preparedStatement.setString(2,reformattedStr);
+					preparedStatement.setString(3,checkProjName.get(projectName[i]));
+					preparedStatement.setString(4,projectID[i]);
+					preparedStatement.setString(5,taskCat[i]);
+					preparedStatement.setString(6,taskDescription[i]);
+					preparedStatement.setString(7,hours[i]);
+					preparedStatement.setString(8,sum);
+
+					System.out.println(preparedStatement);
+
+					// Execute update SQL statement
+					status= preparedStatement.executeUpdate();
+				}
+
+
 			}
 			// Closing DB connection
 			dbconnection.close();
-			}
-			
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-			// Request dispatcher
-			RequestDispatcher requestDispatcher=request.getRequestDispatcher("/JSP/emp_event.jsp");
-			requestDispatcher.include(request, response);
-			
-			  out.println("<h4 style='color:red;margin-left:400px;margin-top:-190px;'>Tasks Added Successfully...</h4>");
-}
+		}
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		// Request dispatcher
+		RequestDispatcher requestDispatcher=request.getRequestDispatcher("/JSP/emp_event.jsp");
+		requestDispatcher.include(request, response);
+		System.out.println("status==========>" + status);
+		if(status == 0){
+			out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Please fill all the Mandatory Field...</h4>");
+
+		}else{
+			out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Tasks Added Successfully...</h4>");
+		}
 	}
 }
+

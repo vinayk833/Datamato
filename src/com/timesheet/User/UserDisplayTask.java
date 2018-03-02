@@ -95,13 +95,11 @@ public class UserDisplayTask extends HttpServlet {
                  System.out.println("al :: " + al);
                  pid_list.add(al);
                  
-                 try{
-                     sum = sum + Integer.parseInt(rs.getString(7));
-                     }catch(NumberFormatException ex){ // handle your exception
-                    	System.out.println("Exception in number format");
-                    	}
-                 
+            
+                 sum = sum + Integer.parseInt(rs.getString(7).replaceAll("\\D+",""));
+                
              }
+             
              
              request.setAttribute("piList", pid_list);
              request.setAttribute("AgencyRating", sum);
