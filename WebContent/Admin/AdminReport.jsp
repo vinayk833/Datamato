@@ -1909,7 +1909,7 @@
 </select>
 </div>
 
-<div id="f1"  style="display: none">
+<div id="f1"  style="height:200px;width:350px;display: none" class="scrollbar">
 <select id="lst" name="projectReport" multiple="multiple">
 <% while(resultset1.next()){ %>
             <option><%= resultset1.getString("ProjName")%></option>
@@ -1917,7 +1917,7 @@
 </select>
 </div>
  
-<div id="f2"  style="display: none">
+<div id="f2"  style="height:200px;width:350px;display: none" class="scrollbar">
 <select id="lst1" name="customerreport" multiple="multiple">
 <% while(resultset2.next()){ %>
             <option><%= resultset2.getString("CustomerName")%></option>
@@ -1925,13 +1925,17 @@
 </select>
 </div>
  
-<div id="f3" style="display: none">
-<select id="lst2" name="empreport" multiple="multiple">
-<% while(resultset3.next()){ %>
-            <option><%= resultset3.getString("EmployeeName")%></option>
-            <% }%>
-</select>
+
+ <div id="f3" style="height:200px;width:350px;display: none" class="scrollbar">
+		<select id="lst2" name="empreport" multiple="multiple">
+			<% while(resultset3.next()){ %>
+			            <option><%= resultset3.getString("EmployeeName")%></option>
+			            <% }%>
+		</select>
+	
 </div>
+
+
  
 </td>
 </tr>
