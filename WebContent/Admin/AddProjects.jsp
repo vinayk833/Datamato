@@ -133,8 +133,7 @@
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -177,7 +176,7 @@
 <center>
 <article>
 <form method="post" name="frm" action="<%=request.getContextPath()%>/AddProject" onsubmit="return validate(this);">
-<table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="40%" align="center" >
+<table border="1" bordercolor="#C0C0C0" cellspacing="5" cellpadding="5" width="33%" align="center" >
 <h1>Add Project </h1>
 <tr bordercolor=" #C0C0C0"><th align="center" colspan="2" style="text-align: center;color: #106E9B; font-size: 20px !important;"><b>Customer</b></th></tr>
 <tr bordercolor=" #C0C0C0"><td><b>Customer Name:<span class="required">*</span></b></td><td><input type="text" name="CustomerName" onkeypress="return isAlfa(event)" style="width:200px"></td></tr>
@@ -315,7 +314,7 @@ function isAlfa(evt) {
     return true;
 } 
 </script>
- <tr  bordercolor=" #C0C0C0"><td colspan=2 align="center"><input type="submit" name="submit" value="Add"></td>
+ <tr  bordercolor=" #C0C0C0"><td colspan=2 align="center"><input type="submit" name="submit" value="Add"  style="width:80px;height:32px;background-color:#007BC0;color:white"></td>
 </tr>
 </table>
 <br><br><br><br></form>

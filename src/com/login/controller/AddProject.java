@@ -11,10 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
-
-
 import com.login.util.DBConnection;
 
 /**
@@ -42,7 +38,13 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
           String Manager = request.getParameter("Product Manager");
           String StartDate = request.getParameter("StartDate");
           String EndDate = request.getParameter("EndDate");
-         
+       // validate given input
+		  if (CustomerName.isEmpty()|| ID.isEmpty() || ProjName.isEmpty()  ||Type.isEmpty() || Manager.isEmpty() || StartDate.isEmpty()|| EndDate.isEmpty()) {
+		   RequestDispatcher rd = request.getRequestDispatcher("/Admin/AddProjects.jsp");
+		///   out.println("<font color=red>Please fill all the fields</font>");
+		   rd.include(request, response);
+		  } else {
+
 
            try {
                Connection con = null;
@@ -81,7 +83,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
         }
     }
     
-
+}
 
 
 }

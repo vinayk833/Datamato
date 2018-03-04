@@ -311,35 +311,7 @@ function toggle(source) {
         return true;
        
 }
-//   //  newvalidation /////////////////////////////
-  
-//       function validate() {
-      
-//         if (document.frm.hours.value == "")  {
-//             alert("Please Enter Hours.");
-//             document.frm.Description.focus();
-//             return false;
-//         }
-//         if (document.frm.TaskCat.value == "")  {
-//             alert("Please Enter Task Category.");
-//             document.frm.Description.focus();
-//             return false;
-//         }
-        
-        
-//         var e = document.getElementById("selectBox");
-//         var strUser = e.options[e.selectedIndex].value;
 
-//         var strUser1 = e.options[e.selectedIndex].text;
-//         if(strUser==0)
-//         {
-//             alert("Please select Project name");
-//             return false;
-//         }
-
-         
-//          return true;
-//         }
  </SCRIPT> 
 
 </head>
@@ -368,8 +340,7 @@ function toggle(source) {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>

@@ -126,8 +126,7 @@
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -179,7 +178,7 @@
 <tr  bordercolor=" #C0C0C0"><td><b>Project Name:<span class="required">*</span></b></td><td>
  <input type="text" name="ProjName"  value="<%=request.getAttribute("projName")%>" style="width:200px" readonly="readonly">
 <tr  bordercolor=" #C0C0C0"><td style="width:200px"><b>Project Description:</b></td><td>
-<textarea name="Description" rows="1" value="<%=request.getAttribute("tdes")%>" style="width:200px">
+<input type="text" name="Description"  value="<%=request.getAttribute("tdes")%>" style="width:200px">
 </textarea></td></tr>
 <tr  bordercolor=" #C0C0C0"><td ><b>Project Type:<span class="required">*</span></b></td><td><select name="Type" style="width:202px"  >
  <OPTION value="<%=request.getAttribute("type")%>"><%=request.getAttribute("type")%></OPTION>

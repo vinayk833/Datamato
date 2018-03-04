@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,7 +34,15 @@ public class TaskCategory extends HttpServlet {
 		String  taskCategory  = request.getParameter("taskCategory");
 		
 		System.out.println("MySQL Connect Example.");
+		// validate given input
 		
+				if (taskCategory.isEmpty()) {
+		     	   RequestDispatcher rd=request.getRequestDispatcher("/Admin/TaskCategory.jsp");
+						rd.include(request, response);
+						//out.println("<font color=red>Please fill all the fields</font>");
+						
+					} else {
+				
 
 
 			try
@@ -68,7 +75,7 @@ public class TaskCategory extends HttpServlet {
 					out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>" + taskCategory+ " Already Exist</h4>");
 			}
 		}
-	
+	}
 
 	}
 

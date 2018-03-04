@@ -1,26 +1,22 @@
-package com.login.controller;
- 
-import java.io.IOException;
- import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
- import java.io.File;
+package com.timesheet.Director;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
- import javax.servlet.ServletException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -28,39 +24,33 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.login.util.DBConnection;
 
-import java.util.*;
-import java.sql.*;
-import java.text.SimpleDateFormat;
- 
-@WebServlet("/Drop")
-public class Drop extends HttpServlet {
-      private static final long serialVersionUID = 1L;
- 
- 
-      /**
-      * @see HttpServlet#HttpServlet()
-      */
-      public Drop() {
-            super();
-            // TODO Auto-generated constructor stub
-      }
- 
-      /**
-      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-      */
-      protected void doGet(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
-      }
- 
-      /**
-      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-      */
-     
-      void  employeeReport(HttpServletRequest request, HttpServletResponse res)
-      {
-           
-      }
-      protected void doPost(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
- 
+/**
+ * Servlet implementation class DirectorReport
+ */
+@WebServlet("/DirectorReport")
+public class DirectorReport extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DirectorReport() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	  protected void doPost(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
+		  
     	  String Ref="MyTeamReport";
           String home = System.getProperty("user.home");
   		  File excelpath = new File(home+"/Downloads/" +Ref+".xls"); 

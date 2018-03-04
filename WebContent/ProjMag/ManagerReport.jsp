@@ -88,8 +88,8 @@
 					<OPTION value="Team's Report">Team's Report</OPTION>
 					</SELECT>			
 			</b></TD></tr>
-     <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" style="width:160px"/>
- <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" style="width:160px"/></td>
+     <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" style="width:160px" required name="title"/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" style="width:160px" required name="title"/></td>
  
  
  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
