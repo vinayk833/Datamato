@@ -73,7 +73,7 @@ public class DirSendMailApproval extends HttpServlet {
 			
 			
 			Statement stt = con.createStatement();
-			String squery = "select EMAIL from users where EmployeeID ='" + employeeID + "'";
+			String squery = "select EMAIL from users where EmployeeName =(select Approver from users where EmployeeID='"+ employeeID+"')";
 			ResultSet res = stt.executeQuery(squery);
 			
 			
@@ -107,7 +107,7 @@ public class DirSendMailApproval extends HttpServlet {
 		//String cc = "priyanka.jogdand@datamato.com";
 
 		// Sender's email ID needs to be mentioned
-		String from = "mathew.flicker123@gmail.com";
+		String from = "mathewflicker123@gmail.com";
 		final String username = "mathewflicker123@gmail.com";//change accordingly
 		final String password = "flicker12345";//change accordingly
 
@@ -160,11 +160,12 @@ public class DirSendMailApproval extends HttpServlet {
               		"  cursor: pointer;}\r\n" + 
               		".button-success:hover {opacity: 1}  .button-danger:hover {opacity: 1}\r\n" + 
               		"</style></head><body><h2>Daily Report</h2>\r\n" + 
+              		"<h2>Employee ID: "+ employeeID +"</h2>"+
               		"<table><tr><th>Company</th><th>Contact</th><th>Country</th></tr>\r\n";
               		
-              		while(rs.next()) {
-              			textbody += "<tr><td>" + rs.getString("projname") + "</td><td>" + rs.getString("proid") + "</td><td>" + rs.getString("description") +"</td></tr>\r\n";
-              		}
+					while(rs.next()) {
+		      			textbody += "<tr><td>" + rs.getString("date") + "</td><td>" + rs.getString("ProjName") + "</td><td>" + rs.getString("proid")+ "</td><td>" + rs.getString("TaskCat") + "</td><td>" + rs.getString("description")+ "</td><td>" + rs.getString("hours") +"</td></tr>\r\n";
+		      		}
               
               		textbody +="</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+employeeID+"&date="+date+"\">APPROVE </a>\r\n" + 
               		"&nbsp&nbsp<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+"\">REJECT</a></center></body></html>";
