@@ -10,7 +10,7 @@ public class InitializeServlet extends HttpServlet {
  public void init() throws ServletException {
     
     try {
-        System.out.println("Initializing NewsLetter PlugIn");
+        System.out.println("Initializing Email Notification Session");
         
       //  CronScheluder objPlugin = new CronScheluder();
         DBScheduler dbs=new DBScheduler();

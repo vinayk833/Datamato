@@ -1,14 +1,16 @@
 //DBConnection.java
 package com.login.util;
 import java.sql.Connection;
+import com.email.notification.*;
 import java.sql.DriverManager;
 public class DBConnection {
 public static Connection createConnection()
 {
+	
 Connection con = null;
-String url = "jdbc:mysql://192.168.30.134:3306/customers";
-String username = "priyanka";
-String password = "Datamato@123";
+String url = Constants.ConnectionString;
+String username = Constants.DBUSER;
+String password = Constants.DBPASSWORD;
 //String password = "root";
 try
 {

@@ -15,6 +15,9 @@ public class Constants
  public static String CONNECTIONDRIVER;
  public static int TimeHour;
  public static int TimeMinute;
+ public static String mailhost;
+ public static String smtp_port;
+ 
  
  //public String emailTO;
 }

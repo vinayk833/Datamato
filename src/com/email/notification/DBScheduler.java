@@ -9,50 +9,15 @@ public class DBScheduler  {
 	public void callScheduler() throws Exception
 	 {
 	 
-	 System.out.println("Scheduler Starterd...");
+	 System.out.println("Scheduler Starterd ...\n");
+	
 	 ReadPropertiesFile.readConfig();
 	 Timer timer = new Timer();
-	
-	 
 	 Calendar date = Calendar.getInstance();
+	 System.out.println("Email Scheduled on "+Constants.day+" at "+Constants.TimeHour+":"+Constants.TimeMinute+"\n");
 	 
-	 System.out.println("day value"+Constants.day);
-	/* switch(Constants.day){
-	 case "SUNDAY": date.set(
-			 Calendar.DAY_OF_WEEK,
- 	         Calendar.SUNDAY
- 	    );
 	 
-	 case "MONDAY": date.set(
- 			 Calendar.DAY_OF_WEEK,
- 	         Calendar.MONDAY
- 	    );
-	 
-	 case "TUESDAY": date.set(
- 			 Calendar.DAY_OF_WEEK,
- 	         Calendar.TUESDAY
- 	    );
-	 case "WEDNESDAY": date.set(
- 			 Calendar.DAY_OF_WEEK,
- 	         Calendar.WEDNESDAY
- 	    );
-	 
-	 case "THURSDAY": date.set(
- 			 Calendar.DAY_OF_WEEK,
- 	         Calendar.THURSDAY
- 	    );
-	    System.out.println("date is set on trusda");
-	 
-	 case "FRIDAY": date.set(
- 			 Calendar.DAY_OF_WEEK,
- 	         Calendar.FRIDAY
- 	    );
-	 
-	 case "SATURDAY": date.set(
- 			 Calendar.DAY_OF_WEEK,
- 	         Calendar.SATURDAY
- 	    );
-	 }*/
+	
 	 if(Constants.day.equalsIgnoreCase("sunday"))
 	 {
 		 date.set(
@@ -100,11 +65,7 @@ public class DBScheduler  {
 	 
 	 //timer.scheduleAtFixedRate(new Testing(), getTimePrecision(Constants.delay), getTimePrecision(Constants.timetoquery));
 	    
-	    
-	    System.out.println("call testing");
 	    //timer.schedule(new Testing(),date.getTime());
-	   
-	    System.out.println("inside testing");
 		//Testing testObj = new Testing();
 	//	 GMailServer sender = new GMailServer(Constants.setFrom, Constants.setPassword);   
 		timer.schedule(new Testing(),date.getTime());

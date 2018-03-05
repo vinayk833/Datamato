@@ -15,7 +15,7 @@ public class ManagerNotification {
 	GMailServer sender =new GMailServer(Constants.setFrom, Constants.setPassword);
 	
 	public void ManagerMail(){
-		System.out.println("inside manager mail");
+		System.out.println("\nEmails Notification to Manager triggered...");
 		String managerid[] = new String[100];
 		String manager[] = new String[100];
 		//sender.getID(managerid);
@@ -80,7 +80,7 @@ public class ManagerNotification {
 	
 	//fetch weekly dates
 		public static void getWeekDate(String[] days){
-			System.out.println("inside get weeks");
+			
 			Calendar now = Calendar.getInstance();
 
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

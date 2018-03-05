@@ -11,7 +11,7 @@ public class Testing  extends TimerTask
 		UserNotification UN=new UserNotification();
 		
 		ManagerNotification MN=new ManagerNotification();
-		System.out.println("running in testing");
+		System.out.println("\nRunning scheduled email...\n");
 		UN.UserMail();
 		MN.ManagerMail();
 	}

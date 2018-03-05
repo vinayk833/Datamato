@@ -10,7 +10,7 @@ public class ReadPropertiesFile extends Constants
  {
  
      Properties pro = new Properties();
-     String path = System.getProperty("user.dir")+"/java4s_Props.properties";
+     String path = System.getenv("CATALINA_HOME")+"/webapps/app_conf.properties";
      System.out.println(System.getProperty("user.dir"));
      pro.load(new FileInputStream(path));    
      
@@ -25,6 +25,8 @@ public class ReadPropertiesFile extends Constants
      Constants.CONNECTIONDRIVER = pro.getProperty("CONNECTIONDRIVER");
      Constants.TimeHour = Integer.parseInt(pro.getProperty("TimeHour"));
      Constants.TimeMinute = Integer.parseInt(pro.getProperty("TimeMinute"));
+     Constants.mailhost=pro.getProperty("mailhost");
+     Constants.smtp_port=pro.getProperty("smtp_port");
      
      
      

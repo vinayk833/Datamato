@@ -15,7 +15,8 @@ public class UserNotification {
 	GMailServer sender =new GMailServer(Constants.setFrom, Constants.setPassword);
 	
 public void UserMail() {
-		
+	
+	System.out.println("\nEmails Notification to Users triggered...");	
 		String userid[] = new String[200];
 		String user[] = new String[200];
 		String mailDate[] = new String[7];

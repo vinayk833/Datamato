@@ -13,7 +13,8 @@ import javax.mail.internet.MimeMultipart;
  
 public class GMailServer extends javax.mail.Authenticator
 {
-    private String mailhost ="smtp.gmail.com"; ; //"smtp.mail.yahoo.com"; //"smtp.gmail.com";
+    private String mailhost =Constants.mailhost; ; //"smtp.mail.yahoo.com"; //"smtp.gmail.com";
+    private String smtp_port=Constants.smtp_port;
     private String user;
     private String password;
     private Session session;  
@@ -26,7 +27,7 @@ public class GMailServer extends javax.mail.Authenticator
         props.setProperty("mail.smtp.host",mailhost);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
-       props.put("mail.smtp.socketFactory.port", "465");
+       props.put("mail.smtp.socketFactory.port",smtp_port);
         props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.starttls.enable","true");
         props.put("mail.smtp.debug", "true");
