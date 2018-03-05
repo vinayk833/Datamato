@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.email.notification.Constants;
 import com.login.util.DBConnection;
 
 /**
@@ -70,12 +71,12 @@ public class PasswordMail extends HttpServlet {
 		
 
 		// Sender's email ID needs to be mentioned
-		String from = "mathew.flicker123@gmail.com";
-		final String username = "mathewflicker123@gmail.com";//change accordingly
-		final String password = "flicker12345";//change accordingly
+		String from = Constants.setFrom;
+		final String username = Constants.setFrom;//change accordingly
+		final String password =  Constants.setPassword;//change accordingly
 
 		// Assuming you are sending email through relay.jangosmtp.net
-		String host = "smtp.gmail.com";
+		String host = Constants.mailhost;
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");

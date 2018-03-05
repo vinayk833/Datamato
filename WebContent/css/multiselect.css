@@ -8,7 +8,7 @@ span.multiselect-native-select select
 
 	position:absolute!important;width:1px!important;
 	left:90%;top:90px}.multiselect-container{position:absolute;
-	list-style-type:none;margin:0;padding:0}
+	list-style-type:none;margin:0;padding:0} 
 	.multiselect-container .input-group{margin:5px}
 	.multiselect-container>li{padding:0}
 	.multiselect-container>li>a
@@ -31,3 +31,9 @@ span.multiselect-native-select select
 	border-bottom-left-radius:4px}.form-inline .multiselect-container label.checkbox,.form-inline .multiselect-container label.radio{
 	padding:3px 20px 3px 40px}.form-inline .multiselect-container li a label.checkbox input[type=checkbox],.form-inline .multiselect-container li a label.radio input[type=radio]
 	{margin-left:-20px;margin-right:0}
+	
+	
+	.scrollbar {
+    overflow-y:auto;
+    overflow-x: hidden;
+    }

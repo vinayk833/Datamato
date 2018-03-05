@@ -1908,7 +1908,7 @@
 </select>
 </div>
 
-<div id="f1"  style="display: none">
+<div id="f1"  style="height:200px;width:350px;display: none" class="scrollbar">
 <select id="lst" name="projectReport" multiple="multiple">
 <% while(resultset1.next()){ %>
             <option><%= resultset1.getString("ProjName")%></option>
@@ -1916,7 +1916,7 @@
 </select>
 </div>
  
-<div id="f2"  style="display: none">
+<div id="f2"  style="height:200px;width:350px;display: none" class="scrollbar">
 <select id="lst1" name="customerreport" multiple="multiple">
 <% while(resultset2.next()){ %>
             <option><%= resultset2.getString("CustomerName")%></option>
@@ -1924,21 +1924,27 @@
 </select>
 </div>
  
-<div id="f3" style="display: none">
-<select id="lst2" name="empreport" multiple="multiple">
-<% while(resultset3.next()){ %>
-            <option><%= resultset3.getString("EmployeeName")%></option>
-            <% }%>
-</select>
+
+ <div id="f3" style="height:200px;width:350px;display: none" class="scrollbar">
+		<select id="lst2" name="empreport" multiple="multiple">
+			<% while(resultset3.next()){ %>
+			            <option><%= resultset3.getString("EmployeeName")%></option>
+			            <% }%>
+		</select>
+	
 </div>
+
+
  
 </td>
 </tr>
     </table>
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
-      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" style="width:200px" required name="title"/>
- <td ><b>End Date:</b></td><td><input type="date" id="enddate" style="width:200px" required name="title"/></td>
+
+      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" name="startdate" style="width:200px"/>
+ <td ><b>End Date:</b></td><td><input type="date" id="enddate" name="enddate" style="width:200px"/></td>
+
   
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->

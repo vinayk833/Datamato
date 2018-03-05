@@ -1,20 +1,23 @@
 //DBConnection.java
 package com.login.util;
 import java.sql.Connection;
+import com.email.notification.*;
 import java.sql.DriverManager;
 public class DBConnection {
 public static Connection createConnection()
 {
+	
 Connection con = null;
-String url = "jdbc:mysql://localhost:3306/customers";
-String username = "root";
-String password = "Datamato@123";
+String url = Constants.ConnectionString;
+String username = Constants.DBUSER;
+String password = Constants.DBPASSWORD;
+String ConnectionDriver =Constants.CONNECTIONDRIVER;
 //String password = "root";
 try
 {
 try
 {
-Class.forName("com.mysql.jdbc.Driver");
+Class.forName(ConnectionDriver);
 }
 catch (ClassNotFoundException e)
 {
