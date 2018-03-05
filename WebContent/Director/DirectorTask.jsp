@@ -68,7 +68,7 @@ try{
     resultset2 =statement2.executeQuery("select * from myproject") ;  
 LinkedHashMap<String,String> resultMap = new LinkedHashMap<String,String>();
 while(resultset1.next()){
-	resultMap.put(resultset1.getString(2),resultset1.getString(1));
+	resultMap.put(resultset1.getString(2),resultset1.getString(3));
 }
 Set<String> keys = resultMap.keySet();
 %>

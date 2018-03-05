@@ -71,7 +71,7 @@ public void UserMail() {
 				}
 				/*Statement s = con.createStatement();
   			ResultSet r = s.executeQuery("select EmployeeName from users where ")*/
-				String Mailbody = "Hello " + user[i] + ",\n\nYou have forgot to fill your daily report status on following days:";
+				String Mailbody = "Hello " + user[i] + ",<br>You have forgot to fill your daily report status on following days:";
 				for(int s=1;s<y;s++) {
 					if(s!=y-1) {
 						Mailbody += " " + mailDate[s] + ",";

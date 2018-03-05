@@ -59,15 +59,12 @@ public class ManagerNotification {
 						" font-size: 16px;margin: 4px 2px;opacity: 0.6;transition: 0.3s;display: inline-block;text-decoration: none;\r\n" + 
 						" cursor: pointer;}\r\n" + 
 						".button-success:hover {opacity: 1} .button-danger:hover {opacity: 1}\r\n" + 
-						"</style></head><body><h2>Daily Report</h2>\r\n" + 
-						"<table><tr><th>Company</th><th>Contact</th><th>Country</th></tr>\r\n";
+						"</style></head><body><h2>Weekly Report</h2>\r\n" + 
+						"<table><tr><th>EmployeeID</th><th>Date</th><th>Project Name</th><th>Task Category</th><th>Description</th><th>Hours</th></tr>\r\n";
 
 				while(res.next()) {
 					textbody += "<tr><td>" + res.getString("EmployeeID") + "</td><td>" + res.getString("date") + "</td><td>" + res.getString("ProjName") +"</td><td>" + res.getString("TaskCat") +"</td><td>" + res.getString("description") +"</td><td>" + res.getString("hours") +"</td></tr>\r\n";
 				}
-
-				textbody +="</table><br><br><center><button type=\"button\" class=\"button-success\">Success</button>\r\n" + 
-						"<button type=\"button\" class=\"button-danger\">Danger</button></center></body></html>";
 				sender.sendMail(subject,textbody,Constants.setFrom,managerid[i]);
 			}       
 

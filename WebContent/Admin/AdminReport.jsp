@@ -1942,8 +1942,8 @@
     </table>
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
-      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" style="width:200px"/>
- <td ><b>End Date:</b></td><td><input type="date" id="enddate" style="width:200px"/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" name="startdate" style="width:200px"/>
+ <td ><b>End Date:</b></td><td><input type="date" id="enddate" name="enddate" style="width:200px"/></td>
   
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->
