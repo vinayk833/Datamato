@@ -11,12 +11,13 @@ Connection con = null;
 String url = Constants.ConnectionString;
 String username = Constants.DBUSER;
 String password = Constants.DBPASSWORD;
+String ConnectionDriver =Constants.CONNECTIONDRIVER;
 //String password = "root";
 try
 {
 try
 {
-Class.forName("com.mysql.jdbc.Driver");
+Class.forName(ConnectionDriver);
 }
 catch (ClassNotFoundException e)
 {
