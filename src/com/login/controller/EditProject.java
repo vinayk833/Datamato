@@ -40,12 +40,12 @@ public class EditProject extends HttpServlet {
 	 */
 
 	public static void setParameters(HttpServletRequest request){
-		customerName = request.getParameter("CustName");
-		projectId = request.getParameter("id");
-		projectName = request.getParameter("PName");
+		customerName = request.getParameter("CustomerName");
+		projectId = request.getParameter("ID");
+		projectName = request.getParameter("ProjName");
 		projectDescription = request.getParameter("Description");
 		projectType = request.getParameter("Type");
-		productManagers = request.getParameter("ProductManager");
+		productManagers = request.getParameter("Product Manager");
 		startDate = request.getParameter("StartDate");
 		endDate = request.getParameter("EndDate");
 

@@ -46,13 +46,22 @@ public class DeleteHoliday extends HttpServlet {
 		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String reformattedStr = null;
+			
+			// validate given input
+			
+						if (date.isEmpty()) {
+				     	   RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
+								rd.include(request, response);
+								out.println("<h4 style='color:red;margin-left:500px;margin-top:-230px;'>Please Select Date</h4>");
+								
+							} else {
 			try {
 
 			    reformattedStr = myFormat.format(fromUser.parse(date));
 			} catch (ParseException e) {
 			    e.printStackTrace();
 			}
-
+			
 
 		try
 		{
@@ -76,6 +85,7 @@ public class DeleteHoliday extends HttpServlet {
 		}
 	}
 
+	}
 
 	}
 

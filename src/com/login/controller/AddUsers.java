@@ -37,6 +37,12 @@ public class AddUsers extends HttpServlet {
 		  String Role = request.getParameter("ROLE");
 		  String Department = request.getParameter("Department");
 		  String Approver = request.getParameter("Approver");
+		  if (EmployeeID.isEmpty()|| EmployeeName.isEmpty() || Email.isEmpty() ||Password.isEmpty() || Role.isEmpty() || Department.isEmpty()|| Approver.isEmpty()) {
+			   RequestDispatcher rd = request.getRequestDispatcher("/Admin/AddUsers.jsp");
+			 //  out.println("<font color=red>Please fill all the fields</font>");
+			   rd.include(request, response);
+			  } else {
+
           try {
              
            con = DBConnection.createConnection();
@@ -74,7 +80,7 @@ public class AddUsers extends HttpServlet {
        }
    }
    
-
+	}
 
 
 }

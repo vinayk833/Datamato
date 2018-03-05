@@ -64,15 +64,7 @@ $(document).ready(function() {
 	             	});
 	          },
 	    	
-	    	 /* eventClick: function(event, element) {
-
-	            event.title = "CLICKED!";
-
-	          //  $('#calendar').fullCalendar('updateEvent', event);
-	            window.location.href="${pageContext.request.contextPath}/Admin/AddTask.jsp";
-
-	        },  */
-	          
+	    	
 
 	     
 	  });
@@ -144,8 +136,7 @@ $(function(){
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>

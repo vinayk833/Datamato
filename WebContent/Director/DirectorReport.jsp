@@ -35,7 +35,6 @@
 
 
 
-
  <script>
  
  
@@ -1747,52 +1746,61 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#lstFruits1').multiselect({
+        $('#lst').multiselect({
             includeSelectAllOption: true
         });
-        
-        $('#lstFruits2').multiselect({
+       
+        $('#lst1').multiselect({
             includeSelectAllOption: true
+            
         });
-        
-        $('#lstFruits3').multiselect({
+        $('#lst2').multiselect({
             includeSelectAllOption: true
         });
     });
-    
+   
     function showForm() {
         var selopt = document.getElementById("opts").value;
         var f1=document.getElementById("f1");
-   	 var f2=document.getElementById("f2");
-   	var f3=document.getElementById("f3");
-   	 
+          var f2=document.getElementById("f2");
+          var f3=document.getElementById("f3");
         if (selopt == 1) {
-       	 
+             
             f1.style.display = "block"
             f2.style.display = "none";
             f3.style.display = "none";
-           
+          
         }
         if (selopt == 2) {
             f2.style.display = "block";
             f1.style.display = "none";
             f3.style.display = "none";
         }
-        
-      
-        
-        if (selopt == 3){
-        	f3.style.display = "block";
-            f1.style.display = "none";
+       
+        if (selopt == 3) {
+            f3.style.display = "block";
             f2.style.display = "none";
+            f1.style.display = "none";
         }
-        
+       
         if (selopt == 0){
             f1.style.display = "none";
             f2.style.display = "none";
             f3.style.display = "none";
         }
+       
+        var val = document.getElementById("opts").value;
+        var e = document.getElementById("txtName");
+        e.value = val;
     }
+    
+    $(function(){
+    	$('#image').click(function(){
+    		$('#lst').prop('selected',false);
+    	});  	
+    }); 
+    
+   
 </script>
 
 </head>
@@ -1838,61 +1846,72 @@
         Statement statement3 = con.createStatement() ;
         Statement statement4 = con.createStatement() ;
         
-        resultset1 =statement1.executeQuery("select * from myproject") ;
-        resultset2 =statement2.executeQuery("select * from myproject") ;
-        resultset3 =statement3.executeQuery("select * from users") ;   
+        resultset1 =statement1.executeQuery("select * from myproject") ;  
+        resultset2 =statement2.executeQuery("select * from myproject") ; 
+        resultset3 =statement3.executeQuery("select * from users") ; 
         
            
         
         %>
         
         
-        <div style="align:center;height:100%;">
+        <div style="align:center;height:50%;">
 <center>
 <article>
-    <form method="post" name="frm" action="empevent">
+    <form method="post" name="frm" >
     <h1 style="color:#106E9B;font-family: Calibri;">Export Report</h1><br><br>
-    <table border="1" bordercolor="#C0C0C0" cellspacing="3" cellpadding="3" width="60%" align="center" >
-    <tr><td><select id="opts" onchange="showForm()" style="width:300;height:35">
-	<option value="0">Select Report</option>
-	<option value="1">Project Report</option>
-	<option value="2">Customer Report</option>
-	<option value="3">Employee Report</option>
-		<option value="4">My Report</option>
+    <table border="1" bordercolor="#C0C0C0" cellspacing="3" cellpadding="3" width="40%" align="center" >
+    <tr><td><select id="opts" name="opts" onchange="showForm()" style="width:200;height:35" >
+	<option value="0" name="Select Report">Select Report</option>
+      <option value="1" name="project name">project name</option>
+      <option value="2" name="customer name">customer name</option>
+      <option value="3" name="employee name">employee name</option>
+      <option value="4" name="My Report">My Report</option>
    </select></td>
-<td ><div id="f1" style="display: none">
-<select id="lstFruits1" multiple="multiple">
+   
+   
+<td >
+
+<div id="ff"  style="display: none">
+<select id="f" name="f0" multiple="multiple">
+</select>
+</div>
+
+<div id="f1"  style="display: none">
+<select id="lst" name="projectReport" multiple="multiple">
 <% while(resultset1.next()){ %>
-		<option><%= resultset1.getString(3)%></option>
-		<% }%>
+            <option><%= resultset1.getString("ProjName")%></option>
+            <% }%>
 </select>
 </div>
-
-<div id="f2" style="display: none">
-<select id="lstFruits2" multiple="multiple">
+ 
+<div id="f2"  style="display: none">
+<select id="lst1" name="customerreport" multiple="multiple">
 <% while(resultset2.next()){ %>
-		<option><%= resultset2.getString(1)%></option>
-		<% }%>
-</select>
-
-</div> <div id="f3" style="display: none">
-<select id="lstFruits3" multiple="multiple">
-<% while(resultset3.next()){ %>
-		<option><%= resultset3.getString(2)%></option>
-		<% }%>
+            <option><%= resultset2.getString("CustomerName")%></option>
+            <% }%>
 </select>
 </div>
+ 
+<div id="f3" style="display: none">
+<select id="lst2" name="empreport" multiple="multiple">
+<% while(resultset3.next()){ %>
+            <option><%= resultset3.getString("EmployeeName")%></option>
+            <% }%>
+</select>
+</div>
+ 
 </td>
 </tr>
     </table>
     <br><br><br>
-    <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="60%" align="center" >
-      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" style="width:200px"/>
- <td ><b>End Date:</b></td><td><input type="date" id="enddate" style="width:200px"/></td>
-   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-      
+    <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
+      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" style="width:200px" required name="title"/>
+ <td ><b>End Date:</b></td><td><input type="date" id="enddate" style="width:200px" required name="title"/></td>
+  
     <td colspan=1 align="center">
-<INPUT TYPE="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="mywin()" style="height:40px;width:40px">
+ 
+  <INPUT TYPE="image" id="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/DirectorReport';clear();" style="height:40px;width:40px">
     </td></tr>
     
     </table>

@@ -1,12 +1,16 @@
 package com.login.controller;
  
 import java.io.IOException;
+
 import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,11 +20,13 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -62,6 +68,7 @@ public class Drop extends HttpServlet {
     	  String Ref="MyTeamReport";
           String home = System.getProperty("user.home");
   		  File excelpath = new File(home+"/Downloads/" +Ref+".xls"); 
+
   		  String startdate = request.getParameter("startdate");
   		  String enddate = request.getParameter("enddate");
   		  System.out.println(startdate);
@@ -70,6 +77,7 @@ public class Drop extends HttpServlet {
  		
 
             String duplicate = null;
+
             try {
                   HSSFWorkbook wb=new HSSFWorkbook();
                   HSSFSheet sheet =  wb.createSheet("new sheet");

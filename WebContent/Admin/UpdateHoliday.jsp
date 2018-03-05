@@ -87,8 +87,7 @@ body {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -132,7 +131,7 @@ body {
 <article>
 <label style="font-size:20px;align:left"><b>Select Date:</b></label>&nbsp;&nbsp;<input type="text" name="date" id="datepicker"   style="width:100px"; />&nbsp;&nbsp;&nbsp;&nbsp;
 <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UpdateHoliday';" />&nbsp;&nbsp;
-<input type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DeleteHoliday';"/></span>
+<input type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DeleteHoliday';if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DeleteHoliday'}else { return false; };"/></span>
 <br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="50%" border="1">
 <tr>

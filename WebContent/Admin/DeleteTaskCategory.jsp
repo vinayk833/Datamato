@@ -68,8 +68,7 @@ body {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -116,7 +115,7 @@ body {
 						<h1>Delete Task Category</h1>
 						<br>
 						<br>
-					<table border="1" bordercolor="#C0C0C0" align="centre" cellspacing="4" cellpadding="4" width="25%">
+					<table border="1" bordercolor="#C0C0C0" align="centre" cellspacing="5" cellpadding="5" width="25%" height="25%">
 						<tr>
 							<td ><b>Task Category:<span class="required">*</span></b></td><td><select name="taskCategory" style="width:205px">
 							 <%  while(resultset.next()){ %>
@@ -134,7 +133,7 @@ body {
     </select></td>
 							</table>
 							<br>
-							<span><input type="submit" value="Delete" width:80px;height:32px;background-color:#007BC0;color:white"   align="middle" /></span>
+							<span><input type="submit" value="Delete" style="width:80px;height:32px;background-color:#007BC0;color:white"   align="middle" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DeleteTaskCategory'}else { return false; };" /></span>
 					<br> <br>
 					
 				</form>

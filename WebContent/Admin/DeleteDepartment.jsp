@@ -81,8 +81,7 @@ body {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -150,7 +149,7 @@ body {
 							
 					</table>
 					<br>
-					<span><input type="submit" value="Delete" width:80px;height:32px;background-color:#007BC0;color:white"  onClick="User(this.value);" align="middle" /></span>
+					<span><input type="submit" value="Delete" style="width:80px;height:32px;background-color:#007BC0;color:white"  align="middle" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DeleteDepartment'}else { return false; };" /></span>
 					
 					<br> <br>
 					

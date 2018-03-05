@@ -74,8 +74,8 @@
     <h1>Export Reports</h1>
 <tr></tr>
   
-     <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" style="width:200px"/>
- <td ><b>End Date:</b></td><td><input type="text" name="enddate" id="enddate" style="width:200px"/></td>
+     <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" style="width:200px" required name="title"/>
+ <td ><b>End Date:</b></td><td><input type="text" name="enddate" id="enddate" style="width:200px" required name="title"/></td>
  
  
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />

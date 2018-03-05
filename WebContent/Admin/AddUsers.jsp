@@ -68,6 +68,64 @@ function validateEmail(emailField){
 
     return true;
 }
+
+function validate() {
+    
+    if (document.frm.EmployeeID.value == "")  {
+        alert("Please Enter Employee ID.");
+        document.frm.Description.focus();
+        return false;
+    }
+  
+     if (document.frm.EmployeeName.value == "") {
+            alert("Please Enter Employee Name.");
+            document.frm.Description.focus();
+            return false;
+        }
+      
+    
+    
+     if (document.frm.EMAIL.value == "") {
+         alert("Please Enter Email ID.");
+         document.frm.Description.focus();
+         return false;
+     }
+    
+    
+    
+    
+     if (document.frm.PASSWORD.value == "") {
+         alert("Please Enter Password");
+         document.frm.Description.focus();
+         return false;
+     }
+    
+    
+     if (document.frm.ROLE.value == "") {
+         alert("Please Select Role");
+         document.frm.Description.focus();
+         return false;
+     }
+    
+    
+     if (document.frm.Department.value == null) {
+         alert("Please Select Department");
+         document.frm.Description.focus();
+         return false;
+     }
+    
+     if (document.frm.Approver.value == null) {
+         alert("Please Select Approver");
+         document.frm.Description.focus();
+         return false;
+     }
+    
+    
+    
+     return true;
+    
+    
+    }
 		</script>
 	
 </head>
@@ -102,8 +160,7 @@ function validateEmail(emailField){
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -145,7 +202,7 @@ function validateEmail(emailField){
 <div style="align:center;height:100%;">
 <center>
 <article>
-<form method="post" name="frm" action="<%=request.getContextPath()%>/AddUsers" onsubmit="return validate();"><table border="1" cellspacing="5" cellpadding="5" width="50%"  align="center" style="height:80%;" >
+<form method="post" name="frm" action="<%=request.getContextPath()%>/AddUsers" onsubmit="return validate(this);"><table border="1" cellspacing="5" cellpadding="5" width="30%"  align="center" style="height:80%;" >
 <h1>Add Users</h1>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtNo">Employee ID:<span class="required">*</span></label></b></td><td><input type="text" name="EmployeeID" placeholder="Enter Employee ID"  onkeypress="return isNumber(event)"  style="width:200px"></td></tr>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtName">Employee Name:<span class="required">*</span></label></b></td><td><input type="text" name="EmployeeName" placeholder="Enter Employee Name" onkeypress="return isAlfa(event)" style="width:200px"></td></tr>
@@ -178,8 +235,8 @@ function validateEmail(emailField){
            
         <% } %></select></td></tr></table>
        
-        <table>
-    <tr bordercolor=" #C0C0C0"><td align="center"><input type="submit" value="Add" id="submit"></td></tr>
+        <table><br>
+    <tr bordercolor=" #C0C0C0"><td align="center"><input type="submit" value="Add" id="submit"  style="width:80px;height:32px;background-color:#007BC0;color:white"></td></tr>
  </table>
  <%
 //**Should I input the codes here?**

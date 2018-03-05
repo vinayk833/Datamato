@@ -68,8 +68,7 @@ body {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -112,7 +111,7 @@ body {
 			<center>
 				<article>
 				<form method="post" name="frm" action="<%=request.getContextPath()%>/TaskCategory"  onsubmit="return validate(this);">
-					<table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="25%" align="center">
+					<table border="1" bordercolor="#C0C0C0" cellspacing="5" cellpadding="5" width="23%" align="center">
 						<h1>Add Task Category</h1>
 						<br>
 						<br>
@@ -122,8 +121,7 @@ body {
 							<td><input type="text" name="taskCategory" style="width: 200px" />
 						
 						<tr>
-							<td colspan=2 align="center"><input type="submit"
-								name="submit" value="Add"><br></td>
+							<td colspan=2 align="center"><input type="submit" name="submit" value="Add"  style="width:80px;height:32px;background-color:#007BC0;color:white"><br></td>
 						</tr>
 					</table>
 					<br>

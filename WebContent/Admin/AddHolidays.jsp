@@ -95,8 +95,7 @@ body {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -139,7 +138,7 @@ body {
 			<center>
 				<article>
 				<form method="post" name="frm" action="<%=request.getContextPath()%>/AddHolidays" onsubmit="return validate(this);">
-					<table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="25%" align="center">
+					<table border="1" bordercolor="#C0C0C0" cellspacing="5" cellpadding="5" width="20%" align="center">
 						<h1>Add Holiday</h1>
 						<tr></tr>
 						<tr>
@@ -152,7 +151,7 @@ body {
 									style="width: 200px"></textarea>
 						</tr>
 					</table>
-					<br> <span><input type="submit" name="submit" value="Add"></span>&nbsp;
+					<br> <span><input type="submit" name="submit" value="Add"  style="width:80px;height:32px;background-color:#007BC0;color:white"></span>&nbsp;
 					 
 
 				</form>

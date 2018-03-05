@@ -1828,8 +1828,7 @@
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Admin/AddTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Admin/ViewTask.jsp">Display Task </a>
-       <a href="${pageContext.request.contextPath}/Admin/UpdateTask.jsp">Update Task </a>
-      <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
+     <a href="${pageContext.request.contextPath}/Admin/TaskCategory.jsp">Add Task Category</a>
        <a href="${pageContext.request.contextPath}/Admin/DeleteTaskCategory.jsp">Delete Task Category</a>
       </div>
   </li>
@@ -1893,7 +1892,7 @@
     <form method="post" name="frm" >
     <h1 style="color:#106E9B;font-family: Calibri;">Export Report</h1><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="3" cellpadding="3" width="40%" align="center" >
-    <tr><td><select id="opts" name="opts" onchange="showForm()" style="width:200;height:35">
+    <tr><td><select id="opts" name="opts" onchange="showForm()" style="width:200;height:35" >
 	<option value="0" name="Select Report">Select Report</option>
       <option value="1" name="project name">project name</option>
       <option value="2" name="customer name">customer name</option>
@@ -1942,8 +1941,10 @@
     </table>
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
+
       <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" name="startdate" style="width:200px"/>
  <td ><b>End Date:</b></td><td><input type="date" id="enddate" name="enddate" style="width:200px"/></td>
+
   
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->
