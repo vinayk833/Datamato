@@ -175,7 +175,7 @@ function validateEmail(emailField){
   <% 
   
                     Statement statement2 = con.createStatement() ;
-                    resultset2 =statement2.executeQuery("select distinct EmployeeName from users where(role='Manager' or role='Admin' or role='Product Manager');") ;
+                    resultset2 =statement2.executeQuery("select distinct EmployeeName from users") ;
    while(resultset2.next()){ %>
             <option><%= resultset2.getString(1)%></option>
            
