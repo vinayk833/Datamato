@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <script src='http://code.jquery.com/jquery.min.js'></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -29,26 +30,28 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <SCRIPT language="javascript">
-
-function do_this(){
-
-    var checkboxes = document.getElementsByName('approve[]');
-    var button = document.getElementById('toggle');
-
-    if(button.value == 'Select'){
-        for (var i in checkboxes){
-            checkboxes[i].checked = 'FALSE';
-        }
-        button.value = 'Deselect'
-    }else{
-        for (var i in checkboxes){
-            checkboxes[i].checked = '';
-        }
-        button.value = 'Select';
+ 
+//Check all checkboxes
+function toggle(source) {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != source)
+            checkboxes[i].checked = source.checked;
     }
 }
- 
 
+//to check if any checkbox is selected or not
+ function checkboxselect(){
+	if ($("#formtest input:checkbox:checked").length > 0)
+	{
+	    return true;
+	}
+	else
+	{
+		alert("Please select atleast one task to be Approved or Rejected");
+		return false;
+	}	
+} 
 
   </SCRIPT>
 <style type="text/css">
@@ -105,25 +108,27 @@ h1{
 <center>
 <article>
  <br>
-    <form name="form" action="<%=request.getContextPath()%>/DisplayApproval" method="post">
- <table align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
+    <form name="form" id="formtest"  method="post">
+ <table id="table" align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
 <tr>
 </tr><br>
     <tr style="color:#090C9B">
     	 <!--<td><input type="button" id="toggle" value="Select" onClick="do_this()" /></td>
          <TD> <input type="checkbox" name="approve[]" value="1" style="width: 10px" /></TD>-->
-       
-       <td><b>Employee ID</b></td>
-       <td><b>Employee Name</b></td>
-        <td><b>Date</b></td>
-        <td><b>Project Name</b></td>
-         <td><b>Project ID</b></td>
-        <td><b>Task Category</b></td>
-         <td><b>Task Description</b></td>
-      	<td><b>hours</b></td> 
-      		<td><b>Approved</b></td> 
-         
-          </tr>
+							<td><b><input type="checkbox" name="allselect" onClick="toggle(this);">Select All</b></td>
+							<td><b>Task ID</b></td>
+							<td><b>Employee ID</b></td>
+							<td><b>Employee Name</b></td>
+							<td><b>Date</b></td>
+							<td><b>Project Name</b></td>
+							<td><b>Project ID</b></td>
+							<td><b>Task Category</b></td>
+							<td><b>Task Description</b></td>
+							<td><b>hours</b></td>
+							<td><b>Approved</b></td>
+							
+
+						</tr>
             <%
                 int count = 0;
                 String color = "#F9EBB3";
@@ -139,7 +144,9 @@ h1{
                         count++;
                         ArrayList pList = (ArrayList) itr.next();
             %>
+            
              <tr style="background-color:<%=color%>;">
+                <td><input type="checkbox" name="list" value="<%=pList.get(0)%>"></td>
                 <td><%=pList.get(0)%></td>
                 <td><%=pList.get(1)%></td>
                 <td><%=pList.get(2)%></td>
@@ -149,6 +156,7 @@ h1{
                 <td><%=pList.get(6)%></td>
                 <td><%=pList.get(7)%></td>
                  <td><%=pList.get(8)%></td>
+                 <td><%=pList.get(9)%></td>
                  </tr>
                
             <%
@@ -158,12 +166,20 @@ h1{
             %>
             <tr>
                 <td colspan=4 align="center"
-                    style="background-color:#eeffee"><b>No Record Found..</b></td>
+                    style="background-color:#eeffee"><b>No Task to be Approved or Rejected..</b></td>
             </tr>
+            
             <%            }
             %>
     </table><br><br><br><br>
-   
+    <select name="select">
+         <option value="Pending">Pending</option>
+         <option value="approve">Approve</option>
+         <option value="reject">Reject</option>
+    </select> 
+    <input type="submit" value="submit" class="messageCheckbox" onClick="if(checkboxselect()){form.action='<%=request.getContextPath()%>/ApproveStatus'}else{return false};"/>
+    			
+   </form>
 </article></center>
  </div>
 </div>

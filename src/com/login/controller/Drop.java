@@ -88,7 +88,7 @@ public class Drop extends HttpServlet {
       			  Statement st=con.createStatement();
                   Statement st1=con.createStatement();
                   Statement st2=con.createStatement();
-                  Statement st3=con.createStatement();
+                  //Statement st3=con.createStatement();
                  
                   //String query1 = "Select * from times2";
                  
@@ -100,14 +100,17 @@ public class Drop extends HttpServlet {
                  
                   String query3 ="SELECT distinct myproject.ProjName,myproject.ID,myproject.CustomerName,myproject.StartDate,myproject.EndDate,sum(task.hours)hours FROM customers.myproject  INNER JOIN customers.task ON myproject.ProjName=task.ProjName ";
                   
-                  String option = request.getParameter("opts");
+                  //String option = request.getParameter("opts");
+                  String name = request.getParameter("optsname");
                   String sessionId  = (String) request.getSession().getAttribute("Admin");
-                  System.out.println(option);
+                  //System.out.println("value "+option);
+                  System.out.println("name="+ name);
+                  
                   String[] dropdownValues = request.getParameterValues("projectReport");
                   String[] dropdownValues1 = request.getParameterValues("empreport");
                   String[] dropdownValues2 = request.getParameterValues("customerreport");
                 
-                	  if(dropdownValues!=null)
+                	  if(name.equalsIgnoreCase("1"))
                       {
                     	  
                     	  
@@ -130,7 +133,7 @@ public class Drop extends HttpServlet {
                       System.out.println(query1);
                       }
                      
-                      else if (dropdownValues1!=null)
+                      else if (name.equalsIgnoreCase("3"))
                       {
                     	  
                     	  System.out.println("employee");
@@ -149,7 +152,7 @@ public class Drop extends HttpServlet {
                            
                       }
                      
-                      else if (dropdownValues2!=null)
+                      else if (name.equalsIgnoreCase("2"))
                       {
                     	 
                     	  
@@ -176,7 +179,7 @@ public class Drop extends HttpServlet {
                      
                       int rowCount = 1;
                      
-                      if(dropdownValues!=null)
+                      if(name.equalsIgnoreCase("1"))
                       {
                       while(rs1.next()){
                            
@@ -224,7 +227,7 @@ public class Drop extends HttpServlet {
                       }
                      
                 }    
-                      if(dropdownValues1!=null)
+                      if(name.equalsIgnoreCase("3"))
                       {
                            
                       while(rs2.next()){
@@ -264,7 +267,7 @@ public class Drop extends HttpServlet {
                      
                 }
                      
-                      if(dropdownValues2!=null)
+                      if(name.equalsIgnoreCase("2"))
                       {
                            
                       while(rs3.next()){
@@ -305,7 +308,7 @@ public class Drop extends HttpServlet {
                       }
                      
                    }
-                    if(option.equalsIgnoreCase("4")) {
+                    if(name.equalsIgnoreCase("4")) {
                     	String query4 = "Select * from task where EmployeeID='" + sessionId + "' AND task.date BETWEEN '"+ startdate +"' AND '" + enddate + "'" ;
                     	System.out.println(sessionId);
                     	ResultSet rs4=st2.executeQuery(query4);

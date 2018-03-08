@@ -53,7 +53,8 @@ public class DisplayApproval extends HttpServlet {
       	 String EmployeeName = request.getParameter("EmpName");
            String startDate = request.getParameter("startdate");
            String endDate = request.getParameter("enddate");
-         
+           String status = request.getParameter("select");
+           System.out.println(status);
            ArrayList al = null;
            ArrayList pid_list = new ArrayList();
            String myquery = "SELECT users.EmployeeName FROM customers.users where users.EmployeeID=" + employeeID;
@@ -66,7 +67,7 @@ public class DisplayApproval extends HttpServlet {
            }
            System.out.println("query ==========" + myquery);
        //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
-           String query = "SELECT distinct task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
+           String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
       /*  String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
                 + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";*/
            System.out.println("query " + query);
@@ -84,6 +85,7 @@ public class DisplayApproval extends HttpServlet {
                al.add(rs.getString(7));
                al.add(rs.getString(8));
                al.add(rs.getString(9));
+               al.add(rs.getString(10));
                System.out.println("al :: " + al);
                pid_list.add(al);
            }

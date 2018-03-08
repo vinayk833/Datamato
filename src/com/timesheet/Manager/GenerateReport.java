@@ -179,7 +179,8 @@ public class GenerateReport extends HttpServlet {
     	  	System.out.println(reformattedStr);
     	  	System.out.println(reformattedStr1);
     	  	 String Ref="Timesheet";
-             File excelpath=new File("F:\\IBM\\"+Ref+".xls");
+    	  	String home = System.getProperty("user.home");
+    		File excelpath = new File(home+"/Downloads/" +Ref+".xls");
  
             HSSFWorkbook wb=new HSSFWorkbook();
             HSSFSheet sheet =  wb.createSheet("new sheet");

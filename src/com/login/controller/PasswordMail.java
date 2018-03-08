@@ -104,7 +104,7 @@ public class PasswordMail extends HttpServlet {
 					InternetAddress.parse(to));
 
 			// Set Subject: header field
-			message.setSubject("Task Approval");
+			message.setSubject("Password Reset Mail");
 			String baseUrl = null;
 			baseUrl =request.getScheme() + "://" +
 			        request.getServerName() + ":" + request.getServerPort() +
