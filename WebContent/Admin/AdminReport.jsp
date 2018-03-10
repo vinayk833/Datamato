@@ -18,6 +18,14 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AdminDashboard.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/DatePicker.css">
+<!-- For Datepicker -->
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+
+
+
 <style type="text/css">
 #startdate
         {
@@ -1814,7 +1822,7 @@
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -1942,10 +1950,51 @@
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
 
-      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" name="startdate" style="width:200px"/>
- <td ><b>End Date:</b></td><td><input type="date" id="enddate" name="enddate" style="width:200px"/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="mm/dd/yy"  style="width:200px" required name="title";/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder="mm/dd/yy" style="width:200px" required name="title";/></td>
 
-  
+ 
+ <script>
+$(document).ready(function() {
+
+$( "#startdate,#enddate" ).datepicker({
+changeMonth: true,
+changeYear: true,
+firstDay: 1,
+dateFormat: 'dd/mm/yy',
+})
+
+$( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+
+$('#enddate').change(function() {
+var start = $('#startdate').datepicker('getDate');
+var end   = $('#enddate').datepicker('getDate');
+
+if(start==null){
+	alert("Please Enter the Start Date")
+	$('#startdate').val("");
+	$('#enddate').val("");
+	$('#days').val("");}
+	
+   else if (start<end) {
+ 
+	var days   = (end - start)/1000/60/60/24;
+	$('#days').val(days)
+	
+}
+
+ else {
+	
+alert ("End Date must be later than Start Date!");
+$('#startdate').val("");
+$('#enddate').val("");
+$('#days').val("");
+}
+}
+); //end change function
+}); //end ready
+</script>
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->
   <INPUT TYPE="image" id="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/Drop';clear();" style="height:40px;width:40px">

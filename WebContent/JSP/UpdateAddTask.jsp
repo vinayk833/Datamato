@@ -199,7 +199,7 @@ Set<String> keys = resultMap.keySet();
 				String name = (String) session.getAttribute("User");
 				session.setAttribute("User",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+ "   User" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}

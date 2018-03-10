@@ -6,12 +6,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>AddHolidays</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AdminDashboard.css">
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-<!-- for date picker -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<!-- for date picker -->
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<!-- for date picker -->
+
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+
+<!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+<!-- <!-- for date picker --> 
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
+<!-- <!-- for date picker --> 
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> -->
+<!-- <!-- for date picker --> 
+
+
 <style type="text/css">
 input[type=reset] {
 	background-color: #007BC0;
@@ -45,6 +53,7 @@ body {
 			dateFormat : "mm/dd/yy"
 		}).val()
 	});
+	
 	function validate() {
 		var sdate = document.frm.date.value;
 		var sdateAr = sdate.split("/");
@@ -81,7 +90,7 @@ body {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -143,7 +152,7 @@ body {
 						<tr></tr>
 						<tr>
 							<td><b>Date:</b></td>
-							<td><input type="text" name="date" id="datepicker"
+							<td><input type="text" name="date" id="datepicker" placeholder=" mm/dd/yy "
 								style="width: 190px" />
 						<tr>
 							<td><b>Description:</b></td>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -41,20 +43,15 @@ public class DeleteHoliday extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String date  = request.getParameter("date");
+		
 		System.out.println(date);
 		System.out.println("MySQL Connect Example.");
 		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String reformattedStr = null;
 			
-			// validate given input
 			
-						if (date.isEmpty()) {
-				     	   RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
-								rd.include(request, response);
-								out.println("<h4 style='color:red;margin-left:500px;margin-top:-230px;'>Please Select Date</h4>");
-								
-							} else {
+						
 			try {
 
 			    reformattedStr = myFormat.format(fromUser.parse(date));
@@ -66,27 +63,74 @@ public class DeleteHoliday extends HttpServlet {
 		try
 		{
 			con = DBConnection.createConnection();
-			String deleteQuery = "DELETE FROM holidays WHERE date = ?";
-			PreparedStatement prpStat = con.prepareStatement(deleteQuery);
 			
-			prpStat.setString(1, reformattedStr);
+			String selectquiery = "SELECT date FROM holidays where date='" + reformattedStr +"'";
+			//PreparedStatement prpStat1 = con.prepareStatement(selectquiery);
+			//ResultSet result = prpStat1.getResultSet();
+			Statement st = con.createStatement();
+			ResultSet result = st.executeQuery(selectquiery);
+			String checkdate=null;
+			while(result.next()){
+				checkdate = result.getString("date");
+			}
 			
-			System.out.println("prpStat :" + prpStat.toString());
-			prpStat.executeUpdate();
-			RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
-			rd.include(request, response);
-			out.println("<h4 style='color:red;margin-left:250px;margin-top:-70px;'>" +reformattedStr+ " Deleted Successfully!</h4>");
+			if(checkdate!= null){
+				
+				String deleteQuery = "DELETE FROM holidays WHERE date = ?";
+				PreparedStatement prpStat = con.prepareStatement(deleteQuery);
+				
+				prpStat.setString(1, reformattedStr);
+
+				System.out.println("prpStat :" + prpStat.toString());
+				prpStat.executeUpdate();
+				RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
+				rd.include(request, response);
+				out.println("<h4 style='color:red;margin-left:250px;margin-top:-70px;'>" +reformattedStr+ " Deleted Successfully!</h4>");
+
+				System.out.println("data found");
+			}else{
+				
+				RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
+				rd.include(request, response);
+				out.println("<h4 style='color:red;margin-left:250px;margin-top:-70px;'>" +reformattedStr+ " No Date found !</h4>");
+			
+				System.out.println("data not found");
+			}
+			
+			/*if(result.next()){
+				String deleteQuery = "DELETE FROM holidays WHERE date = ?";
+				PreparedStatement prpStat = con.prepareStatement(deleteQuery);
+				
+				prpStat.setString(1, reformattedStr);
+
+				System.out.println("prpStat :" + prpStat.toString());
+				prpStat.executeUpdate();
+				RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
+				rd.include(request, response);
+				out.println("<h4 style='color:red;margin-left:250px;margin-top:-70px;'>" +reformattedStr+ " Deleted Successfully!</h4>");
+
+			}else{
+				RequestDispatcher rd=request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
+				rd.include(request, response);
+				out.println("<h4 style='color:red;margin-left:250px;margin-top:-70px;'>" +reformattedStr+ " No Date found !</h4>");
+				System.out.println(" data has been found");
+			}*/
 			
 			
 			con.close();
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 	}
+		
+		
+		
+	}
+	
+	
 
 	}
 
-	}
+	
 
 

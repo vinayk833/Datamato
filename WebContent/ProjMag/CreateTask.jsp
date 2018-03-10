@@ -298,49 +298,51 @@ function toggle(source) {
 	// document.getElementById('startdate').value = day + '-' + month + '-' + year;
 		 document.getElementById('startdate').value = month + '/' + day + '/' + year;
 	 }
-	 
 	 }
-  //  newvalidation /////////////////////////////
   
-      function validate() {
+  
+  </script>
+<!--   //  newvalidation ///////////////////////////// -->
+  
+<!-- //       function validate() { -->
       
-        if (document.frm.hours.value == "")  {
-            alert("Please Enter Hours.");
-            document.frm.Description.focus();
-            return false;
-        }
-        if (document.frm.TaskCat.value == "")  {
-            alert("Please Enter Task Category.");
-            document.frm.Description.focus();
-            return false;
-        }
+<!-- //         if (document.frm.hours.value == "")  { -->
+<!-- //             alert("Please Enter Hours."); -->
+<!-- //             document.frm.Description.focus(); -->
+<!-- //             return false; -->
+<!-- //         } -->
+<!-- //         if (document.frm.TaskCat.value == "")  { -->
+<!-- //             alert("Please Enter Task Category."); -->
+<!-- //             document.frm.Description.focus(); -->
+<!-- //             return false; -->
+<!-- //         } -->
         
         
-        var e = document.getElementById("selectBox");
-        var strUser = e.options[e.selectedIndex].value;
+<!-- //         var e = document.getElementById("selectBox"); -->
+<!-- //         var strUser = e.options[e.selectedIndex].value; -->
 
-        var strUser1 = e.options[e.selectedIndex].text;
-        if(strUser==0)
-        {
-            alert("Please select Project name");
-            return false;
-        }
+<!-- //         var strUser1 = e.options[e.selectedIndex].text; -->
+<!-- //         if(strUser==0) -->
+<!-- //         { -->
+<!-- //             alert("Please select Project name"); -->
+<!-- //             return false; -->
+<!-- //         } -->
 
          
-         return true;
-        }
-      function validation2(){
-    	     var x = document.getElementById("v1").value;
-    	        if (x<8) {
-    	            alert ('Total hours must be more than 8 Hours');
-    	            return false;
-    	        }
+<!-- //          return true; -->
+<!-- //         } -->
+<!-- //       function validation2(){ -->
+<!-- //     	     var x = document.getElementById("v1").value; -->
+<!-- //     	        if (x<8) { -->
+<!-- //     	            alert ('Total hours must be more than 8 Hours'); -->
+<!-- //     	            return false; -->
+<!-- //     	        } -->
     	           
     	  
-    	        return true;
+<!-- //     	        return true; -->
     	       
-    	}
-</SCRIPT>
+<!-- //     	} -->
+  
 
 </head>
 <body onload="addDate();">
@@ -354,7 +356,7 @@ function toggle(source) {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+"   Manager" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -399,6 +401,24 @@ function toggle(source) {
                                         var start = $('#startdate').datepicker(
                                                 'getDate');
                                     });
+                            function validation2(){
+                                var x = document.getElementById("v1").value;
+                                   if (x<8 || x == "") {
+                                       alert ('Total hours must be more than 8 Hours');
+                                       return false;
+                                   }
+                                   else if(x=="null"){
+                                   	
+                                   	alert ('Please Select date and Display Record then click on Submit');
+                                       return false;
+                                   }
+                                      
+                                      
+                             
+                                   return true;
+                                  
+                           }
+
                         </script>
                 <center>
                     <article>
@@ -482,7 +502,7 @@ function toggle(source) {
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerAddTask';return validate()" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerAddTask';" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">
@@ -539,7 +559,7 @@ function toggle(source) {
             
             
            </table><br><br>
-	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/MngSendMailApproval';return validation2(this)"/ >
+	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/MngSendMailApproval';return validation2(this);"/ >
 	</article>
                 </center>
             </div>

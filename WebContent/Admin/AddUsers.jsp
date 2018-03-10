@@ -146,7 +146,7 @@ function validate() {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name + "   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}

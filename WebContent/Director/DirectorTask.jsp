@@ -306,6 +306,12 @@ function toggle(source) {
             alert ('Total hours must be more than 8 Hours');
             return false;
         }
+else if(x=="null"){
+        	
+        	alert ('Please Select date and Display Record then click on Submit');
+            return false;
+        }
+           
            
   
         return true;
@@ -325,7 +331,7 @@ function toggle(source) {
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+"   Director" );
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}

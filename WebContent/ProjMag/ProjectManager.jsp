@@ -94,7 +94,7 @@ $(document).ready(function() {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+"   Manager" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
