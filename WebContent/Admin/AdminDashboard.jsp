@@ -82,7 +82,7 @@ $(document).ready(function() {
   	background-color: #D17D6F;
   }
   body {
-    margin: 40px 10px;
+   margin: 40px 10px; 
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
     font-size: 14px;
@@ -122,7 +122,7 @@ $(function(){
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}

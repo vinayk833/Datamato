@@ -29,6 +29,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--  for datepicker -->
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+
 
 <TITLE>Add/Remove dynamic rows in HTML table</TITLE>
 <style type="text/css">
@@ -306,6 +312,11 @@ function toggle(source) {
             alert ('Total hours must be more than 8 Hours');
             return false;
         }
+        else if(x=="null"){
+        	
+        	alert ('Please Select date and Display Record then click on Submit');
+            return false;
+        }
            
   
         return true;
@@ -326,7 +337,7 @@ function toggle(source) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -379,13 +390,12 @@ function toggle(source) {
        <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
 </div>
-            <div  style="  height: 100%; margin-top: 40px;">
+            <div  style="  height: 100%; margin-top: 30px;">
            <span  value='<%=AdminDisplayTask.mydate%>' style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" name="date" required name="title"/>
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminDisplayTask';" /></span> 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-                       
+           
+           
+ 
                         <!-- date time piv -->
                         <script type="text/javascript">
                             $(document).ready(

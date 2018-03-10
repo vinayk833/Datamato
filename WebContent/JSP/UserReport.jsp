@@ -6,6 +6,15 @@
 <meta charset="utf-8">
 <title>UserDashboard</title>
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AdminDashboard.css">
+
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+
+
+
+
 <style type="text/css">
     input[type=button]{
     background-color:  #007BC0;
@@ -46,7 +55,7 @@
 				String name = (String) session.getAttribute("User");
 				session.setAttribute("User",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+"   User");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -70,24 +79,15 @@
 <center>
 <article>
  <form method="post" name="frm" >
-    <table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="50%" align="center" >
+    <table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="60%" align="center" >
     <h1>Export Reports</h1>
 <tr></tr>
   
-     <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" style="width:200px" required name="title"/>
- <td ><b>End Date:</b></td><td><input type="text" name="enddate" id="enddate" style="width:200px" required name="title"/></td>
+     <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" placeholder=" mm/dd/yy" style="width:150px" required name="title"/>
+ <td ><b>End Date:</b></td><td><input type="text" name="enddate" id="enddate"  placeholder=" mm/dd/yy" style="width:150px" required name="title"/></td>
  
  
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-
-<!-- for date picker -->
-<script
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<!-- for date picker -->
-<script
-    src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<!-- for date picker -->
-
+ 
 </script>
 <script>
 $(document).ready(function() {
@@ -123,7 +123,7 @@ $(document).ready(function() {
 
 	 else {
 		
-	alert ("End Date must be latter than Start Date!");
+	alert ("End Date must be later than Start Date!");
 	$('#startdate').val("");
 	$('#enddate').val("");
 	$('#days').val("");

@@ -46,7 +46,7 @@ public class DeleteProjectType extends HttpServlet {
 			prpStat.executeUpdate();
 			RequestDispatcher rd=request.getRequestDispatcher("/Admin/DeleteProjectType.jsp");
 			rd.include(request, response);
-			out.println("<h4 style='color:red;margin-left:400px;margin-top:-40px;'>" +ProjectType+ " Deleted Successfully!</h4>");
+			out.println("<h4 style='color:red;margin-left:400px;margin-top:-20px;'>" +ProjectType+ " Deleted Successfully!</h4>");
 			
 			
 			con.close();

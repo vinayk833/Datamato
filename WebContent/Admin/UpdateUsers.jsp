@@ -67,7 +67,7 @@ $("#name").autocomplete("UserList.jsp");
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
-				session.setAttribute("Admin",name);
+				session.setAttribute("Admin",name +"   Admin");
 
 				out.print("Welcome " + name );
 			} else {

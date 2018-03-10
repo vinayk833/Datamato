@@ -51,7 +51,7 @@ public class DeleteTaskCategory extends HttpServlet {
 			prpStat.executeUpdate();
 			RequestDispatcher rd=request.getRequestDispatcher("/Admin/DeleteTaskCategory.jsp");
 			rd.include(request, response);
-			out.println("<h4 style='color:red;margin-left:400px;margin-top:-40px;'>" +taskCategory+ " Deleted Successfully!</h4>");
+			out.println("<h4 style='color:red;margin-left:400px;margin-top:-10px;'>" +taskCategory+ " Deleted Successfully!</h4>");
 			
 			
 			con.close();

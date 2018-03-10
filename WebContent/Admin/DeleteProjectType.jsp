@@ -67,7 +67,7 @@ body {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -129,7 +129,7 @@ body {
 						<br>
 						<br>
 					
-					<table border="1" bordercolor="#C0C0C0" align="centre" cellspacing="4" cellpadding="4" width="25%">
+					<table border="1" bordercolor="#C0C0C0" align="centre" cellspacing="4" cellpadding="4" width="30%">
 						<tr>
 							<td ><b>Project Type:<span class="required">*</span></b></td><td><select name="ProjectType" style="width:205px">
 							 <%  while(resultset.next()){ %>

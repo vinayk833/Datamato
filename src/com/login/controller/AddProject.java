@@ -77,6 +77,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
             System.out.println("Disconnected from database");
         } catch (Exception e) {
         e.printStackTrace();
+        
         RequestDispatcher rd=request.getRequestDispatcher("/Admin/AddProjects.jsp");
 		rd.include(request, response);
 		out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>" +ProjName+ " Already Exist</h4>");

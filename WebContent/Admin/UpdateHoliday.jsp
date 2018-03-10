@@ -7,9 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>UpdateHoliday</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AdminDashboard.css">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/><!-- for date picker -->   
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> <!-- for date picker --> 
-   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> <!-- for date picker --> 
+ 
+ <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
    <style type="text/css">
  input[type=button]{
     background-color:  #007BC0;
@@ -19,7 +20,7 @@
     background-color: #007BC0;
     color: white;
     }
-#datepicker
+#startdate
         {
           background:  url(https://i.imgur.com/u6upaAs.png) right no-repeat;
              padding-right: 10px;
@@ -35,30 +36,64 @@ body {
 }
 </style>
 
+
+
+
 <script type="text/javascript">
-       $(function() {
-               $("#datepicker").datepicker({ dateFormat: "mm/dd/yy" }).val()
-       });
-       function validate()
-       {
-       	 var  sdate = document.frm.date.value;
-       	 var sdateAr=sdate.split("/");
-       	if(document.frm.date.value=="")
-       	{
-       		
-       		alert("Please enter the date.");
-       		document.frm.date.focus();
-       		return false;
-       	}
-       	if(sdateAr.length!=3)
-       	{
-       		alert("Please enter valid Date in  mm/dd/yy format.");
-       		document.frm.date.value="";
-       		document.frm.date.focus();
-       		return false;
-       	}
+
+
+$(function() {
+	$("#startdate").datepicker({ dateFormat: "mm/dd/yy" }).val()
+});
+
+
+
+function validation2(){
+var start = $('#startdate').datepicker('getDate');
+
+ 	        if(start == null){
+ 	        	alert("Please Enter the Start Date")
+	            return false;
+ 	        }   
+ 	        else if(confirm("Are you sure you want to delete?"))  {
+ 	       	
+ 	       		return true;
+ 	        }else{
+ 	        	return false;
+ 	        }
+      
+	        	}
+  
+ 
+
+
+
+
+//////////////////////
+
+
+//      
        
-       }
+//        function validate()
+//        {
+//        	 var  sdate = document.frm.date.value;
+//        	 var sdateAr=sdate.split("/");
+//        	if(document.frm.date.value=="")
+//        	{
+       		
+//        		alert("Please enter the date.");
+//        		document.frm.date.focus();
+//        		return false;
+//        	}
+//        	if(sdateAr.length!=3)
+//        	{
+//        		alert("Please enter valid Date in  mm/dd/yy format.");
+//        		document.frm.date.value="";
+//        		document.frm.date.focus();
+//        		return false;
+//        	}
+       
+//        }
       
    </script>
 </head>
@@ -73,7 +108,7 @@ body {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -129,10 +164,33 @@ body {
  <div style="padding:1px 16px;height:100%;margin-top:50px;">
 <center>
 <article>
-<label style="font-size:20px;align:left"><b>Select Date:</b></label>&nbsp;&nbsp;<input type="text" name="date" id="datepicker"   style="width:100px"; />&nbsp;&nbsp;&nbsp;&nbsp;
+
+<label style="font-size:20px;align:left"><b>Select Date:</b></label>&nbsp;&nbsp;<input type="text" name="date" id="startdate" placeholder=" mm/dd/yy"  style="width:100px"; />&nbsp;&nbsp;&nbsp;&nbsp;
+
+
 <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/UpdateHoliday';" />&nbsp;&nbsp;
-<input type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DeleteHoliday';if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DeleteHoliday'}else { return false; };"/></span>
+
+
+
+<input type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick=" if( validation2(this)){form.action='<%=request.getContextPath()%>/DeleteHoliday' }else {return false;} " /></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br><br><br><br>
+
+
+
 <table align="center" cellpadding="6" cellspacing="6" width="50%" border="1">
 <tr>
 </tr>

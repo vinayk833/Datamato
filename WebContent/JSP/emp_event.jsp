@@ -302,39 +302,45 @@ function toggle(source) {
 	 }
   //  newvalidation /////////////////////////////
   
-      function validate() {
+//       function validate() {
       
-        if (document.frm.hours.value == "")  {
-            alert("Please Enter Hours.");
-            document.frm.Description.focus();
-            return false;
-        }
-        if (document.frm.TaskCat.value == "")  {
-            alert("Please Enter Task Category.");
-            document.frm.Description.focus();
-            return false;
-        }
+//         if (document.frm.hours.value == "")  {
+//             alert("Please Enter Hours.");
+//             document.frm.Description.focus();
+//             return false;
+//         }
+//         if (document.frm.TaskCat.value == "")  {
+//             alert("Please Enter Task Category.");
+//             document.frm.Description.focus();
+//             return false;
+//         }
         
         
-        var e = document.getElementById("selectBox");
-        var strUser = e.options[e.selectedIndex].value;
+//         var e = document.getElementById("selectBox");
+//         var strUser = e.options[e.selectedIndex].value;
 
-        var strUser1 = e.options[e.selectedIndex].text;
-        if(strUser==0)
-        {
-            alert("Please select Project name");
-            return false;
-        }
+//         var strUser1 = e.options[e.selectedIndex].text;
+//         if(strUser==0)
+//         {
+//             alert("Please select Project name");
+//             return false;
+//         }
 
          
-         return true;
-        }
+//          return true;
+//         }
       function validation2(){
     	     var x = document.getElementById("v1").value;
     	        if (x<8) {
     	            alert ('Total hours must be more than 8 Hours');
     	            return false;
     	        }
+    	        else if(x=="null"){
+    	        	
+    	        	alert ('Please Select date and Display Record then click on Submit');
+    	            return false;
+    	        }
+    	           
     	           
     	  
     	        return true;
@@ -354,7 +360,7 @@ function toggle(source) {
 				String name = (String) session.getAttribute("User");
 				session.setAttribute("User",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name +"   User");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}

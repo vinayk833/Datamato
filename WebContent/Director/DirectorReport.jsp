@@ -18,6 +18,19 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AdminDashboard.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/DatePicker.css">
+
+<!--  for Datepicker -->
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+<script>
+  $(function() {
+    $( "#startdate" ).datepicker();
+    $( "#enddate" ).datepicker();
+
+  });
+  </script>
+
 <style type="text/css">
 #startdate
         {
@@ -1814,7 +1827,7 @@
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+"   Director" );
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}
@@ -1906,8 +1919,8 @@
     </table>
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
-      <tr><td ><b>Start Date:</b></td><td><input type="date" id="startdate" style="width:200px" required name="title"/>
- <td ><b>End Date:</b></td><td><input type="date" id="enddate" style="width:200px" required name="title"/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" placeholder="mm/dd/yy" style="width:200px" required name="title"/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate"  placeholder="mm/dd/yy" style="width:200px" required name="title"/></td>
   
     <td colspan=1 align="center">
  

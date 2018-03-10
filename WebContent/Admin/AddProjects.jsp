@@ -12,6 +12,11 @@
  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/> 
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> 
    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+   <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+   
 
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/JSFormValidation.css">
     
@@ -119,7 +124,7 @@
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name + "   Admin");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -236,12 +241,6 @@
     </select></td></tr>
       <tr bordercolor=" #C0C0C0"><td ><b>Planned Start Date:<span class="required">*</span></b></td><td><input type="text" name="StartDate" id="startdate"  style="width:190px"  required name="title";/>
  <tr bordercolor=" #C0C0C0"> <td><b>Planned End Date:<span class="required">*</span></b></td><td><input type="text" name="EndDate" id="enddate"  style="width:190px"  required name="title";/>
-<script>
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<!-- for date picker -->
-<script>
-    src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<!-- for date picker -->
 <script>
 $(document).ready(function() {
 
