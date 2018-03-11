@@ -1,6 +1,7 @@
 package com.login.controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -39,7 +40,17 @@ public class ApprovalChecker extends HttpServlet {
 		
 		String approvalStatus = request.getParameter("approval");
 		String employeeId = request.getParameter("empid");
-		int empID = Integer.parseInt(employeeId);
+		BigInteger bi=null;
+		  String bigInt=null;
+		  try{
+			  bi = new BigInteger(employeeId);
+			  System.out.println(bi);
+			  bigInt=bi.toString();
+			  System.out.println(bigInt);
+		  }catch(Exception e){
+			  System.out.println("Error in converting String to BIG INT");
+		  }
+		//int empID = Integer.parseInt(employeeId);
 		String date = request.getParameter("date");
 		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,7 +63,7 @@ public class ApprovalChecker extends HttpServlet {
 			}
 		//String employeeId = request.getParameter("empid");
 		System.out.println(approvalStatus);
-		System.out.println(employeeId);
+		System.out.println(bigInt);
 		
 		if(approvalStatus.equalsIgnoreCase("yes")){
 			try {
@@ -60,7 +71,7 @@ public class ApprovalChecker extends HttpServlet {
 				con = DBConnection.createConnection();
 				System.out.println("connected!.....");
 				
-				String query = "UPDATE task SET approval='yes' WHERE EmployeeID="+ empID + " AND " + "date='" +reformattedStr+"'";
+				String query = "UPDATE task SET approval='yes' WHERE EmployeeID="+ bigInt + " AND " + "date='" +reformattedStr+"'";
 				System.out.println(query);
 				Statement stmt = null;
 				stmt = con.createStatement();
@@ -76,7 +87,7 @@ public class ApprovalChecker extends HttpServlet {
 				con = DBConnection.createConnection();
 				System.out.println("connected!.....");
 				
-				String query = "UPDATE task SET approval='no' WHERE EmployeeID="+ empID + " AND " + "date='" +reformattedStr+"'";
+				String query = "UPDATE task SET approval='no' WHERE EmployeeID="+ bigInt + " AND " + "date='" +reformattedStr+"'";
 				System.out.println(query);
 				Statement stmt = null;
 				stmt = con.createStatement();
