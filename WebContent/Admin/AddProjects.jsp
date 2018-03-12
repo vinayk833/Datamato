@@ -224,7 +224,7 @@
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
         Statement statement = con.createStatement() ;
-        resultset =statement.executeQuery("select EmployeeName from users where role='Product Manager';") ;
+        resultset =statement.executeQuery("select EmployeeName from users") ;
 %>
    <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>

@@ -16,21 +16,46 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<link rel="stylesheet"
-    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+<!--  for datepicker -->
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
 
 <SCRIPT language="javascript">
 
- 
+$(document).ready(
+        function() {
+            $("#picker").datepicker({
+                maxDate : "0",
+                changeMonth : true,
+                changeYear : true,
+                firstDay : 1,
+                dateFormat : 'yy-mm-dd',
+               
+            })
+        });
+  
+
+function IsEmpty(){ 
+    if(document.form.date.value == "")
+    {
+      alert("Please select date");
+      return false;     
+    }else{
+    	/* var acc = document.getElementsById("picker").value;
+    	alert(acc); */
+    	 return true;
+    }
+}
+
 //Check all checkboxes
 function toggle(source) {
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -54,6 +79,8 @@ function toggle(source) {
 } 
 
 
+
+
   </SCRIPT>
 <style type="text/css">
 	
@@ -68,6 +95,13 @@ function toggle(source) {
 body {
   font-family: Calibri; 
 } 
+#picker
+        {
+            background:  url(https://i.imgur.com/u6upaAs.png) right no-repeat;
+             background-repeat: no-repeat;
+             padding-right: 10px;
+            }
+
 h1{
 	font-family: Calibri; 
 	color: #106E9B;
@@ -111,6 +145,9 @@ h1{
 <article>
  <br>
     <form name="form" id="formtestdir" method="post">
+    <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="picker" name="date" />
+          <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayDirectorApproval'}else{return false};" /><br><br> 
+ 
  <table align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
 <tr>
 </tr><br>

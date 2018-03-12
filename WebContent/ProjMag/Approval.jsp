@@ -14,23 +14,47 @@
 
 <script src='http://code.jquery.com/jquery.min.js'></script>
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
-
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<link rel="stylesheet"
-    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<!--  for datepicker -->
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
 
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <SCRIPT language="javascript">
  
+//date picker 
+$(document).ready(
+        function() {
+            $("#picker").datepicker({
+                maxDate : "0",
+                changeMonth : true,
+                changeYear : true,
+                firstDay : 1,
+                dateFormat : 'yy-mm-dd', 
+            })    
+        });
+        
+//check if date is selected        
+function IsEmpty(){ 
+
+    if(document.form.date.value == "")
+    {
+      alert("Please select date");
+      return false;     
+    }else{
+    	/* var acc = document.getElementsById("picker").value;
+    	alert(acc); */
+    	 return true;
+    }
+   
+}
+
 //Check all checkboxes
 function toggle(source) {
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -67,11 +91,19 @@ function toggle(source) {
 body {
   font-family: Calibri; 
 } 
+
+#picker
+{
+   background:  url(https://i.imgur.com/u6upaAs.png) right no-repeat;
+   background-repeat: no-repeat;
+   padding-right: 10px;
+}
+
 h1{
 	font-family: Calibri; 
 	color: #106E9B;
-	}
-	</style>
+}
+</style>
 </head>
 <body>
 <div class="container">
@@ -109,6 +141,8 @@ h1{
 <article>
  <br>
     <form name="form" id="formtest"  method="post">
+    <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="picker" name="date"/>
+          <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onClick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayApproval'}else{return false};" /><br><br>
  <table id="table" align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
 <tr>
 </tr><br>
@@ -126,9 +160,7 @@ h1{
 							<td><b>Task Description</b></td>
 							<td><b>hours</b></td>
 							<td><b>Approved</b></td>
-							
-
-						</tr>
+						    </tr>
             <%
                 int count = 0;
                 String color = "#F9EBB3";
@@ -137,14 +169,13 @@ h1{
                     System.out.println(al);
                     Iterator itr = al.iterator();
                     while (itr.hasNext()) {
-
                         if ((count % 2) == 0) {
                             color = "#eeffee";
                         }
                         count++;
                         ArrayList pList = (ArrayList) itr.next();
             %>
-            
+    
              <tr style="background-color:<%=color%>;">
                 <td><input type="checkbox" name="list" value="<%=pList.get(0)%>"></td>
                 <td><%=pList.get(0)%></td>
@@ -155,9 +186,9 @@ h1{
                 <td><%=pList.get(5)%></td>
                 <td><%=pList.get(6)%></td>
                 <td><%=pList.get(7)%></td>
-                 <td><%=pList.get(8)%></td>
-                 <td><%=pList.get(9)%></td>
-                 </tr>
+                <td><%=pList.get(8)%></td>
+                <td><%=pList.get(9)%></td>
+                </tr>
                
             <%
                     }
