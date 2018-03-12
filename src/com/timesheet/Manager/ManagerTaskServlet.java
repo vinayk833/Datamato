@@ -56,10 +56,11 @@ public class ManagerTaskServlet extends HttpServlet {
 	            	 
 	                 String date_json = res.getString("date");
 	                 String sum_json = "Hours:" + res.getString("hours");
-	                 
+	                 String msg = "Project Name:" + res.getString("ProjName") + "Task category:" + res.getString("TaskCat") + "Description:" +res.getString("description");
 	                 
 	                 jObj.put("title", sum_json);
 	                 jObj.put("date", date_json);
+	                 jObj.put("msg", msg);
 	                 
 	                 array.put(jObj);
 	                 //System.out.println("print object");              
