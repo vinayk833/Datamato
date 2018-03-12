@@ -1,6 +1,7 @@
 package com.timesheet.Director;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,6 +46,16 @@ public class DirectorAddTask extends HttpServlet {
 		int status = 0;
 		PrintWriter out = response.getWriter();
 		String employeeID  = (String) request.getSession().getAttribute("Director");
+		BigInteger bi=null;
+		  String bigInt=null;
+		  try{
+			  bi = new BigInteger(employeeID);
+			  System.out.println(bi);
+			  bigInt=bi.toString();
+			  System.out.println(bigInt);
+		  }catch(Exception e){
+			  System.out.println("Error in converting String to BIG INT");
+		  }
 		String date  = request.getParameter("date");
 		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -108,7 +119,7 @@ public class DirectorAddTask extends HttpServlet {
 					PreparedStatement preparedStatement = (PreparedStatement) dbconnection.prepareStatement(insertQuery);
 
 					//Passing parameters for Prepared Statement
-					preparedStatement.setString(1,employeeID);
+					preparedStatement.setString(1,bigInt);
 					preparedStatement.setString(2,reformattedStr);
 					preparedStatement.setString(3,checkProjName.get(projectName[i]));
 					preparedStatement.setString(4,projectID[i]);

@@ -212,7 +212,7 @@ function validate() {
  <%
                    Statement statement = con.createStatement() ;
 
-                	resultset =statement.executeQuery("select distinct role from users") ;
+                	resultset =statement.executeQuery("select distinct role from addrole") ;
       while(resultset.next()){ %>
             <option ><%= resultset.getString(1)%></option>
           

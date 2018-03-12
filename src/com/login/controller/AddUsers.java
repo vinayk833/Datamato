@@ -2,11 +2,9 @@ package com.login.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +35,16 @@ public class AddUsers extends HttpServlet {
 		  String Role = request.getParameter("ROLE");
 		  String Department = request.getParameter("Department");
 		  String Approver = request.getParameter("Approver");
+		  BigInteger bi=null;
+		  String bigInt=null;
+		  try{
+			  bi = new BigInteger(EmployeeID);
+			  System.out.println(bi);
+			  bigInt=bi.toString();
+			  System.out.println(bigInt);
+		  }catch(Exception e){
+			  System.out.println("Error in converting String to BIG INT");
+		  }
 		  if (EmployeeID.isEmpty()|| EmployeeName.isEmpty() || Email.isEmpty() ||Password.isEmpty() || Role.isEmpty() || Department.isEmpty()|| Approver.isEmpty()) {
 			   RequestDispatcher rd = request.getRequestDispatcher("/Admin/AddUsers.jsp");
 			 //  out.println("<font color=red>Please fill all the fields</font>");
@@ -48,7 +56,7 @@ public class AddUsers extends HttpServlet {
            con = DBConnection.createConnection();
                String query = "insert into users values(?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(query); // generates sql query
-           ps.setString(1, EmployeeID);
+           ps.setString(1, bigInt);
            ps.setString(2,EmployeeName);
            ps.setString(3,Email);
            ps.setString(4, Password);

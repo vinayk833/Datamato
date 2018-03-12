@@ -1,6 +1,8 @@
 package com.login.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -9,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.mail.Message;
-
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -30,7 +31,8 @@ import com.login.util.DBConnection;
 @WebServlet("/SendMailApproval")
 public class SendMailApproval extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+	BigInteger bi=null;
+	  String bigInt=null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -52,7 +54,7 @@ public class SendMailApproval extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		PrintWriter out = response.getWriter();
 
 		try {
 
@@ -60,6 +62,15 @@ public class SendMailApproval extends HttpServlet {
 			con = DBConnection.createConnection();
 			System.out.println("connected!.....");
 			String employeeID  = (String) request.getSession().getAttribute("Admin");
+		
+			  try{
+				  bi = new BigInteger(employeeID);
+				  System.out.println(bi);
+				  bigInt=bi.toString();
+				  System.out.println(bigInt);
+			  }catch(Exception e){
+				  System.out.println("Error in converting String to BIG INT");
+			  }
 			String date = request.getParameter("date");
 			//String employeeID = request;
 			System.out.println(employeeID);
@@ -80,7 +91,7 @@ public class SendMailApproval extends HttpServlet {
 			
 			Statement stt = con.createStatement();
 
-			String squery = "select EMAIL from users where EmployeeName =(select Approver from users where EmployeeID='"+ employeeID+"')";
+			String squery = "select EMAIL from users where EmployeeName =(select Approver from users where EmployeeID='"+ bigInt+"')";
 
 			ResultSet res = stt.executeQuery(squery);
 			
@@ -91,7 +102,7 @@ public class SendMailApproval extends HttpServlet {
 			}
 			
 			String query = "select date,ProjName,proid,TaskCat,description,hours from task "
-					+ "where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "' ";
+					+ "where date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
 			System.out.println("query " + query);
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
@@ -101,8 +112,8 @@ public class SendMailApproval extends HttpServlet {
 			}*/
 
 			sendMail(rs,employeeID,emailid,date,request);
-			
 			request.getRequestDispatcher("/Admin/AddTask.jsp").forward(request, response);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -114,12 +125,19 @@ public class SendMailApproval extends HttpServlet {
 		String to = emailid;
 		//String cc = "priyanka.jogdand@datamato.com";
 
-		String from = Constants.setFrom;
+		/*String from = Constants.setFrom;
 		final String username = Constants.setFrom;//change accordingly
 		final String password =  Constants.setPassword;//change accordingly
 
 		// Assuming you are sending email through relay.jangosmtp.net
-		String host = Constants.mailhost;
+		String host = Constants.mailhost;*/
+		String from = "mathew.flicker123@gmail.com";
+		final String username = "mathewflicker123@gmail.com";//change accordingly
+		final String password = "flicker12345";//change accordingly
+
+		// Assuming you are sending email through relay.jangosmtp.net
+		String host = "smtp.gmail.com";
+
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -168,7 +186,7 @@ public class SendMailApproval extends HttpServlet {
               		".button-success:hover {opacity: 1}  .button-danger:hover {opacity: 1}\r\n" + 
               		"</style></head><body><h2>Daily Report</h2>\r\n" +
 
-              		"<h2>Employee ID: "+ employeeID +"</h2>"+
+              		"<h2>Employee ID: "+ bigInt +"</h2>"+
               		"<table><tr><th>Date</th><th>Poject Name</th><th>Project ID</th><th>Task Category</th><th>Descrption</th><th>Hours</th></tr>\r\n";
               		
               		while(rs.next()) {
@@ -176,8 +194,8 @@ public class SendMailApproval extends HttpServlet {
 
               		}
               
-              		textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+employeeID+"&date="+date+"\">APPROVE </a>\r\n" + 
-              		" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+"\">REJECT</a></center></body></html>";
+              		textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+bigInt+"&date="+date+"\">APPROVE </a>\r\n" + 
+              		" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+bigInt+"&date="+date+"\">REJECT</a></center></body></html>";
               		
               		/*textbody +="</table><center><a href="+ baseUrl + "/ApprovalChecker?approval=yes&empid="+ employeeID +"&date="+date+""><input type="button" value="Update" class="button-success" /></a>" +
                     "<a href="+baseUrl+"/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+><input type="button" value="Update" class="button-danger" /></a>";
@@ -188,9 +206,9 @@ public class SendMailApproval extends HttpServlet {
 
 			// Send message
 			Transport.send(message);
-
+			
 			System.out.println("Sent message successfully....");
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			
