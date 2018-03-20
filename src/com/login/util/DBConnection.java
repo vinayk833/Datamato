@@ -8,9 +8,9 @@ public static Connection createConnection()
 {
 	
 Connection con = null;
-String url = Constants.ConnectionString;
-String username = Constants.DBUSER;
-String password = Constants.DBPASSWORD;
+String url = "jdbc:mysql://localhost:3306/customers";
+String username = "root";
+String password = "root";
 String ConnectionDriver =Constants.CONNECTIONDRIVER;
 //String password = "root";
 try
