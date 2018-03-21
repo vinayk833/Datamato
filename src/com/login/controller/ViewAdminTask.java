@@ -3,10 +3,10 @@ package com.login.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-
 import java.sql.ResultSet;
-
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -51,17 +51,33 @@ public class ViewAdminTask extends HttpServlet {
         	 String EmployeeName = request.getParameter("EmpName");
              String startDate = request.getParameter("startdate");
              String endDate = request.getParameter("enddate");
+             
+             System.out.println("MySQL Connect Example.");
+      		
+     		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+     			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+     			String reformattedStr1 = null;
+     			String reformattedStr2 = null;
+
+    			
+    			
+				
+    			try {
+
+    			    reformattedStr1 = myFormat.format(fromUser.parse(startDate));
+    			    reformattedStr2 = myFormat.format(fromUser.parse(endDate));
+    			    
+    			    System.out.println( reformattedStr1);
+    			    System.out.println( reformattedStr2);
+
+    			} catch (ParseException e) {
+    			    e.printStackTrace();
+    			}
            
              ArrayList al = null;
              ArrayList pid_list = new ArrayList();
-            
-          /*  String query = "select EmployeeID,date,ProjName,proid,TaskCat,description,sum from task;";
-             if((startDate!=null && !startDate.equals(""))||(endDate!=null && !endDate.equals(""))){
-          
-             query = "SELECT EmployeeID,date,ProjName,proid,TaskCat,description,sum FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
-               + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
-             } */ 
-          String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
+         
+          String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" +  reformattedStr1 +"'" + " AND " + "'"+  reformattedStr2 + "'" + " AND " 
                   + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
              System.out.println("query " + query);
              st = con.createStatement();
