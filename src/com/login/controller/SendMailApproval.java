@@ -62,7 +62,13 @@ public class SendMailApproval extends HttpServlet {
 			con = DBConnection.createConnection();
 			System.out.println("connected!.....");
 			String employeeID  = (String) request.getSession().getAttribute("Admin");
-		
+			
+			Statement statement = con.createStatement();
+			ResultSet r = statement.executeQuery("Select EmployeeName from users where EmployeeID ='"+ employeeID+"'");
+			String employeeName = null;
+			while(r.next()) {
+				employeeName = r.getString("EmployeeName");
+			}
 			  try{
 				  bi = new BigInteger(employeeID);
 				  System.out.println(bi);
@@ -111,7 +117,7 @@ public class SendMailApproval extends HttpServlet {
 						rs.getString(5) + "/" + rs.getString(6));
 			}*/
 
-			sendMail(rs,employeeID,emailid,date,request);
+			sendMail(rs,employeeName,emailid,date,request);
 			request.getRequestDispatcher("/Admin/AddTask.jsp").forward(request, response);
 			
 		} catch (Exception e) {
@@ -119,24 +125,24 @@ public class SendMailApproval extends HttpServlet {
 		}
 	}
 
-	private void sendMail(ResultSet rs, String employeeID, String emailid,
+	private void sendMail(ResultSet rs, String employeeName, String emailid,
 			String date, HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		String to = emailid;
 		//String cc = "priyanka.jogdand@datamato.com";
 
-		/*String from = Constants.setFrom;
+		String from = Constants.setFrom;
 		final String username = Constants.setFrom;//change accordingly
 		final String password =  Constants.setPassword;//change accordingly
 
 		// Assuming you are sending email through relay.jangosmtp.net
-		String host = Constants.mailhost;*/
-		String from = "mathew.flicker123@gmail.com";
+		String host = Constants.mailhost;
+		/*String from = "mathew.flicker123@gmail.com";
 		final String username = "mathewflicker123@gmail.com";//change accordingly
 		final String password = "flicker12345";//change accordingly
 
 		// Assuming you are sending email through relay.jangosmtp.net
-		String host = "smtp.gmail.com";
+		String host = "smtp.gmail.com";*/
 
 
 		Properties props = new Properties();
@@ -186,7 +192,7 @@ public class SendMailApproval extends HttpServlet {
               		".button-success:hover {opacity: 1}  .button-danger:hover {opacity: 1}\r\n" + 
               		"</style></head><body><h2>Daily Report</h2>\r\n" +
 
-              		"<h2>Employee ID: "+ bigInt +"</h2>"+
+              		"<h2>Employee Name: "+ employeeName +"</h2>"+
               		"<table><tr><th>Date</th><th>Poject Name</th><th>Project ID</th><th>Task Category</th><th>Descrption</th><th>Hours</th></tr>\r\n";
               		
               		while(rs.next()) {

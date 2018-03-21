@@ -57,6 +57,13 @@ public class UserSendMailApproval extends HttpServlet {
 			con = DBConnection.createConnection();
 			System.out.println("connected!.....");
 			String employeeID  = (String) request.getSession().getAttribute("User");
+			
+			Statement statement = con.createStatement();
+			ResultSet r = statement.executeQuery("Select EmployeeName from users where EmployeeID ='"+ employeeID+"'");
+			String employeeName = null;
+			while(r.next()) {
+				employeeName = r.getString("EmployeeName");
+			}
 			try{
 				  bi = new BigInteger(employeeID);
 				  System.out.println(bi);
@@ -105,7 +112,7 @@ public class UserSendMailApproval extends HttpServlet {
 						rs.getString(5) + "/" + rs.getString(6));
 			}*/
 
-			sendMail(rs,employeeID,emailid,date,request);
+			sendMail(rs,employeeName,emailid,date,request);
 			
 			request.getRequestDispatcher("/JSP/emp_event.jsp").forward(request, response);
 		} catch (Exception e) {
@@ -113,7 +120,7 @@ public class UserSendMailApproval extends HttpServlet {
 		}
 	}
 
-	private void sendMail(ResultSet rs, String employeeID, String emailid,
+	private void sendMail(ResultSet rs, String employeeName, String emailid,
 			String date, HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		String to = emailid;
@@ -174,7 +181,7 @@ public class UserSendMailApproval extends HttpServlet {
               		".button-success:hover {opacity: 1}  .button-danger:hover {opacity: 1}\r\n" + 
 
               		"</style></head><body><h2>Daily Report</h2>\r\n" +
-              		"<h2>Employee ID: "+ bigInt +"</h2>"+
+              		"<h2>Employee Name: "+ employeeName +"</h2>"+
               		"<table><tr><th>Date</th><th>Poject Name</th><th>Project ID</th><th>Task Category</th><th>Descrption</th><th>Hours</th></tr>\r\n";
               		
 					while(rs.next()) {
