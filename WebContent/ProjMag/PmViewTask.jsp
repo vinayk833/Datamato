@@ -15,11 +15,36 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.4.2.min.js"></script><!-- search textbox -->
 <script src="${pageContext.request.contextPath}/js/jquery.autocomplete.js"></script><!-- search textbox -->
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+  
 <script>
+  
+$.noConflict();
 jQuery(function(){
-$("#name").autocomplete("ManagerUserList.jsp");
-});
+	
+	
+	
+	$('#name').focusin(function() {
+		$("#name").autocomplete("ManagerUserList.jsp");
+		});
+			}
+				
+		
+		);
+  // Code that uses jQuery's $ can follow here.
+jQuery( document ).ready(function( $ ) {
+  // Code that uses jQuery's $ can follow here.
+
+    $("#startdate").datepicker();
+    $("#enddate").datepicker();
+
+  });
+// Code that uses other library's $ can follow here.
 </script>
+  
 <style type="text/css">
 	 input[type=button]{
     background-color:  #007BC0;
@@ -125,8 +150,8 @@ $("#name").autocomplete("ManagerUserList.jsp");
     <table border="1" cellspacing="4" cellpadding="4" width="50%" align="center">
     <tr> <input id="name" type="text" name="EmpName" class="search" placeholder="Search Employee name"  onkeyup="showState(this.value)" required name="title"></tr>
 <br><br><br><br>
-<tr><td style="width:100px"><b>Start Date:</b></td><td style="width:100px"><input type="date" name="startdate" id="startdate" style="width:150px" required name="title";/>
- <td style="width:100px" ><b>End Date:</b></td><td style="width:100px"><input type="date" name="enddate" id="enddate" style="width:150px" required name="title";/></td>
+<tr><td style="width:100px"><b>Start Date:</b></td><td style="width:100px"><input type="text" name="startdate" id="startdate" placeholder=" mm/dd/yy" style="width:150px" required name="title";/>
+ <td style="width:100px" ><b>End Date:</b></td><td style="width:100px"><input type="text" name="enddate" id="enddate"  placeholder=" mm/dd/yy" style="width:150px" required name="title";/></td>
  
 
 <td border="0" align="center"><span><input  type="submit" name="show" value="View" onclick="form.action='<%=request.getContextPath()%>/ViewManagerTask';"></span></td>

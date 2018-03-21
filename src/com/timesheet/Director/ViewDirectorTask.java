@@ -2,9 +2,9 @@ package com.timesheet.Director;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-
 import java.sql.ResultSet;
-
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -50,14 +50,35 @@ public class ViewDirectorTask extends HttpServlet {
         	 String EmployeeName = request.getParameter("EmpName");
              String startDate = request.getParameter("startdate");
              String endDate = request.getParameter("enddate");
+             System.out.println("MySQL Connect Example.");
+       		
+     		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+     			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+     			String reformattedStr1 = null;
+     			String reformattedStr2 = null;
+
+    			
+    			
+				
+    			try {
+
+    			    reformattedStr1 = myFormat.format(fromUser.parse(startDate));
+    			    reformattedStr2 = myFormat.format(fromUser.parse(endDate));
+    			    
+    			    System.out.println( reformattedStr1);
+    			    System.out.println( reformattedStr2);
+
+    			} catch (ParseException e) {
+    			    e.printStackTrace();
+    			}
            
              ArrayList al = null;
              ArrayList pid_list = new ArrayList();
             
            String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours from task;";
-             if((startDate!=null && !startDate.equals(""))||(endDate!=null && !endDate.equals(""))){
+             if(( reformattedStr1!=null && ! reformattedStr1.equals(""))||( reformattedStr2!=null && !reformattedStr2.equals(""))){
           
-             query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
+             query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
                   + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
              } 
         /*  String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
