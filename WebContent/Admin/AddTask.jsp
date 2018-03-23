@@ -300,7 +300,7 @@ function toggle(source) {
 	 var day = date.getDate();
 	 var year = date.getFullYear();
 
-	 if (document.getElementById('startdate').value == ''){
+	 if (document.getElementById('startdate').value == null){
 	// document.getElementById('startdate').value = day + '-' + month + '-' + year;
 		 document.getElementById('startdate').value = month + '/' + day + '/' + year;
 	 }
@@ -391,7 +391,7 @@ function toggle(source) {
 </ul>
 </div>
             <div  style="  height: 100%; margin-top: 30px;">
-           <span  value='<%=AdminDisplayTask.mydate%>' style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" name="date" required name="title"/>
+           <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" value="<%=request.getAttribute("date")%>" name="date" required name="title"/>
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminDisplayTask';" /></span> 
            
            
@@ -407,11 +407,11 @@ function toggle(source) {
                                             firstDay : 1,
                                             dateFormat : 'mm/dd/yy',
                                         })
-                                        $("#startdate").datepicker({
-                                            dateFormat : 'mm/dd/yy'
-                                        });
-                                        var start = $('#startdate').datepicker(
-                                                'getDate');
+                                        var x=document.getElementById("startdate").value;
+                                        //alert(x);
+                                        if(x == "null"){
+                                        	$( "#startdate" ).datepicker( "setDate", new Date());	
+                                        } 
                                     });
                         </script>
                 <center>
@@ -527,6 +527,7 @@ function toggle(source) {
                         }
                         count++;
                         ArrayList pList = (ArrayList) itr.next();
+                        
             %>
             <tr style="background-color:<%=color%>;">
              <td><%=pList.get(0)%></td>

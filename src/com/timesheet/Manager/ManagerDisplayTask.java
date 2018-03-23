@@ -72,7 +72,7 @@ public class ManagerDisplayTask extends HttpServlet {
 				} catch (ParseException e) {
 				    e.printStackTrace();
 				}
-           request.setAttribute(date, "date");
+				request.setAttribute("date",date);
            System.out.println(date);
           
            ArrayList al = null;
