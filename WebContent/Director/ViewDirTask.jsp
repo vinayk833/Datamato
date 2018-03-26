@@ -31,7 +31,13 @@ jQuery(function(){
 	
 	
 	$('#name').focusin(function() {
-		$("#name").autocomplete("DirectorUserList.jsp");
+		var getUrl = window.location;
+		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1]+"/"+"Director"+"/"+"DirectorUserList.jsp";
+		//alert(baseUrl);
+		
+		$("#name").autocomplete(baseUrl);
+		//alert(baseUrl);
+		
 		});
 			}
 				
