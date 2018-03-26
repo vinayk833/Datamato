@@ -19,7 +19,13 @@
 <script src="${pageContext.request.contextPath}/js/jquery.autocomplete.js"></script><!-- search textbox -->
 <script>
 jQuery(function(){
-$("#name").autocomplete("ProjectList.jsp");
+	var getUrl = window.location;
+	var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1]+"/"+"Admin"+"/"+"ProjectList.jsp";
+	$("#name").autocomplete(baseUrl);	
+	
+	
+	
+//$("#name").autocomplete("ProjectList.jsp");
 });
 </script>
 

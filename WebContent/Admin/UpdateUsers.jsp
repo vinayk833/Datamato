@@ -20,8 +20,13 @@
 <script src="${pageContext.request.contextPath}/js/jquery.autocomplete.js"></script><!-- search textbox -->
 <script>
 jQuery(function(){
-$("#name").autocomplete("UserList.jsp");
-});
+	// $("#name").autocomplete("http://localhost:9444/TimeSheet/Admin/UserList.jsp");
+	var getUrl = window.location;
+	var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1]+"/"+"Admin"+"/"+"UserList.jsp";
+	$("#name").autocomplete(baseUrl);		
+			});
+	  // Code that uses jQuery's $ can follow here.
+
 
 
 </script>
@@ -67,15 +72,16 @@ $("#name").autocomplete("UserList.jsp");
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
-				session.setAttribute("Admin",name +"   Admin");
+				session.setAttribute("Admin",name);
 
-				out.print("Welcome " + name );
+				out.print("Welcome " + name+"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
 	%></user>
   </header>
-  <div class="HorizontalNav">
+  
+ <div class="HorizontalNav">
 <ul>
 <li><a class="active" href="${pageContext.request.contextPath}/AdminDashboard">Home</a></li>
   <li class="dropdown">
@@ -121,8 +127,7 @@ $("#name").autocomplete("UserList.jsp");
      
        <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
-</div>
- <div style="align:center;height:100%;">
+</div><div style="align:center;height:100%;">
 <center>
 <article>
 <h2>Employees</h2>

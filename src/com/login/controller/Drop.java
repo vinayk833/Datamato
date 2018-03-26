@@ -3,14 +3,12 @@ package com.login.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,15 +23,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import com.login.util.DBConnection;
+
 import java.util.*;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
  
 @WebServlet("/Drop")
@@ -69,11 +70,29 @@ public class Drop extends HttpServlet {
           String home = System.getProperty("user.home");
   		  File excelpath = new File(home+"/Downloads/" +Ref+".xls"); 
 
-  		  String startdate = request.getParameter("startdate");
-  		  String enddate = request.getParameter("enddate");
-  		  System.out.println(startdate);
-  		  System.out.println(enddate);
-  	
+  		 String startDate = request.getParameter("startdate");
+         String endDate = request.getParameter("enddate");
+         
+  		   System.out.println(startDate);
+  		  System.out.println(endDate);
+  		  System.out.println("MySQL Connect Example.");
+    		
+  		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String reformattedStr1 = null;
+			String reformattedStr2 = null;
+
+	try {
+
+		    reformattedStr1 = myFormat.format(fromUser.parse(startDate));
+		    reformattedStr2 = myFormat.format(fromUser.parse(endDate));
+		    
+		    System.out.println( reformattedStr1);
+		    System.out.println( reformattedStr2);
+
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
  		
 
             String duplicate = null;
@@ -101,7 +120,7 @@ public class Drop extends HttpServlet {
                   String query3 ="SELECT distinct myproject.ProjName,myproject.ID,myproject.CustomerName,myproject.StartDate,myproject.EndDate,sum(task.hours)hours FROM customers.myproject  INNER JOIN customers.task ON myproject.ProjName=task.ProjName ";
                   
                   //String option = request.getParameter("opts");
-                  String name = request.getParameter("optsname");
+                  String name = request.getParameter("opts");
                   String sessionId  = (String) request.getSession().getAttribute("Admin");
                   //System.out.println("value "+option);
                   System.out.println("name="+ name);
@@ -126,7 +145,7 @@ public class Drop extends HttpServlet {
                             }
                            
                             if(i==dropdownValues.length-1){
-                                  query1 = query1 + " AND task.date BETWEEN '"+ startdate +"' AND '" + enddate + "' group by TaskCat,date";
+                                  query1 = query1 + " AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "' group by TaskCat,date";
                             }
                            
                       }
@@ -145,7 +164,7 @@ public class Drop extends HttpServlet {
                                         query2 = query2 + " OR EmployeeName='" + dropdownValues1[i] +"'";
                                   }
                                   if(i==dropdownValues1.length-1){
-                                        query2 = query2 + " AND task.date BETWEEN '"+ startdate +"' AND '" + enddate + "' group by TaskCat,date";
+                                        query2 = query2 + " AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "' group by TaskCat,date";
                                   }
                             }
                             System.out.println(query2);
@@ -164,7 +183,7 @@ public class Drop extends HttpServlet {
                                         query3 = query3 + " OR CustomerName='" + dropdownValues2[i] +"'";
                                   }
                                   if(i==dropdownValues2.length-1){
-                                        query3 = query3 + " AND task.date BETWEEN '"+ startdate +"' AND '" + enddate + "' group by projName";
+                                        query3 = query3 + " AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "' group by projName";
                                   }
                             }
                             System.out.println(query3);
@@ -309,7 +328,7 @@ public class Drop extends HttpServlet {
                      
                    }
                     if(name.equalsIgnoreCase("4")) {
-                    	String query4 = "Select * from task where EmployeeID='" + sessionId + "' AND task.date BETWEEN '"+ startdate +"' AND '" + enddate + "'" ;
+                    	String query4 = "Select * from task where EmployeeID='" + sessionId + "' AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "'" ;
                     	System.out.println(sessionId);
                     	ResultSet rs4=st2.executeQuery(query4);
                         HSSFRow rowhead=   sheet.createRow((short)0);
