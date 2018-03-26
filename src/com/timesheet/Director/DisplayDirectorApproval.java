@@ -49,9 +49,13 @@ public class DisplayDirectorApproval extends HttpServlet {
 		      	 System.out.println("connected!.....");
 		      	 String employeeID  = (String) request.getSession().getAttribute("Director");
 		      	 String EmployeeName = request.getParameter("EmpName");
-		           String startDate = request.getParameter("startdate");
-		           String endDate = request.getParameter("enddate");
+		           //String startDate = request.getParameter("startdate");
+		           //String endDate = request.getParameter("enddate");
 		           String Date = request.getParameter("date");
+		           String MDate = Date;
+		           System.out.println(MDate);
+		          
+		           request.setAttribute("MDate",MDate);
 		         
 		           ArrayList al = null;
 		           ArrayList pid_list = new ArrayList();
@@ -67,7 +71,7 @@ public class DisplayDirectorApproval extends HttpServlet {
 		             System.out.println("query ==========" + myquery);
 		         //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
 		             //String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
-		        String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND users.Approver='"+var+"' AND date=(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date='"+Date+"')";  
+		        String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date=(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date='"+Date+"' AND task.approval='Pending' OR 'emailsent')";  
 		      /*  String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
 		                + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";*/
 		           System.out.println("query " + query);

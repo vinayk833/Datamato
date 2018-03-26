@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,21 +52,136 @@ public class ApprovalChecker extends HttpServlet {
 			  System.out.println("Error in converting String to BIG INT");
 		  }
 		//int empID = Integer.parseInt(employeeId);
-		String date = request.getParameter("date");
+		String Mdate = request.getParameter("date");
 		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String reformattedStr = null;
+			String MDate = null;
 			try {
 
-			    reformattedStr = myFormat.format(fromUser.parse(date));
+			    MDate = myFormat.format(fromUser.parse(Mdate));
 			} catch (ParseException e) {
 			    e.printStackTrace();
 			}
 		//String employeeId = request.getParameter("empid");
 		System.out.println(approvalStatus);
 		System.out.println(bigInt);
+		try {
+			Connection con = null;
+			con = DBConnection.createConnection();
+			System.out.println("connected!.....");
+			Statement st = con.createStatement();
+			ResultSet res = st.executeQuery("SELECT ROLE,EmployeeName FROM users WHERE EmployeeName=(SELECT Approver FROM users WHERE EmployeeID='"+employeeId+"')");
+			String approverRole = null;
+			String approver = null;
+			while(res.next()) {
+				approverRole = res.getString("ROLE");
+				approver = res.getString("EmployeeName");
+			}
+			System.out.println(approverRole);
+			switch (approverRole) {
+			case "Manager":System.out.println("Manager");
+						request.setAttribute("MDate",MDate);
+				           
+				           ArrayList al = null;
+				           ArrayList pid_list = new ArrayList();
+				           String myquery = "SELECT users.EmployeeName FROM customers.users where users.EmployeeID=" + employeeId;
+				           
+				           Statement st1 = con.createStatement();
+				           ResultSet rs1 = st1.executeQuery(myquery);
+				           String var=null;
+				           while(rs1.next()){
+				        	   var= rs1.getString("EmployeeName"); 
+				        	   System.out.println(var);
+				           }
+				           System.out.println("query ==========" + myquery);
+				       //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
+				           //String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
+				           String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+approver+"' AND date=(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date='"+MDate+"' AND task.approval='Pending' OR 'emailsent')";
+				           System.out.println("query " + query);
+				           st = con.createStatement();
+				          ResultSet rs = st.executeQuery(query);
+			
+				           while (rs.next()) {
+				               al = new ArrayList();
+				               al.add(rs.getString(1));
+				               al.add(rs.getString(2));
+				               al.add(rs.getString(3));
+				               al.add(rs.getString(4));
+				               al.add(rs.getString(5));
+				               al.add(rs.getString(6));
+				               al.add(rs.getString(7));
+				               al.add(rs.getString(8));
+				               al.add(rs.getString(9));
+				               al.add(rs.getString(10));
+				               System.out.println("al :: " + al);
+				               pid_list.add(al);
+				           }
+			
+				           request.setAttribute("piList", pid_list);
+				           System.out.println(pid_list);
+				           
+				           RequestDispatcher view = request.getRequestDispatcher("/ProjMag/Approval.jsp");
+				           view.forward(request, response);
+				           con.close();
+						   break;
+				
+			case "Director":System.out.println("Director");
+							request.setAttribute("MDate",MDate);
+					         
+					           ArrayList all = null;
+					           ArrayList pid_list1 = new ArrayList();
+					          
+					           String myquery1 = "SELECT users.EmployeeName FROM customers.users where users.EmployeeID=" + employeeId;
+					           Statement st2 = con.createStatement();
+					             ResultSet rs2 = st2.executeQuery(myquery1);
+					             String var1=null;
+					             while(rs2.next()){
+					          	   var1= rs2.getString("EmployeeName"); 
+					          	   System.out.println(var1);
+					             }
+					             System.out.println("query ==========" + myquery1);
+					         //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
+					             //String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
+					        String query1 = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+approver+"' AND date=(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date='"+MDate+"' AND task.approval='Pending' OR 'emailsent')";  
+					      /*  String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
+					                + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";*/
+					           System.out.println("query " + query1);
+					           Statement st3 = con.createStatement();
+					          ResultSet rs3 = st.executeQuery(query1);
+				
+					           while (rs3.next()) {
+					               al = new ArrayList();
+					               al.add(rs3.getString(1));
+					               al.add(rs3.getString(2));
+					               al.add(rs3.getString(3));
+					               al.add(rs3.getString(4));
+					               al.add(rs3.getString(5));
+					               al.add(rs3.getString(6));
+					               al.add(rs3.getString(7));
+					               al.add(rs3.getString(8));
+					               al.add(rs3.getString(9));
+					               al.add(rs3.getString(10));
+					               System.out.println("al :: " + al);
+					               pid_list1.add(al);
+					           }
+				
+					           request.setAttribute("piList", pid_list1);
+					           System.out.println(pid_list1);
+					           
+					           RequestDispatcher view1 = request.getRequestDispatcher("/Director/Approval.jsp");
+					           view1.forward(request, response);
+					           con.close();
+							break;
+
+			default:
+				break;
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
-		if(approvalStatus.equalsIgnoreCase("yes")){
+		/*if(approvalStatus.equalsIgnoreCase("yes")){
 			try {
 				Connection con = null;
 				con = DBConnection.createConnection();
@@ -97,8 +213,9 @@ public class ApprovalChecker extends HttpServlet {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-		}
-		
+		}*/
+		RequestDispatcher view = request.getRequestDispatcher("/Director/Approval.jsp");
+        view.include(request, response);
 	
 	}
 

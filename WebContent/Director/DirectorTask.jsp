@@ -353,7 +353,7 @@ else if(x=="null"){
      <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
 </div>            <div  style="  height: 100%; margin-top: 40px;">
-           <span  value='<%=AdminDisplayTask.mydate%>' style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" name="date" required name="title"/>
+           <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" value="<%=request.getAttribute("date")%>" name="date" required name="title"/>
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DirectorDisplayTask';" /></span> 
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -370,11 +370,11 @@ else if(x=="null"){
                                             firstDay : 1,
                                             dateFormat : 'mm/dd/yy',
                                         })
-                                        $("#startdate").datepicker({
-                                            dateFormat : 'mm/dd/yy'
-                                        });
-                                        var start = $('#startdate').datepicker(
-                                                'getDate');
+                                        var x=document.getElementById("startdate").value;
+                                        //alert(x);
+                                        if(x == "null"){
+                                        	$( "#startdate" ).datepicker( "setDate", new Date());	
+                                        } 
                                     });
                         </script>
                 <center>

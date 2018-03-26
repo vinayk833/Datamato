@@ -52,6 +52,7 @@ public class ManagerAddTask extends HttpServlet {
 		int status = 0;
 		PrintWriter out = response.getWriter();
 		String employeeID  = (String) request.getSession().getAttribute("Manager");
+		System.out.println(employeeID);
 		BigInteger bi=null;
 		  String bigInt=null;
 		  try{
@@ -62,6 +63,7 @@ public class ManagerAddTask extends HttpServlet {
 		  }catch(Exception e){
 			  System.out.println("Error in converting String to BIG INT");
 		  }
+		  System.out.println(bigInt);
 		String date  = request.getParameter("date");
 		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -98,49 +100,59 @@ public class ManagerAddTask extends HttpServlet {
 			//select Query
 			Statement statement1 = dbconnection.createStatement() ;
 			ResultSet resultset1 =null;
-			resultset1 =statement1.executeQuery("select ProjName,ID from myproject") ;  
-
-			HashMap<String, String> checkProjName  = new HashMap<String, String>();
-
-
-
-			while(resultset1.next()){
-				checkProjName.put(resultset1.getString(2),resultset1.getString(1));
-			}	
-			System.out.println("My HashMap" + checkProjName.toString());
-
-			//iterate for each  row
-			for (int i=0;i<projectName.length;i++){
-				System.out.println(projectName[i].toString() + " / " + projectID[i].toString());
-				// Setting update query
-
-				if(hours[i]== "" || projectID[i] == "" || projectName[i] == ""){
-					status = 0;
-					break;
-				}else {
-					String insertQuery = "insert into task(EmployeeID,date,ProjName,proid,TaskCat,description,hours,sum) values(?,?,?,?,?,?,?,?)";
-					
-					System.out.println("hours=====>"+hours[i]);
-					// Setting up Prepared Statement
-					PreparedStatement preparedStatement = (PreparedStatement) dbconnection.prepareStatement(insertQuery);
-
-					//Passing parameters for Prepared Statement
-					preparedStatement.setString(1,bigInt);
-					preparedStatement.setString(2,reformattedStr);
-					preparedStatement.setString(3,checkProjName.get(projectName[i]));
-					preparedStatement.setString(4,projectID[i]);
-					preparedStatement.setString(5,taskCat[i]);
-					preparedStatement.setString(6,taskDescription[i]);
-					preparedStatement.setString(7,hours[i]);
-					preparedStatement.setString(8,sum);
-
-					System.out.println(preparedStatement);
-
-					// Execute update SQL statement
-					status= preparedStatement.executeUpdate();
+			
+			Statement s = dbconnection.createStatement();
+			
+			//checks if user have filled data on particular date
+			ResultSet r = s.executeQuery("select date from task where date='"+ reformattedStr +"' AND EmployeeID="+ bigInt +" HAVING SUM(hours)>8");
+			
+			if(r.next()) {
+				System.out.println("date already exists");
+				status = 2;
+			}else {
+				System.out.println("datte not present");
+				resultset1 =statement1.executeQuery("select ProjName,ID from myproject") ;  
+	
+				HashMap<String, String> checkProjName  = new HashMap<String, String>();
+	
+				while(resultset1.next()){
+					checkProjName.put(resultset1.getString(2),resultset1.getString(1));
+				}	
+				System.out.println("My HashMap" + checkProjName.toString());
+	
+				//iterate for each  row
+				for (int i=0;i<projectName.length;i++){
+					System.out.println(projectName[i].toString() + " / " + projectID[i].toString());
+					// Setting update query
+	
+					if(hours[i]== "" || projectID[i] == "" || projectName[i] == ""){
+						status = 0;
+						break;
+					}else {
+						String insertQuery = "insert into task(EmployeeID,date,ProjName,proid,TaskCat,description,hours,sum) values(?,?,?,?,?,?,?,?)";
+						
+						System.out.println("hours=====>"+hours[i]);
+						// Setting up Prepared Statement
+						PreparedStatement preparedStatement = (PreparedStatement) dbconnection.prepareStatement(insertQuery);
+	
+						//Passing parameters for Prepared Statement
+						preparedStatement.setString(1,bigInt);
+						preparedStatement.setString(2,reformattedStr);
+						preparedStatement.setString(3,checkProjName.get(projectName[i]));
+						preparedStatement.setString(4,projectID[i]);
+						preparedStatement.setString(5,taskCat[i]);
+						preparedStatement.setString(6,taskDescription[i]);
+						preparedStatement.setString(7,hours[i]);
+						preparedStatement.setString(8,sum);
+	
+						System.out.println(preparedStatement);
+	
+						// Execute update SQL statement
+						status= preparedStatement.executeUpdate();
+					}
+	
+	
 				}
-
-
 			}
 			// Closing DB connection
 			dbconnection.close();
@@ -158,6 +170,8 @@ public class ManagerAddTask extends HttpServlet {
 		if(status == 0){
 			out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Please fill all the Mandatory Field...</h4>");
 
+		}else if(status==2){
+			out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Data already exists on this date</h4>");
 		}else{
 			out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Tasks Added Successfully...</h4>");
 		}

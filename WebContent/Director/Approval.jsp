@@ -39,8 +39,12 @@ $(document).ready(
                 changeYear : true,
                 firstDay : 1,
                 dateFormat : 'yy-mm-dd',
-               
             })
+            var x=document.getElementById("picker").value;
+            //alert(x);
+            if(x == "null"){
+            	$( "#picker" ).datepicker( "setDate", new Date());	
+            } 
         });
   
 
@@ -113,7 +117,7 @@ h1{
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
 <tm style="font-family:calibri">Timesheet Management System</tm>
   <user><%
-		if (session != null) {
+		/* if (session != null) { */
 			if (session.getAttribute("Director") != null) {
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
@@ -122,7 +126,7 @@ h1{
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}
-		}
+		//}
 	%></user>
   </header>
   <div class="HorizontalNav">
@@ -145,7 +149,7 @@ h1{
 <article>
  <br>
     <form name="form" id="formtestdir" method="post">
-    <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="picker" name="date" />
+    <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" value="<%=request.getAttribute("MDate") %>" id="picker" name="date" />
           <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayDirectorApproval'}else{return false};" /><br><br> 
  
  <table align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
@@ -164,7 +168,7 @@ h1{
 					<td><b>Task Category</b></td>
 					<td><b>Task Description</b></td>
 					<td><b>hours</b></td>
-					<td><b>Approved</b></td>
+					<!-- <td><b>Approved</b></td> -->
 
          
           </tr>
@@ -194,7 +198,7 @@ h1{
                 <td><%=pList.get(6)%></td>
                 <td><%=pList.get(7)%></td>
                 <td><%=pList.get(8)%></td>
-                <td><%=pList.get(9)%></td>
+                <%-- <td><%=pList.get(9)%></td> --%>
                  </tr>
                
             <%

@@ -1,6 +1,7 @@
 package com.timesheet.User;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,6 +53,7 @@ public class UserSendMailApproval extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
 		try {
 
 			Connection con = null;
@@ -75,7 +78,7 @@ public class UserSendMailApproval extends HttpServlet {
 			String date = request.getParameter("date");
 			//String employeeID = request;
 			System.out.println(bigInt);
-			request.setAttribute(date, "dateValue");
+			request.setAttribute("date",date);
 			System.out.println(date);
 			SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -111,10 +114,33 @@ public class UserSendMailApproval extends HttpServlet {
 				System.out.println(rs.getString(1) + "/"+rs.getString(2) + "/"+rs.getString(3) + "/"+rs.getString(4) + "/"+
 						rs.getString(5) + "/" + rs.getString(6));
 			}*/
-
-			sendMail(rs,employeeName,emailid,date,request);
 			
-			request.getRequestDispatcher("/JSP/emp_event.jsp").forward(request, response);
+			String approve = null;
+			int errorstatus = 0;
+			while(rs.next()) {
+				approve = rs.getString("approval");
+			}
+			System.out.println(approve);
+			//check if mail is sent or not 
+			if((approve.equals("yes"))||(approve.equals("no"))||(approve.equals("emailsent"))) {
+				System.out.println("error");
+				errorstatus=1;
+			}else {
+				//execute if mail is not sent
+				sendMail(rs,employeeName,emailid,date,request);
+				Statement s = con.createStatement();
+				String sql = "Update task set approval='emailsent' where date='"+reformattedStr+"'";
+				System.out.println(sql);
+				s.executeUpdate(sql);
+				System.out.println("updated successfully");
+			}
+			RequestDispatcher requestDispatcher=request.getRequestDispatcher("/JSP/emp_event.jsp");
+			//request.getRequestDispatcher("/Admin/AddTask.jsp").forward(request, response);
+			requestDispatcher.include(request, response);
+			if(errorstatus == 1) {
+				out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>You have already send mail on this date</h4>");
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -188,9 +214,10 @@ public class UserSendMailApproval extends HttpServlet {
 		      			textbody += "<tr><td>" + rs.getString("date") + "</td><td>" + rs.getString("ProjName") + "</td><td>" + rs.getString("proid")+ "</td><td>" + rs.getString("TaskCat") + "</td><td>" + rs.getString("description")+ "</td><td>" + rs.getString("hours") +"</td></tr>\r\n";
 		      		}
 
-              
-              		textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+bigInt+"&date="+date+"\">APPROVE </a>\r\n" + 
-              				" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+bigInt+"&date="+date+"\">REJECT</a></center></body></html>";
+					textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+bigInt+"&date="+date+"\">APPROVE OR REJECT </a>\r\n" /*+ 
+		              		" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+bigInt+"&date="+date+"\">REJECT</a></center></body></html>"*/;
+              		/*textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+bigInt+"&date="+date+"\">APPROVE </a>\r\n" + 
+              				" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+bigInt+"&date="+date+"\">REJECT</a></center></body></html>";*/
               		
               		/*textbody +="</table><center><a href="+ baseUrl + "/ApprovalChecker?approval=yes&empid="+ employeeID +"&date="+date+""><input type="button" value="Update" class="button-success" /></a>" +
                     "<a href="+baseUrl+"/ApprovalChecker?approval=no&empid="+employeeID+"&date="+date+><input type="button" value="Update" class="button-danger" /></a>";
