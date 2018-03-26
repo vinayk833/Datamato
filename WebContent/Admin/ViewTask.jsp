@@ -24,19 +24,13 @@
 
   
 <script>
-  
 $.noConflict();
 jQuery(function(){
-	
-	
-	
-	$('#name').focusin(function() {
-		$("#name").autocomplete("UserList.jsp");
+	 // $("#name").autocomplete("http://localhost:9444/TimeSheet/Admin/UserList.jsp");
+var getUrl = window.location;
+var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1]+"/"+"Admin"+"/"+"UserList.jsp";
+$("#name").autocomplete(baseUrl);		
 		});
-			}
-				
-		
-		);
   // Code that uses jQuery's $ can follow here.
 jQuery( document ).ready(function( $ ) {
   // Code that uses jQuery's $ can follow here.

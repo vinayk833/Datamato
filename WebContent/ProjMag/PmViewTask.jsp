@@ -28,7 +28,12 @@ jQuery(function(){
 	
 	
 	$('#name').focusin(function() {
-		$("#name").autocomplete("ManagerUserList.jsp");
+		var getUrl = window.location;
+		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1]+"/"+"ProjMag"+"/"+"ManagerUserList.jsp";
+		//alert(baseUrl);
+		
+		$("#name").autocomplete(baseUrl);
+		//alert(baseUrl);
 		});
 			}
 				
