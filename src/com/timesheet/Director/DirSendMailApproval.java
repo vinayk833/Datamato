@@ -106,7 +106,7 @@ public class DirSendMailApproval extends HttpServlet {
 				System.out.println(emailid);
 			}
 			
-			String query = "select date,ProjName,proid,TaskCat,description,hours from task "
+			String query = "select date,ProjName,proid,TaskCat,description,hours,approval from task "
 					+ "where date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
 			System.out.println("query " + query);
 			Statement st = con.createStatement();
