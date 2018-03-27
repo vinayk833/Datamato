@@ -216,7 +216,7 @@ Set<String> keys = resultMap.keySet();
       <a href="${pageContext.request.contextPath}/Director/ViewDirTask.jsp">Display Task </a>
       </div>
   </li>
-   <li><a href="${pageContext.request.contextPath}/DisplayDirectorApproval">Approval</a></li>
+   <li><a href="${pageContext.request.contextPath}/Director/Approval.jsp">Approval</a></li>
     <li><a  href="${pageContext.request.contextPath}/Director/DirectorReport.jsp">Reports</a></li>
      <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>

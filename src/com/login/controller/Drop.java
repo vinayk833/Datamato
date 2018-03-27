@@ -33,7 +33,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import com.login.util.DBConnection;
 
 import java.util.*;
+import java.util.Date;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
  
@@ -73,27 +75,21 @@ public class Drop extends HttpServlet {
   		 String startDate = request.getParameter("startdate");
          String endDate = request.getParameter("enddate");
          
-  		   System.out.println(startDate);
-  		  System.out.println(endDate);
   		  System.out.println("MySQL Connect Example.");
-    		
-  		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
-			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String reformattedStr1 = null;
-			String reformattedStr2 = null;
-
-	try {
-
-		    reformattedStr1 = myFormat.format(fromUser.parse(startDate));
-		    reformattedStr2 = myFormat.format(fromUser.parse(endDate));
-		    
-		    System.out.println( reformattedStr1);
-		    System.out.println( reformattedStr2);
-
+  		
+  		SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String reformattedStr = null;
+		String reformattedStr1 = null;
+		try {
+			System.out.println();
+		    reformattedStr = myFormat.format(fromUser.parse(startDate));
+		    reformattedStr1 = myFormat.format(fromUser.parse(endDate));
+		    System.out.println(reformattedStr);
+		    System.out.println(reformattedStr1);
 		} catch (ParseException e) {
 		    e.printStackTrace();
 		}
- 		
 
             String duplicate = null;
 
@@ -113,9 +109,11 @@ public class Drop extends HttpServlet {
                  
                   //String query1="SELECT sum(hours) total, pn FROM demo group by pn";
                  
-                  String query1="SELECT distinct task.ProjName,task.proid,users.EmployeeName,users.EmployeeID ,task.date,sum(task.hours)hours,task.TaskCat FROM customers.task  INNER JOIN customers.users ON users.EmployeeID= task.EmployeeID   ";  
-                 
-                  String query2="SELECT distinct task.ProjName,task.proid,users.EmployeeName,users.EmployeeID ,task.date,task.TaskCat,sum(task.hours)hours FROM customers.task  INNER JOIN customers.users ON users.EmployeeID=task.EmployeeID ";
+                  String query1="SELECT distinct task.ProjName,task.proid,users.EmployeeName,users.EmployeeID ,task.date,sum(task.hours)hours,task.TaskCat FROM customers.task  INNER JOIN customers.users ON users.EmployeeID= task.EmployeeID WHERE task.date BETWEEN '"+ reformattedStr +"' AND '" + reformattedStr1 +"' AND ";  
+                  
+                  
+                  String query2 = "SELECT distinct task.ProjName,task.proid,users.EmployeeName,users.EmployeeID,task.date,task.TaskCat,sum(task.hours)hours FROM customers.task INNER JOIN customers.users ON users.EmployeeID=task.EmployeeID  WHERE task.date BETWEEN '"+ reformattedStr +"' AND '"+ reformattedStr1 +"' AND EmployeeName IN (";
+                  //String query2="SELECT distinct task.ProjName,task.proid,users.EmployeeName,users.EmployeeID ,task.date,task.TaskCat,sum(task.hours)hours FROM customers.task  INNER JOIN customers.users ON users.EmployeeID=task.EmployeeID ";
                  
                   String query3 ="SELECT distinct myproject.ProjName,myproject.ID,myproject.CustomerName,myproject.StartDate,myproject.EndDate,sum(task.hours)hours FROM customers.myproject  INNER JOIN customers.task ON myproject.ProjName=task.ProjName ";
                   
@@ -128,30 +126,33 @@ public class Drop extends HttpServlet {
                   String[] dropdownValues = request.getParameterValues("projectReport");
                   String[] dropdownValues1 = request.getParameterValues("empreport");
                   String[] dropdownValues2 = request.getParameterValues("customerreport");
-                
+                  ResultSet rs1 =null;
+                  ResultSet rs2 =null;
+                  ResultSet rs3 =null;
+                  
+                  	  //Project report
                 	  if(name.equalsIgnoreCase("1"))
                       {
-                    	  
-                    	  
                     	  System.out.println("projname");
                       for(int i =0;i<dropdownValues.length;i++){
                             if (i==0){
                                   //query1 = query1 + " WHERE pn='" + "\"" + dropdownValues[i] +"\"";
                                   System.out.println("test");
-                                  query1 = query1 + " WHERE ProjName='" + dropdownValues[i] +"'";
+                                  query1 = query1 + " ProjName=('" + dropdownValues[i] +"'";
                             }else{
                                   //query1= query1 + " OR pn=" + "\"" + dropdownValues[i] +"\"";
-                                  query1= query1 + " OR ProjName='" + dropdownValues[i] +"'";
+                                  query1= query1 + " OR '" + dropdownValues[i] +"'";
                             }
                            
                             if(i==dropdownValues.length-1){
-                                  query1 = query1 + " AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "' group by TaskCat,date";
+                                  query1 = query1 + ") group by TaskCat,date";
                             }
                            
                       }
                       System.out.println(query1);
+                      rs1=st1.executeQuery(query1);
                       }
-                     
+                     //Employee report
                       else if (name.equalsIgnoreCase("3"))
                       {
                     	  
@@ -159,16 +160,16 @@ public class Drop extends HttpServlet {
                             System.out.println(dropdownValues1.length);
                             for(int i =0;i<dropdownValues1.length;i++){
                                   if (i==0){
-                                        query2 = query2 + " WHERE EmployeeName='" + dropdownValues1[i] + "'";
+                                        query2 = query2 + "'" + dropdownValues1[i] + "'";
                                   }else{
-                                        query2 = query2 + " OR EmployeeName='" + dropdownValues1[i] +"'";
+                                        query2 = query2 + ",'" + dropdownValues1[i] +"'";
                                   }
                                   if(i==dropdownValues1.length-1){
-                                        query2 = query2 + " AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "' group by TaskCat,date";
+                                        query2 = query2 + ") group by EmployeeName,date";
                                   }
                             }
                             System.out.println(query2);
-                           
+                            rs2=st.executeQuery(query2);
                       }
                      
                       else if (name.equalsIgnoreCase("2"))
@@ -183,16 +184,16 @@ public class Drop extends HttpServlet {
                                         query3 = query3 + " OR CustomerName='" + dropdownValues2[i] +"'";
                                   }
                                   if(i==dropdownValues2.length-1){
-                                        query3 = query3 + " AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "' group by projName";
+                                        query3 = query3 + " AND task.date BETWEEN '"+ reformattedStr +"' AND '" + reformattedStr1 + "' group by projName";
                                   }
                             }
                             System.out.println(query3);
-                           
+                            rs3=st2.executeQuery(query3);
                       }
          
-                      ResultSet rs1=st1.executeQuery(query1);
-                      ResultSet rs2=st.executeQuery(query2);
-                      ResultSet rs3=st2.executeQuery(query3);
+                      
+                      
+                      
                      
                      
                      
@@ -328,7 +329,7 @@ public class Drop extends HttpServlet {
                      
                    }
                     if(name.equalsIgnoreCase("4")) {
-                    	String query4 = "Select * from task where EmployeeID='" + sessionId + "' AND task.date BETWEEN '"+ reformattedStr1 +"' AND '" + reformattedStr2 + "'" ;
+                    	String query4 = "Select * from task where EmployeeID='" + sessionId + "' AND task.date BETWEEN '"+ reformattedStr +"' AND '" + reformattedStr1 + "'" ;
                     	System.out.println(sessionId);
                     	ResultSet rs4=st2.executeQuery(query4);
                         HSSFRow rowhead=   sheet.createRow((short)0);
@@ -394,6 +395,7 @@ public class Drop extends HttpServlet {
                       dropdownValues=null;
                       dropdownValues1=null;
                       dropdownValues2=null;
+                      con.close();
             }
             catch (Exception e2) {
                   System.out.println(e2);
