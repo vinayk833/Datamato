@@ -31,7 +31,55 @@
 
 <SCRIPT language="javascript">
 
-$(document).ready(
+$(document).ready(function() {
+
+	$( "#startdate,#enddate" ).datepicker({
+	changeMonth: true,
+	changeYear: true,
+	firstDay: 1,
+	dateFormat: 'dd/mm/yy',
+	maxDate : 0,
+	})
+	
+	var x=document.getElementById("startdate").value;
+	var y=document.getElementById("enddate").value;
+	if((x=="null")||(y=="null")){
+		$('#startdate').val("");
+		$('#enddate').val("");
+		$('#days').val("");
+	}
+	 $( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+	$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' }); 
+	
+	$('#enddate').change(function() {
+	var start = $('#startdate').datepicker('getDate');
+	var end   = $('#enddate').datepicker('getDate');
+
+	if(start==null){
+		alert("Please Enter the Start Date")
+		$('#startdate').val("");
+		$('#enddate').val("");
+		$('#days').val("");}
+		
+	   else if (start<end) {
+	 
+		var days   = (end - start)/1000/60/60/24;
+		$('#days').val(days)
+		
+	}
+
+	 else {
+		
+	alert ("End Date must be later than Start Date!");
+	$('#startdate').val("");
+	$('#enddate').val("");
+	$('#days').val("");
+	}
+	}
+	); //end change function
+	}); //end ready
+
+/* $(document).ready(
         function() {
             $("#picker").datepicker({
                 maxDate : "0",
@@ -45,20 +93,8 @@ $(document).ready(
             if(x == "null"){
             	$( "#picker" ).datepicker( "setDate", new Date());	
             } 
-        });
+        }); */
   
-
-function IsEmpty(){ 
-    if(document.form.date.value == "")
-    {
-      alert("Please select date");
-      return false;     
-    }else{
-    	/* var acc = document.getElementsById("picker").value;
-    	alert(acc); */
-    	 return true;
-    }
-}
 
 //Check all checkboxes
 function toggle(source) {
@@ -139,7 +175,7 @@ h1{
       <a href="${pageContext.request.contextPath}/Director/ViewDirTask.jsp">Display Task </a>
       </div>
   </li>
-   <li><a href="${pageContext.request.contextPath}/DisplayDirectorApproval">Approval</a></li>
+   <li><a href="${pageContext.request.contextPath}/Director/Approval.jsp">Approval</a></li>
     <li><a  href="${pageContext.request.contextPath}/Director/DirectorReport.jsp">Reports</a></li>
      <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
@@ -149,10 +185,22 @@ h1{
 <article>
  <br>
     <form name="form" id="formtestdir" method="post">
-    <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" value="<%=request.getAttribute("MDate") %>" id="picker" name="date" />
-          <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayDirectorApproval'}else{return false};" /><br><br> 
- 
- <table align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
+    <%-- <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" value="<%=request.getAttribute("MDate") %>" id="picker" name="date" />
+          <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayDirectorApproval'}else{return false};" /><br><br> --%> 
+ 	
+ 	<table border="none" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="60%" align="center" >
+
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="mm/dd/yy"  style="width:200px" value="<%=request.getAttribute("startdate") %>" required name="title";/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder="mm/dd/yy" style="width:200px" value="<%=request.getAttribute("enddate") %>" required name="title";/></td>
+
+    <td colspan=1 align="center">
+ <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->
+  <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onClick="form.action='<%=request.getContextPath()%>/DisplayDirectorApproval'" /><br><br>
+    </td></tr>
+    
+    </table>
+ 	
+ <table id="table" align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
 <tr>
 </tr><br>
     <tr style="color:#090C9B">

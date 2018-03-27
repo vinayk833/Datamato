@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -55,10 +57,26 @@ public class DisplayApproval extends HttpServlet {
       	 //String EmployeeName = request.getParameter("EmpName");
            //String startDate = request.getParameter("startdate");
            //String endDate = request.getParameter("enddate");
-      	 String MDate = request.getParameter("date");
-           System.out.println(MDate);
+      	 String startDate = request.getParameter("startdate");
+      	String endDate = request.getParameter("enddate");
+           System.out.println(startDate);
+           System.out.println(endDate);
           
-           request.setAttribute("MDate",MDate);
+           request.setAttribute("startdate",startDate);
+           request.setAttribute("enddate",endDate);
+           SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yyyy");
+   		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+   		String reformattedStr = null;
+   		String reformattedStr1 = null;
+   		try {
+   			System.out.println();
+   		    reformattedStr = myFormat.format(fromUser.parse(startDate));
+   		    reformattedStr1 = myFormat.format(fromUser.parse(endDate));
+   		    System.out.println(reformattedStr);
+   		    System.out.println(reformattedStr1);
+   		} catch (ParseException e) {
+   		    e.printStackTrace();
+   		}
            
            ArrayList al = null;
            ArrayList pid_list = new ArrayList();
@@ -73,7 +91,7 @@ public class DisplayApproval extends HttpServlet {
            System.out.println("query ==========" + myquery);
        //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
            //String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
-           String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date=(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date='"+MDate+"' AND task.approval='Pending' OR 'emailsent')";
+           String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date BETWEEN '"+reformattedStr+"' AND '"+reformattedStr1 +"' AND task.approval='Pending' OR 'emailsent')";
            System.out.println("query " + query);
            st = con.createStatement();
           ResultSet rs = st.executeQuery(query);

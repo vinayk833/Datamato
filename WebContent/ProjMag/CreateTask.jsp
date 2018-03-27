@@ -372,7 +372,7 @@ function toggle(source) {
       <a href="${pageContext.request.contextPath}/ProjMag/PmViewTask.jsp">Display Task </a>
       </div>
   </li>
-  <li><a href="${pageContext.request.contextPath}/DisplayApproval">Approval</a></li>
+  <li><a href="${pageContext.request.contextPath}/ProjMag/Approval.jsp">Approval</a></li>
  <li><a href="${pageContext.request.contextPath}/ProjMag/ManagerReport.jsp">Report</a></li>
  <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
