@@ -19,17 +19,40 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AdminDashboard.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/DatePicker.css">
 
-<!--  for Datepicker -->
+<!-- For Datepicker -->
 <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
 <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
 <link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
 <script>
-  $(function() {
-    $( "#startdate" ).datepicker();
-    $( "#enddate" ).datepicker();
+/* $(document).ready(function() {
 
-  });
-  </script>
+	$( "#startdate,#enddate" ).datepicker({
+	changeMonth: true,
+	changeYear: true,
+	firstDay: 1,
+	dateFormat: 'dd/mm/yy',
+	})
+
+	$( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+	$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+
+	$('#enddate').change(function() {
+	var start = $('#startdate').datepicker('getDate');
+	var end   = $('#enddate').datepicker('getDate');
+
+	if(start==null){
+		alert("Please Enter the Start Date")
+		$('#startdate').val("");
+		$('#enddate').val("");
+		$('#days').val("");}
+		
+	   else if (start<end) {
+	 
+		var days   = (end - start)/1000/60/60/24;
+		$('#days').val(days)
+		
+	}
+ */  </script>
 
 <style type="text/css">
 #startdate
@@ -60,7 +83,36 @@
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/multiselect.css">
   <script>
-  
+  $(document).ready(function() {
+
+		$( "#startdate,#enddate" ).datepicker({
+		changeMonth: true,
+		changeYear: true,
+		firstDay: 1,
+		dateFormat: 'dd/mm/yy',
+		})
+
+		$( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+		$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+
+		$('#enddate').change(function() {
+		var start = $('#startdate').datepicker('getDate');
+		var end   = $('#enddate').datepicker('getDate');
+
+		if(start==null){
+			alert("Please Enter the Start Date")
+			$('#startdate').val("");
+			$('#enddate').val("");
+			$('#days').val("");
+			}
+		   else if (start<end) {
+		 
+			var days   = (end - start)/1000/60/60/24;
+			$('#days').val(days)
+			
+		}
+		})
+  })
   
    var cus = document.getElementById('opts');
   (function (root, factory) {
@@ -1919,8 +1971,8 @@
     </table>
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
-      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" placeholder="mm/dd/yy" style="width:200px" required name="title"/>
- <td ><b>End Date:</b></td><td><input type="text" id="enddate"  placeholder="mm/dd/yy" style="width:200px" required name="title"/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" placeholder="mm/dd/yy" style="width:200px" required name="startdate"/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate"  placeholder="mm/dd/yy" style="width:200px" required name="enddate"/></td>
   
     <td colspan=1 align="center">
  
@@ -1928,6 +1980,8 @@
     </td></tr>
     
     </table>
+    
+    <h4><span style='color:red;margin-left:600px;margin-top:10px;'><%if(request.getAttribute("errormsg")!=null){out.println(request.getAttribute("errormsg"));} %></span></h4>
     
     </form>
 </article></center>

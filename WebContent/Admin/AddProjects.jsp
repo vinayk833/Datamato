@@ -239,8 +239,8 @@
         }
 %>
     </select></td></tr>
-      <tr bordercolor=" #C0C0C0"><td ><b>Planned Start Date:<span class="required">*</span></b></td><td><input type="text" name="StartDate" id="startdate"  style="width:190px"  required name="title";/>
- <tr bordercolor=" #C0C0C0"> <td><b>Planned End Date:<span class="required">*</span></b></td><td><input type="text" name="EndDate" id="enddate"  style="width:190px"  required name="title";/>
+      <tr bordercolor=" #C0C0C0"><td ><b>Planned Start Date:<span class="required">*</span></b></td><td><input type="text" name="StartDate" id="startdate" placeholder="mm/dd/yyyy" style="width:190px"  required name="title";/>
+ <tr bordercolor=" #C0C0C0"> <td><b>Planned End Date:<span class="required">*</span></b></td><td><input type="text" name="EndDate" id="enddate" placeholder="mm/dd/yyyy" style="width:190px"  required name="title";/>
 <script>
 $(document).ready(function() {
 

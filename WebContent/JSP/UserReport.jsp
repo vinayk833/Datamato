@@ -83,7 +83,7 @@
     <h1>Export Reports</h1>
 <tr></tr>
   
-     <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" placeholder=" mm/dd/yy" style="width:150px" required name="title"/>
+     <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" placeholder="mm/dd/yy" style="width:150px" required name="title"/>
  <td ><b>End Date:</b></td><td><input type="text" name="enddate" id="enddate"  placeholder=" mm/dd/yy" style="width:150px" required name="title"/></td>
  
  

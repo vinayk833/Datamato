@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,6 +60,19 @@ public class EditProject extends HttpServlet {
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
+		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+ 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+ 		String reformattedStr = null;
+ 		String reformattedStr1 = null;
+ 		try {
+ 			System.out.println();
+ 			startDate = myFormat.format(fromUser.parse(startDate));
+ 			endDate = myFormat.format(fromUser.parse(endDate));
+ 		    System.out.println(reformattedStr);
+ 		    System.out.println(reformattedStr1);
+ 		} catch (ParseException e) {
+ 		    e.printStackTrace();
+ 		}
 
 		// Setting update query
 		String updateQuery = "UPDATE myproject set CustomerName= ? , ID= ? , Description= ?, Type= ? ,"
@@ -122,8 +137,21 @@ public class EditProject extends HttpServlet {
                 tdes =rs.getString(4);
                 type =rs.getString(5);
                 ProductMang =rs.getString(6);
-                startDate =rs.getString(7);
-                endDate =rs.getString(8);
+                SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+         		SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy");
+         		String reformattedStr = null;
+         		String reformattedStr1 = null;
+         		try {
+         			System.out.println();
+         		    reformattedStr = myFormat.format(fromUser.parse(rs.getString(7)));
+         		    reformattedStr1 = myFormat.format(fromUser.parse(rs.getString(8)));
+         		    System.out.println(reformattedStr);
+         		    System.out.println(reformattedStr1);
+         		} catch (ParseException e) {
+         		    e.printStackTrace();
+         		}
+                startDate =reformattedStr;
+                endDate =reformattedStr1;
                 
             }
 			System.out.println(tdes);

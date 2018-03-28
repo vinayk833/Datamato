@@ -84,7 +84,7 @@ public class AddUsers extends HttpServlet {
        e.printStackTrace();
        RequestDispatcher rd=request.getRequestDispatcher("/Admin/AddUsers.jsp");
 		rd.include(request, response);
-		out.println("<h4 style='color:red;margin-left:400px;margin-top:5px;'>" +EmployeeName+ " Already Exist</h4>");
+		out.println("<h4 style='color:red;margin-left:400px;margin-top:5px;'>" +EmployeeID+ " Already Exist</h4>");
        }
    }
    

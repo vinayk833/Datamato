@@ -124,6 +124,8 @@ public class SendMailApproval extends HttpServlet {
 				approve = rs.getString("approval");
 			}
 			System.out.println(approve);
+			Statement st1 = con.createStatement();
+			rs = st1.executeQuery(query);
 			//check if mail is sent or not 
 			if((approve.equals("yes"))||(approve.equals("no"))||(approve.equals("emailsent"))) {
 				System.out.println("error");

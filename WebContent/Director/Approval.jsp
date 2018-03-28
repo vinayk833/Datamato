@@ -48,9 +48,10 @@ $(document).ready(function() {
 		$('#enddate').val("");
 		$('#days').val("");
 	}
-	 $( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
-	$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' }); 
 	
+	$( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+	$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' });
+
 	$('#enddate').change(function() {
 	var start = $('#startdate').datepicker('getDate');
 	var end   = $('#enddate').datepicker('getDate');
@@ -59,15 +60,14 @@ $(document).ready(function() {
 		alert("Please Enter the Start Date")
 		$('#startdate').val("");
 		$('#enddate').val("");
-		$('#days').val("");}
-		
-	   else if (start<end) {
-	 
+		$('#days').val("");
+		}
+	else if (start<=end) {
+		 
 		var days   = (end - start)/1000/60/60/24;
 		$('#days').val(days)
 		
 	}
-
 	 else {
 		
 	alert ("End Date must be later than Start Date!");
@@ -146,6 +146,18 @@ h1{
 	font-family: Calibri; 
 	color: #106E9B;
 	}
+	#startdate
+        {
+           background:  url(https://i.imgur.com/u6upaAs.png) right no-repeat;
+             background-repeat: no-repeat;
+             padding-right: 10px;
+            }
+ #enddate
+        {
+            background:  url(https://i.imgur.com/u6upaAs.png) right no-repeat;
+             background-repeat: no-repeat;
+             padding-right: 10px;
+            }
 	</style>
 </head>
 <body>

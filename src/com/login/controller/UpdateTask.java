@@ -36,11 +36,17 @@ public class UpdateTask extends HttpServlet {
 	
 	public static void setParameters(HttpServletRequest request){
 		Date = request.getParameter("date");
-		ProjectName = request.getParameter("proname");
+		ProjectName = request.getParameter("selectBox");
 		ProjectID = request.getParameter("proId");
 		TaskCategory = request.getParameter("values");
 		Description = request.getParameter("description");
 		Hours = request.getParameter("hours");
+		System.out.println(Date);
+		System.out.println(ProjectName);
+		System.out.println(ProjectID);
+		System.out.println(TaskCategory);
+		System.out.println(Description);
+		System.out.println(Hours);
 		/*SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -62,7 +68,14 @@ public class UpdateTask extends HttpServlet {
 		System.out.println("Connection------------->" + dbconnection);
 
 		// Setting update query
-		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
+		
+		String updateQuery = "UPDATE task  set date='"+ Date +"', ProjName='"+ProjectName+"' , proid='"+ProjectID+"', TaskCat='"+TaskCategory+"'," + 
+							 "description='"+Description+"', hours='"+Hours+"' where taskId='"+taskID+"'";
+		Statement st = dbconnection.createStatement();
+		System.out.println(updateQuery);
+		st.executeUpdate(updateQuery);
+		
+		/*String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
 				+ "description= ? , hours= ? where taskId= ?";
 		
 		// Setting up Prepared Statement
@@ -82,7 +95,7 @@ public class UpdateTask extends HttpServlet {
 		System.out.println(preparedStatement);
 		
 		// Execute update SQL statement
-		preparedStatement.executeUpdate();
+		preparedStatement.executeUpdate();*/
 		
 		// Closing DB connection
 		dbconnection.close();
@@ -157,6 +170,8 @@ public class UpdateTask extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("inside Edit  Task");
 		// Setter method to initialize the Attribute Values
+		String name = request.getParameter("selectBox");
+		System.out.println("dopost"+ name);
 		setParameters(request);
 		
 		//Printing the Values for Debug check

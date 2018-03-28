@@ -274,7 +274,7 @@ Set<String> keys = resultMap.keySet();
 	
 		<TR>
 
-			 <TD><select id="selectBox" class="slt_prod" name="proname" onchange="populateCustomerId();"style="width:222px;fontfamily:Calibri"required name="title">
+			 <TD><select id="selectBox" class="slt_prod" name="selectBox" onchange="populateCustomerId();"style="width:222px;fontfamily:Calibri" required >
                         <OPTION value="<%=request.getAttribute("pname")%>"><%=request.getAttribute("pname")%></OPTION>
 		    
 		      	<% for (String key : keys){ %>

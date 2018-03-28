@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -73,9 +75,22 @@ public class SearchProject extends HttpServlet {
                  al.add(rs.getString(3));
                  al.add(rs.getString(4));
                  al.add(rs.getString(5));
+                 SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+         		SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy");
+         		String reformattedStr = null;
+         		String reformattedStr1 = null;
+         		try {
+         			System.out.println();
+         		    reformattedStr = myFormat.format(fromUser.parse(rs.getString(7)));
+         		    reformattedStr1 = myFormat.format(fromUser.parse(rs.getString(8)));
+         		    System.out.println(reformattedStr);
+         		    System.out.println(reformattedStr1);
+         		} catch (ParseException e) {
+         		    e.printStackTrace();
+         		}
                  al.add(rs.getString(6));
-                 al.add(rs.getString(7));
-                 al.add(rs.getString(8));
+                 al.add(reformattedStr);
+                 al.add(reformattedStr1);
                  System.out.println("al :: " + al);
                  pid_list.add(al);
              }
