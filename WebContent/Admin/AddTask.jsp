@@ -80,7 +80,48 @@ Set<String> keys = resultMap.keySet();
 %>
 <SCRIPT language="javascript">
 
+/* function validatehours(){
+	var inputs = document.getElementByTagName("input");
+	var stat=1;
+	for(var i=0;i<inputs.length;++1){
+		if((inputs[i]==text)&&(inputs[i].value == ""||inputs[i].value ==null ||inputs[i].value=="0")){
+			 alert("Please Fill All the Manadotory Fields");
+			 stat=0;
+             return false;
+		}else{
+			
+			return true;
+		}
+	}
+	
+	if((document.getElementById("v1").value>24)&&(stat==0)){
+		alert("Total hours should not be greater than 24")
+		return false;
+	}else{
+		return true;
+	}
+} */ 
+ function validatehours(){
+	
+	if(document.getElementById("v1").value>24){
+		alert("Total hours should not be greater than 24")
+		return false;
+	}else{
+		return true;
+	}
+} 
 
+/*  function validateallinputboxes(){
+	var inputs = document.getElementByTagName("input");
+	for(var i=0;i<inputs.length;++1){
+		if((inputs[i]==text)&&(inputs[i].value == ""||inputs[i].value ==null ||inputs[i].value=="0")){
+			 alert("Please Fill All the Manadotory Fields");
+             return false;
+		}else{
+			return true;
+		}
+	}
+}  */
 
 
  function calculateSum() {
@@ -440,7 +481,7 @@ function toggle(source) {
 		<TR>
 			<TD><INPUT type="checkbox" name="chk[]" style="width:22px"/></TD>
 			
-			<TD><select id="selectBox" class="slt_prod" name="proname" onchange="populateCustomerId();"style="width:200px;fontfamily:Calibri"required name="title">
+			<TD><select id="selectBox" class="slt_prod" name="proname" onchange="populateCustomerId();"style="width:200px;fontfamily:Calibri" required name="title">
 		      <OPTION value="0">Select Project</OPTION>
 		      	<% for (String key : keys){ %>
 		      			<OPTION value=<%=key %>><%=resultMap.get(key) %></OPTION>
@@ -496,7 +537,7 @@ function toggle(source) {
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminAddTask';" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(validatehours()){form.action='<%=request.getContextPath()%>/AdminAddTask'}else{return false};" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">

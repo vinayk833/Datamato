@@ -44,7 +44,7 @@ public class AdminDisplayTask extends HttpServlet {
         
           try {
         	 System.out.println("inside Admin display");
-        	 Statement st=null;
+        	 
         	 Connection con = null;
         	 con = DBConnection.createConnection();
         	 System.out.println("connected!.....");
@@ -80,7 +80,7 @@ public class AdminDisplayTask extends HttpServlet {
              }*/
              String query = "select taskId,date,ProjName,proid,TaskCat,description,hours from task where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "' ";
              System.out.println("query " + query);
-              st = con.createStatement();
+             Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query);
              System.out.println(rs);
              sum = 0;

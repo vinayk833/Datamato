@@ -274,11 +274,11 @@ Set<String> keys = resultMap.keySet();
 	
 		<TR>
 
-			 <TD><select id="selectBox" class="slt_prod" name="proname" onchange="populateCustomerId();"style="width:222px;fontfamily:Calibri"required name="title">
+			 <TD><select id="selectBox" class="slt_prod" name="selectBox" onchange="populateCustomerId();"style="width:222px;fontfamily:Calibri" required >
                         <OPTION value="<%=request.getAttribute("pname")%>"><%=request.getAttribute("pname")%></OPTION>
 		    
 		      	<% for (String key : keys){ %>
-		      			<OPTION value=<%=key %>><%=resultMap.get(key) %></OPTION>
+		      			<OPTION value="<%=key %>"><%=resultMap.get(key) %></OPTION>
 		      	<% } %>
    			 </select></TD>
    			 <TD><input id="proId" class="txt_prod" type="text" value="<%=request.getAttribute("projId")%>" name="proId" style="width:111px;fontfamily:Calibri; background-color:#F5F5F5" readonly="readonly"/></TD>

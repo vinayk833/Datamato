@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,6 +40,19 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
           String Manager = request.getParameter("Product Manager");
           String StartDate = request.getParameter("StartDate");
           String EndDate = request.getParameter("EndDate");
+          SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+  			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+  		/*String reformattedStr = null;
+  		String reformattedStr1 = null;*/
+  		try {
+  			System.out.println();
+  			StartDate = myFormat.format(fromUser.parse(StartDate));
+  			EndDate = myFormat.format(fromUser.parse(EndDate));
+  		    System.out.println(StartDate);
+  		    System.out.println(EndDate);
+  		} catch (ParseException e) {
+  		    e.printStackTrace();
+  		}
        // validate given input
 		  if (CustomerName.isEmpty()|| ID.isEmpty() || ProjName.isEmpty()  ||Type.isEmpty() || Manager.isEmpty() || StartDate.isEmpty()|| EndDate.isEmpty()) {
 		   RequestDispatcher rd = request.getRequestDispatcher("/Admin/AddProjects.jsp");

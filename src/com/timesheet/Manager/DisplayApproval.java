@@ -71,7 +71,7 @@ public class DisplayApproval extends HttpServlet {
    		try {
    			System.out.println();
    		    reformattedStr = myFormat.format(fromUser.parse(startDate));
-   		    reformattedStr1 = myFormat.format(fromUser.parse(endDate));
+   		    //reformattedStr1 = myFormat.format(fromUser.parse(endDate));
    		    System.out.println(reformattedStr);
    		    System.out.println(reformattedStr1);
    		} catch (ParseException e) {
@@ -91,7 +91,17 @@ public class DisplayApproval extends HttpServlet {
            System.out.println("query ==========" + myquery);
        //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
            //String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
-           String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date BETWEEN '"+reformattedStr+"' AND '"+reformattedStr1 +"' AND task.approval='Pending' OR 'emailsent')";
+           //String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date BETWEEN '"+reformattedStr+"' AND '"+reformattedStr1 +"' AND task.approval IN('Pending','emailsent'))";
+           String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date";
+           if(endDate.isEmpty()) {
+        	   System.out.println("null enddate");
+        	   query += "='"+reformattedStr+"'";
+           }else {
+        	   reformattedStr1 = myFormat.format(fromUser.parse(endDate));
+        	   query += " BETWEEN '"+reformattedStr+"' AND '"+reformattedStr1 +"'";
+           }
+           query += " AND task.approval IN('Pending','emailsent'))";
+           
            System.out.println("query " + query);
            st = con.createStatement();
           ResultSet rs = st.executeQuery(query);

@@ -88,7 +88,7 @@
 					<OPTION value="Team's Report">Team's Report</OPTION>
 					</SELECT>			
 			</b></TD></tr>
-     <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder=" mm/dd/yy" style="width:160px" required name="title"/>
+     <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="mm/dd/yy" style="width:160px" required name="title"/>
  <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder=" mm/dd/yy" style="width:160px" required name="title"/></td>
  
  

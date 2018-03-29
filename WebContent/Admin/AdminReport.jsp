@@ -1950,8 +1950,8 @@
     <br><br><br>
     <table border="1" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="55%" align="center" >
 
-      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="mm/dd/yy"  style="width:200px" required name="title";/>
- <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder="mm/dd/yy" style="width:200px" required name="title";/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="dd/mm/yy"  style="width:200px" required name="title";/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder="dd/mm/yy" style="width:200px" required name="title";/></td>
 
  
  <script>
@@ -2001,6 +2001,7 @@ $('#days').val("");
     </td></tr>
     
     </table>
+    <h4><span style='color:red;margin-left:600px;margin-top:10px;'><%if(request.getAttribute("errormsg")!=null){out.println(request.getAttribute("errormsg"));} %></span></h4>
     
     </form>
 </article></center>

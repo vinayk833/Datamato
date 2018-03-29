@@ -59,9 +59,6 @@ public class ViewAdminTask extends HttpServlet {
      			String reformattedStr1 = null;
      			String reformattedStr2 = null;
 
-    			
-    			
-				
     			try {
 
     			    reformattedStr1 = myFormat.format(fromUser.parse(startDate));
@@ -78,7 +75,7 @@ public class ViewAdminTask extends HttpServlet {
              ArrayList pid_list = new ArrayList();
          
           String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" +  reformattedStr1 +"'" + " AND " + "'"+  reformattedStr2 + "'" + " AND " 
-                  + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
+                  + "EmployeeID IN(SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
              System.out.println("query " + query);
              st = con.createStatement();
             ResultSet rs = st.executeQuery(query);

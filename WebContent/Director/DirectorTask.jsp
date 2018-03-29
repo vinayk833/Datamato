@@ -76,6 +76,14 @@ Set<String> keys = resultMap.keySet();
 
 
 //////////////////////////////////////
+function validatehours(){
+	if(document.getElementById("v1").value>24){
+		alert("Total hours should not be greater than 24")
+		return false;
+	}else{
+		return true;
+	}
+}
 
  function calculateSum() {
 
@@ -459,7 +467,7 @@ else if(x=="null"){
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DirectorAddTask';return validate()" />
+<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(validatehours()){form.action='<%=request.getContextPath()%>/DirectorAddTask'}else{return false};" />
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">
