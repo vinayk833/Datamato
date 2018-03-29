@@ -92,15 +92,10 @@
  <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder=" mm/dd/yy" style="width:160px" required name="title"/></td>
  
  
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
 
-<!-- for date picker -->
-<script
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<!-- for date picker -->
-<script
-    src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<!-- for date picker -->
 <script>
 $(document).ready(function() {
 

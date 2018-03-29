@@ -30,6 +30,30 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+
+
+ <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
+                        <!-- date time piv -->
+                        <script type="text/javascript">
+                            $(document).ready(
+                                    function() {
+                                        $("#startdate").datepicker({
+                                            maxDate : "0",
+                                            changeMonth : true,
+                                            changeYear : true,
+                                            firstDay : 1,
+                                            dateFormat : 'mm/dd/yy',
+                                        })
+                                        var x=document.getElementById("startdate").value;
+                                        //alert(x);
+                                        if(x == "null"){
+                                        	$( "#startdate" ).datepicker( "setDate", new Date());	
+                                        } 
+                                    });
+                        </script>
 <TITLE>Add/Remove dynamic rows in HTML table</TITLE>
 <style type="text/css">
     input[type=button]{
@@ -77,14 +101,31 @@ Set<String> keys = resultMap.keySet();
 
 //////////////////////////////////////
 function validatehours(){
-	if(document.getElementById("v1").value>24){
-		alert("Total hours should not be greater than 24")
-		return false;
-	}else{
-		return true;
-	}
+    var x = document.getElementById("v1").value;
+  var inputs = document.getElementsByTagName('input');
+  var stat=0;
+  if(x>24)
+  	{
+  alert("Total hours should not be greater than 24 hours");
+  stat=1;
+  return false;
+  }else{
+   for(var i = 0; i < inputs.length; ++i)
+      if(inputs[i].type === 'text')
+   	   {
+   	   if(inputs[i].value == ""||inputs[i].value ==null ||inputs[i].value=="0" ) 
+         {
+            alert("Please Fill All the Manadotory Fields"); 
+            stat=1;
+           return false;
+           }
+           }
+       }
+  if(stat==0){
+	   return true;
+  }
 }
-
+  
  function calculateSum() {
 
         var sum = 0;
@@ -363,28 +404,8 @@ else if(x=="null"){
 </div>            <div  style="  height: 100%; margin-top: 40px;">
            <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" value="<%=request.getAttribute("date")%>" name="date" required name="title"/>
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/DirectorDisplayTask';" /></span> 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-                       
-                        <!-- date time piv -->
-                        <script type="text/javascript">
-                            $(document).ready(
-                                    function() {
-                                        $("#startdate").datepicker({
-                                            maxDate : "0",
-                                            changeMonth : true,
-                                            changeYear : true,
-                                            firstDay : 1,
-                                            dateFormat : 'mm/dd/yy',
-                                        })
-                                        var x=document.getElementById("startdate").value;
-                                        //alert(x);
-                                        if(x == "null"){
-                                        	$( "#startdate" ).datepicker( "setDate", new Date());	
-                                        } 
-                                    });
-                        </script>
+ 
+
                 <center>
                     <article>
                  
@@ -467,7 +488,7 @@ else if(x=="null"){
 
 <br><br>
 
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(validatehours()){form.action='<%=request.getContextPath()%>/DirectorAddTask'}else{return false};" />
+   <input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(validatehours()){form.action='<%=request.getContextPath()%>/DirectorAddTask'}else{return false;};" / >
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">

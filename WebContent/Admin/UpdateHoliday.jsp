@@ -42,9 +42,17 @@ body {
 <script type="text/javascript">
 
 
-$(function() {
-	$("#startdate").datepicker({ dateFormat: "mm/dd/yy" }).val()
-});
+$(document).ready(
+        function() {
+            $("#startdate").datepicker({
+        
+                changeMonth : true,
+                changeYear : true,
+                firstDay : 1,
+                dateFormat : 'mm/dd/yy',
+            })
+           
+        });
 
 
 

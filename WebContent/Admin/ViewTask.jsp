@@ -34,11 +34,44 @@ $("#name").autocomplete(baseUrl);
   // Code that uses jQuery's $ can follow here.
 jQuery( document ).ready(function( $ ) {
   // Code that uses jQuery's $ can follow here.
+$( "#startdate,#enddate" ).datepicker({
+changeMonth: true,
+changeYear: true,
+firstDay: 1,
+dateFormat: 'mm/dd/yy',
+})
 
-    $("#startdate").datepicker();
-    $("#enddate").datepicker();
+$( "#startdate" ).datepicker({ dateFormat: 'mm/dd/yy' });
+$( "#enddate" ).datepicker({ dateFormat: 'mm/dd/yy' });
 
-  });
+$('#enddate').change(function() {
+var start = $('#startdate').datepicker('getDate');
+var end   = $('#enddate').datepicker('getDate');
+
+if(start==null){
+	alert("Please Enter the Start Date")
+	$('#startdate').val("");
+	$('#enddate').val("");
+	$('#days').val("");}
+	
+   else if (start<=end) {
+ 
+	var days   = (end - start)/1000/60/60/24;
+	$('#days').val(days)
+	
+}
+
+ else {
+	
+alert ("End Date must be later than Start Date!");
+$('#startdate').val("");
+$('#enddate').val("");
+$('#days').val("");
+}
+}
+); //end change function
+}); //end ready
+ 
 // Code that uses other library's $ can follow here.
 </script>
   
@@ -150,7 +183,7 @@ function myFunction() {
 
  
 
-     if (new Date(UserDate).getTime() >= new Date(endDate).getTime()) {
+     if (new Date(UserDate).getTime() > new Date(endDate).getTime()) {
            alert("End Date must be later than Start Date");
            return false;
       }
@@ -251,7 +284,7 @@ Set<String> keys = resultMap.keySet();
 %>
 <br>
    <form name="form"  method="post" action="<%=request.getContextPath()%>/AdminEditViewTask" onsubmit="return TDate()" >
-    <table border="1" cellspacing="4" cellpadding="4" width="50%" align="center">
+    <table border="1" cellspacing="4" cellpadding="4" width="60%" align="center">
     <tr> <input id="name" type="text" name="EmpName" class="search" placeholder="Search Employee name"  onkeyup="showState(this.value)" required name="title" ></tr>
 
 <br><br>  

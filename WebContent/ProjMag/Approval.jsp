@@ -198,8 +198,8 @@ h1{
           
               <table border="none" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="60%" align="center" >
 
-      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="mm/dd/yy"  style="width:200px" value="<%=request.getAttribute("startdate") %>" required name="title";/>
- <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder="mm/dd/yy" style="width:200px" value="<%=request.getAttribute("enddate") %>" name="title";/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder=" dd/mm/yy"  style="width:200px" value="<%=request.getAttribute("startdate") %>" required name="title";/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder=" dd/mm/yy" style="width:200px" value="<%=request.getAttribute("enddate") %>" name="title";/></td>
 
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->

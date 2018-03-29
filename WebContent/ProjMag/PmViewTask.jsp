@@ -42,11 +42,44 @@ jQuery(function(){
   // Code that uses jQuery's $ can follow here.
 jQuery( document ).ready(function( $ ) {
   // Code that uses jQuery's $ can follow here.
+$( "#startdate,#enddate" ).datepicker({
+changeMonth: true,
+changeYear: true,
+firstDay: 1,
+dateFormat: 'mm/dd/yy',
+})
 
-    $("#startdate").datepicker();
-    $("#enddate").datepicker();
+$( "#startdate" ).datepicker({ dateFormat: 'mm/dd/yy' });
+$( "#enddate" ).datepicker({ dateFormat: 'mm/dd/yy' });
 
-  });
+$('#enddate').change(function() {
+var start = $('#startdate').datepicker('getDate');
+var end   = $('#enddate').datepicker('getDate');
+
+if(start==null){
+	alert("Please Enter the Start Date")
+	$('#startdate').val("");
+	$('#enddate').val("");
+	$('#days').val("");}
+	
+   else if (start<=end) {
+ 
+	var days   = (end - start)/1000/60/60/24;
+	$('#days').val(days)
+	
+}
+
+ else {
+	
+alert ("End Date must be later than Start Date!");
+$('#startdate').val("");
+$('#enddate').val("");
+$('#days').val("");
+}
+}
+); //end change function
+}); //end ready
+ 
 // Code that uses other library's $ can follow here.
 </script>
   
