@@ -278,7 +278,7 @@ Set<String> keys = resultMap.keySet();
                         <OPTION value="<%=request.getAttribute("pname")%>"><%=request.getAttribute("pname")%></OPTION>
 		    
 		      	<% for (String key : keys){ %>
-		      			<OPTION value=<%=key %>><%=resultMap.get(key) %></OPTION>
+		      			<OPTION value="<%=key %>"><%=resultMap.get(key) %></OPTION>
 		      	<% } %>
    			 </select></TD>
    			 <TD><input id="proId" class="txt_prod" type="text" value="<%=request.getAttribute("projId")%>" name="proId" style="width:111px;fontfamily:Calibri; background-color:#F5F5F5" readonly="readonly"/></TD>

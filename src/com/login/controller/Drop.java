@@ -76,6 +76,7 @@ public class Drop extends HttpServlet {
   		  File excelpath = new File(home+"/Downloads/" +Ref+".xls"); 
   		  
   		  int exportstatus=0;
+  		 int rowCount = 1;
   		 String startDate = request.getParameter("startdate");
          String endDate = request.getParameter("enddate");
          
@@ -156,9 +157,54 @@ public class Drop extends HttpServlet {
                            
                       }
                       System.out.println(query1);
-                      rs1=st1.executeQuery(query1);
-                      if(rs1.next()==true) {
+                      ResultSet res1=st1.executeQuery(query1);
+                      if(res1.next()==true) {
                     	  exportstatus=1;
+                    	  rs1=st1.executeQuery(query1);
+                    	  while(rs1.next()){
+                              
+                              duplicate = rs1.getString(1);
+                             
+                              System.out.println(duplicate);
+                             
+                                    //int c=(rs1.getInt("sum"));
+                                    // sum=sum+c;
+                                   
+                              HSSFRow rowhead=   sheet.createRow((short)0);
+                       
+                              HSSFCellStyle style = wb.createCellStyle();
+                              HSSFFont font = wb.createFont();
+                              font.setFontName(HSSFFont.FONT_ARIAL);
+                              font.setFontHeightInPoints((short)10);
+                              font.setBold(true);
+                              style.setFont(font);
+                             
+                              rowhead.createCell((short) 0).setCellValue("Project Name");
+                              rowhead.createCell((short) 1).setCellValue("Project ID");
+                              rowhead.createCell((short) 2).setCellValue("Employee Name");
+                              rowhead.createCell((short) 3).setCellValue("Employee ID");
+                              rowhead.createCell((short) 4).setCellValue("Date");
+                              rowhead.createCell((short) 5).setCellValue("Task Category");
+                              rowhead.createCell((short) 6).setCellValue("Total Hours");
+                             
+                              for(int j = 0; j<=6; j++)
+                                    rowhead.getCell(j).setCellStyle(style);
+                              HSSFRow row =   sheet.createRow((short)rowCount);
+                             
+                              row.createCell((short) 0).setCellValue(rs1.getString("ProjName"));
+                              row.createCell((short) 1).setCellValue(rs1.getString("proid"));
+                              row.createCell((short) 2).setCellValue(rs1.getString("EmployeeName"));
+                              row.createCell((short) 3).setCellValue(rs1.getString("EmployeeID"));
+                              row.createCell((short) 4).setCellValue(rs1.getString("Date"));
+                              row.createCell((short) 5).setCellValue(rs1.getString("TaskCat"));
+                              row.createCell((short) 6).setCellValue(rs1.getString("hours"));
+                             
+                              rowCount++;
+                              FileOutputStream fileOut =  new FileOutputStream(excelpath);
+                              wb.write(fileOut);
+                              fileOut.close();
+                             
+                        }
                       }
                       //rs1=st1.executeQuery(query1);
                       }
@@ -179,9 +225,44 @@ public class Drop extends HttpServlet {
                                   }
                             }
                             System.out.println(query2);
-                            rs2=st.executeQuery(query2);
-                            if(rs2.next()==true) {
+                            ResultSet res2=st.executeQuery(query1);
+                            if(res2.next()==true) {
                           	  exportstatus=1;
+                          	rs2=st.executeQuery(query2);
+                          	while(rs2.next()){
+                                HSSFRow rowhead=   sheet.createRow((short)0);
+                                HSSFCellStyle style = wb.createCellStyle();
+                                HSSFFont font = wb.createFont();
+                                font.setFontName(HSSFFont.FONT_ARIAL);
+                                font.setFontHeightInPoints((short)10);
+                                font.setBold(true);
+                                style.setFont(font);
+                               
+                                rowhead.createCell((short) 0).setCellValue("Employee Name");
+                                rowhead.createCell((short) 1).setCellValue("Employee ID");
+                                rowhead.createCell((short) 2).setCellValue("Project Name");
+                                rowhead.createCell((short) 3).setCellValue("Date");
+                                rowhead.createCell((short) 4).setCellValue("Task Category");
+                                rowhead.createCell((short) 5).setCellValue("Total Hours");
+                         
+                         
+                                for(int j = 0; j<=5; j++)
+                                      rowhead.getCell(j).setCellStyle(style);
+                         
+                                HSSFRow row =   sheet.createRow((short)rowCount);
+                                row.createCell((short) 0).setCellValue(rs2.getString("EmployeeName"));
+                                row.createCell((short) 1).setCellValue(rs2.getString("EmployeeID"));
+                                row.createCell((short) 2).setCellValue(rs2.getString("ProjName"));
+                                row.createCell((short) 3).setCellValue(rs2.getString("date"));
+                                row.createCell((short) 4).setCellValue(rs2.getString("TaskCat"));
+                                row.createCell((short) 5).setCellValue(rs2.getString("hours"));
+                         
+                                rowCount++;
+                                FileOutputStream fileOut =  new FileOutputStream(excelpath);
+                                wb.write(fileOut);
+                                fileOut.close();
+                               
+                          }
                             }
                             //rs2=st1.executeQuery(query1);
                       }
@@ -202,190 +283,98 @@ public class Drop extends HttpServlet {
                                   }
                             }
                             System.out.println(query3);
-                            rs3=st2.executeQuery(query3);
-                            if(rs3.next()==true) {
+                            ResultSet res3=st2.executeQuery(query3);
+                            if(res3.next()==true) {
                           	  exportstatus=1;
+                          	  rs3 = st2.executeQuery(query3);
+                          	while(rs3.next()){
+                                
+                                HSSFRow rowhead=   sheet.createRow((short)0);
+                               
+                                HSSFCellStyle style = wb.createCellStyle();
+                                HSSFFont font = wb.createFont();
+                                font.setFontName(HSSFFont.FONT_ARIAL);
+                                font.setFontHeightInPoints((short)10);
+                                font.setBold(true);
+                                style.setFont(font);
+                               
+                                
+                                rowhead.createCell((short) 0).setCellValue("Customer Name");
+                                rowhead.createCell((short) 1).setCellValue("Project Name");
+                                rowhead.createCell((short) 2).setCellValue("Project ID");
+                                rowhead.createCell((short) 3).setCellValue("Start Date");
+                                rowhead.createCell((short) 4).setCellValue("End Date");
+                                rowhead.createCell((short) 5).setCellValue("Total Hours");
+                         
+                                for(int j = 0; j<=5; j++)
+                                      rowhead.getCell(j).setCellStyle(style);
+                                
+                                HSSFRow row =   sheet.createRow((short)rowCount);
+                                row.createCell((short) 0).setCellValue(rs3.getString("CustomerName"));
+                                row.createCell((short) 1).setCellValue(rs3.getString("ProjName"));
+                                row.createCell((short) 2).setCellValue(rs3.getString("ID"));
+                                row.createCell((short) 3).setCellValue(rs3.getString("StartDate"));
+                                row.createCell((short) 4).setCellValue(rs3.getString("EndDate"));
+                                row.createCell((short) 5).setCellValue(rs3.getString("hours"));
+                               
+                                rowCount++;
+                                FileOutputStream fileOut =  new FileOutputStream(excelpath);
+                                wb.write(fileOut);
+                                fileOut.close();
+                               
+                          }
                             }
                             //rs3=st1.executeQuery(query1);
                       }
          
-                      int rowCount = 1;
-                     
-                      if(name.equalsIgnoreCase("1"))
-                      {
-                      while(rs1.next()){
-                           
-                            duplicate = rs1.getString(1);
-                           
-                            System.out.println(duplicate);
-                           
-                                  //int c=(rs1.getInt("sum"));
-                                  // sum=sum+c;
-                                 
-                            HSSFRow rowhead=   sheet.createRow((short)0);
-                     
-                            HSSFCellStyle style = wb.createCellStyle();
-                            HSSFFont font = wb.createFont();
-                            font.setFontName(HSSFFont.FONT_ARIAL);
-                            font.setFontHeightInPoints((short)10);
-                            font.setBold(true);
-                            style.setFont(font);
-                           
-                            rowhead.createCell((short) 0).setCellValue("Project Name");
-                            rowhead.createCell((short) 1).setCellValue("Project ID");
-                            rowhead.createCell((short) 2).setCellValue("Employee Name");
-                            rowhead.createCell((short) 3).setCellValue("Employee ID");
-                            rowhead.createCell((short) 4).setCellValue("Date");
-                            rowhead.createCell((short) 5).setCellValue("Task Category");
-                            rowhead.createCell((short) 6).setCellValue("Total Hours");
-                           
-                            for(int j = 0; j<=6; j++)
-                                  rowhead.getCell(j).setCellStyle(style);
-                            HSSFRow row =   sheet.createRow((short)rowCount);
-                           
-                            row.createCell((short) 0).setCellValue(rs1.getString("ProjName"));
-                            row.createCell((short) 1).setCellValue(rs1.getString("proid"));
-                            row.createCell((short) 2).setCellValue(rs1.getString("EmployeeName"));
-                            row.createCell((short) 3).setCellValue(rs1.getString("EmployeeID"));
-                            row.createCell((short) 4).setCellValue(rs1.getString("Date"));
-                            row.createCell((short) 5).setCellValue(rs1.getString("TaskCat"));
-                            row.createCell((short) 6).setCellValue(rs1.getString("hours"));
-                           
-                            rowCount++;
-                            FileOutputStream fileOut =  new FileOutputStream(excelpath);
-                            wb.write(fileOut);
-                            fileOut.close();
-                           
-                      }
-                     
-                }    
-                      if(name.equalsIgnoreCase("3"))
-                      {
-                           
-                      while(rs2.next()){
-                            HSSFRow rowhead=   sheet.createRow((short)0);
-                            HSSFCellStyle style = wb.createCellStyle();
-                            HSSFFont font = wb.createFont();
-                            font.setFontName(HSSFFont.FONT_ARIAL);
-                            font.setFontHeightInPoints((short)10);
-                            font.setBold(true);
-                            style.setFont(font);
-                           
-                            rowhead.createCell((short) 0).setCellValue("Employee Name");
-                            rowhead.createCell((short) 1).setCellValue("Employee ID");
-                            rowhead.createCell((short) 2).setCellValue("Project Name");
-                            rowhead.createCell((short) 3).setCellValue("Date");
-                            rowhead.createCell((short) 4).setCellValue("Task Category");
-                            rowhead.createCell((short) 5).setCellValue("Total Hours");
-                     
-                     
-                            for(int j = 0; j<=5; j++)
-                                  rowhead.getCell(j).setCellStyle(style);
-                     
-                            HSSFRow row =   sheet.createRow((short)rowCount);
-                            row.createCell((short) 0).setCellValue(rs2.getString("EmployeeName"));
-                            row.createCell((short) 1).setCellValue(rs2.getString("EmployeeID"));
-                            row.createCell((short) 2).setCellValue(rs2.getString("ProjName"));
-                            row.createCell((short) 3).setCellValue(rs2.getString("date"));
-                            row.createCell((short) 4).setCellValue(rs2.getString("TaskCat"));
-                            row.createCell((short) 5).setCellValue(rs2.getString("hours"));
-                     
-                            rowCount++;
-                            FileOutputStream fileOut =  new FileOutputStream(excelpath);
-                            wb.write(fileOut);
-                            fileOut.close();
-                           
-                      }
-                     
-                }
-                     
-                      if(name.equalsIgnoreCase("2"))
-                      {
-                           
-                      while(rs3.next()){
-                           
-                            HSSFRow rowhead=   sheet.createRow((short)0);
-                           
-                            HSSFCellStyle style = wb.createCellStyle();
-                            HSSFFont font = wb.createFont();
-                            font.setFontName(HSSFFont.FONT_ARIAL);
-                            font.setFontHeightInPoints((short)10);
-                            font.setBold(true);
-                            style.setFont(font);
-                           
-                            
-                            rowhead.createCell((short) 0).setCellValue("Customer Name");
-                            rowhead.createCell((short) 1).setCellValue("Project Name");
-                            rowhead.createCell((short) 2).setCellValue("Project ID");
-                            rowhead.createCell((short) 3).setCellValue("Start Date");
-                            rowhead.createCell((short) 4).setCellValue("End Date");
-                            rowhead.createCell((short) 5).setCellValue("Total Hours");
-                     
-                            for(int j = 0; j<=5; j++)
-                                  rowhead.getCell(j).setCellStyle(style);
-                            
-                            HSSFRow row =   sheet.createRow((short)rowCount);
-                            row.createCell((short) 0).setCellValue(rs3.getString("CustomerName"));
-                            row.createCell((short) 1).setCellValue(rs3.getString("ProjName"));
-                            row.createCell((short) 2).setCellValue(rs3.getString("ID"));
-                            row.createCell((short) 3).setCellValue(rs3.getString("StartDate"));
-                            row.createCell((short) 4).setCellValue(rs3.getString("EndDate"));
-                            row.createCell((short) 5).setCellValue(rs3.getString("hours"));
-                           
-                            rowCount++;
-                            FileOutputStream fileOut =  new FileOutputStream(excelpath);
-                            wb.write(fileOut);
-                            fileOut.close();
-                           
-                      }
-                     
-                   }
                     if(name.equalsIgnoreCase("4")) {
                     	String query4 = "Select * from task where EmployeeID='" + sessionId + "' AND task.date BETWEEN '"+ reformattedStr +"' AND '" + reformattedStr1 + "'" ;
                     	System.out.println(sessionId);
-                    	rs4=st3.executeQuery(query4);
-                    	if(rs4.next()==true) {
+                    	ResultSet res4=st3.executeQuery(query4);
+                    	if(res4.next()==true) {
                       	  exportstatus=1;
+                      	rs4=st3.executeQuery(query4);
+                      	//rs1=st1.executeQuery(query1);
+                          HSSFRow rowhead=   sheet.createRow((short)0);
+                          HSSFCellStyle style = wb.createCellStyle();
+                          HSSFFont font = wb.createFont();
+                          font.setFontName(HSSFFont.FONT_ARIAL);
+                          font.setFontHeightInPoints((short)10);
+                          font.setBold(true);
+                          style.setFont(font);
+               
+                          rowhead.createCell((short) 0).setCellValue("taskId");
+                          rowhead.createCell((short) 1).setCellValue("EmployeeID");
+                          rowhead.createCell((short) 2).setCellValue("date");
+                          rowhead.createCell((short) 3).setCellValue("ProjName");
+                          rowhead.createCell((short) 4).setCellValue("proid");
+                          rowhead.createCell((short) 5).setCellValue("TaskCat");
+                          rowhead.createCell((short) 6).setCellValue("description");
+                          rowhead.createCell((short) 7).setCellValue("hours");
+                          
+                          for(int j = 0; j<=7; j++)
+                              rowhead.getCell(j).setCellStyle(style);
+                     
+                          while(rs4.next()){
+                                //System.out.println(rs.getString(1).toString());
+                                HSSFRow row =   sheet.createRow((short)rowCount);
+                                row.createCell((short) 0).setCellValue(rs4.getInt("taskId"));
+                                row.createCell((short) 1).setCellValue(rs4.getString("EmployeeID"));
+                                row.createCell((short) 2).setCellValue(rs4.getString("date"));
+                                row.createCell((short) 3).setCellValue(rs4.getString("ProjName"));
+                                row.createCell((short) 4).setCellValue(rs4.getString("proid"));
+                                row.createCell((short) 5).setCellValue(rs4.getString("TaskCat"));
+                                row.createCell((short) 6).setCellValue(rs4.getString("description"));
+                                row.createCell((short) 7).setCellValue(rs4.getString("hours"));            
+                                rowCount++;
+               
+                          }
+                          
+                          FileOutputStream fileOut =  new FileOutputStream(excelpath);
+                          wb.write(fileOut);
+                          fileOut.close();
                         }
-                    	//rs1=st1.executeQuery(query1);
-                        HSSFRow rowhead=   sheet.createRow((short)0);
-                        HSSFCellStyle style = wb.createCellStyle();
-                        HSSFFont font = wb.createFont();
-                        font.setFontName(HSSFFont.FONT_ARIAL);
-                        font.setFontHeightInPoints((short)10);
-                        font.setBold(true);
-                        style.setFont(font);
-             
-                        rowhead.createCell((short) 0).setCellValue("taskId");
-                        rowhead.createCell((short) 1).setCellValue("EmployeeID");
-                        rowhead.createCell((short) 2).setCellValue("date");
-                        rowhead.createCell((short) 3).setCellValue("ProjName");
-                        rowhead.createCell((short) 4).setCellValue("proid");
-                        rowhead.createCell((short) 5).setCellValue("TaskCat");
-                        rowhead.createCell((short) 6).setCellValue("description");
-                        rowhead.createCell((short) 7).setCellValue("hours");
-                        
-                        for(int j = 0; j<=7; j++)
-                            rowhead.getCell(j).setCellStyle(style);
-                   
-                        while(rs4.next()){
-                              //System.out.println(rs.getString(1).toString());
-                              HSSFRow row =   sheet.createRow((short)rowCount);
-                              row.createCell((short) 0).setCellValue(rs4.getInt("taskId"));
-                              row.createCell((short) 1).setCellValue(rs4.getString("EmployeeID"));
-                              row.createCell((short) 2).setCellValue(rs4.getString("date"));
-                              row.createCell((short) 3).setCellValue(rs4.getString("ProjName"));
-                              row.createCell((short) 4).setCellValue(rs4.getString("proid"));
-                              row.createCell((short) 5).setCellValue(rs4.getString("TaskCat"));
-                              row.createCell((short) 6).setCellValue(rs4.getString("description"));
-                              row.createCell((short) 7).setCellValue(rs4.getString("hours"));            
-                              rowCount++;
-             
-                        }
-                        
-                        FileOutputStream fileOut =  new FileOutputStream(excelpath);
-                        wb.write(fileOut);
-                        fileOut.close();
+                    	
 
                     }
                     

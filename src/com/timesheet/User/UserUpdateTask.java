@@ -51,7 +51,15 @@ public class UserUpdateTask extends HttpServlet {
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
-
+		Statement stt = dbconnection.createStatement();
+		String q="select ProjName from task where proid='"+ProjectID+"'";
+		System.out.println(q);
+		ResultSet rs = stt.executeQuery(q);
+		while(rs.next()) {
+			ProjectName = rs.getString("ProjName");
+			System.out.println(ProjectName);
+		}
+		
 		// Setting update query
 		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
 				+ "description= ? , hours= ? where taskId= ?";

@@ -66,16 +66,25 @@ public class UpdateTask extends HttpServlet {
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
+		
+		Statement stt = dbconnection.createStatement();
+		String q="select ProjName from task where proid='"+ProjectID+"'";
+		System.out.println(q);
+		ResultSet rs = stt.executeQuery(q);
+		while(rs.next()) {
+			ProjectName = rs.getString("ProjName");
+			System.out.println(ProjectName);
+		}
 
 		// Setting update query
-		
-		String updateQuery = "UPDATE task  set date='"+ Date +"', ProjName='"+ProjectName+"' , proid='"+ProjectID+"', TaskCat='"+TaskCategory+"'," + 
-							 "description='"+Description+"', hours='"+Hours+"' where taskId='"+taskID+"'";
+		/*
+		String updateQuery = "UPDATE task  set date=?, ProjName=? , proid=?, TaskCat=?," + 
+							 "description=?, hours=? where taskId=?";
 		Statement st = dbconnection.createStatement();
 		System.out.println(updateQuery);
-		st.executeUpdate(updateQuery);
+		st.executeUpdate(updateQuery);*/
 		
-		/*String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
+		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
 				+ "description= ? , hours= ? where taskId= ?";
 		
 		// Setting up Prepared Statement
@@ -95,7 +104,7 @@ public class UpdateTask extends HttpServlet {
 		System.out.println(preparedStatement);
 		
 		// Execute update SQL statement
-		preparedStatement.executeUpdate();*/
+		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
 		dbconnection.close();

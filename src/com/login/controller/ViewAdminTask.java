@@ -59,9 +59,6 @@ public class ViewAdminTask extends HttpServlet {
      			String reformattedStr1 = null;
      			String reformattedStr2 = null;
 
-    			
-    			
-				
     			try {
 
     			    reformattedStr1 = myFormat.format(fromUser.parse(startDate));
