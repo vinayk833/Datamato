@@ -77,13 +77,32 @@ Set<String> keys = resultMap.keySet();
 
 //////////////////////////////////////
 function validatehours(){
-	if(document.getElementById("v1").value>24){
-		alert("Total hours should not be greater than 24")
-		return false;
-	}else{
-		return true;
-	}
+    var x = document.getElementById("v1").value;
+  var inputs = document.getElementsByTagName('input');
+  var stat=0;
+  if(x>24)
+  	{
+  alert("Total hours should not be greater than 24 hours");
+  stat=1;
+  return false;
+  }else{
+   for(var i = 0; i < inputs.length; ++i)
+      if(inputs[i].type === 'text')
+   	   {
+   	   if(inputs[i].value == ""||inputs[i].value ==null ||inputs[i].value=="0" ) 
+         {
+            alert("Please Fill All the Manadotory Fields"); 
+            stat=1;
+           return false;
+           }
+           }
+       }
+  if(stat==0){
+	   return true;
+  }
 }
+ 
+
 
  function calculateSum() {
 
@@ -310,46 +329,6 @@ function toggle(source) {
   
   
   </script>
-<!--   //  newvalidation ///////////////////////////// -->
-  
-<!-- //       function validate() { -->
-      
-<!-- //         if (document.frm.hours.value == "")  { -->
-<!-- //             alert("Please Enter Hours."); -->
-<!-- //             document.frm.Description.focus(); -->
-<!-- //             return false; -->
-<!-- //         } -->
-<!-- //         if (document.frm.TaskCat.value == "")  { -->
-<!-- //             alert("Please Enter Task Category."); -->
-<!-- //             document.frm.Description.focus(); -->
-<!-- //             return false; -->
-<!-- //         } -->
-        
-        
-<!-- //         var e = document.getElementById("selectBox"); -->
-<!-- //         var strUser = e.options[e.selectedIndex].value; -->
-
-<!-- //         var strUser1 = e.options[e.selectedIndex].text; -->
-<!-- //         if(strUser==0) -->
-<!-- //         { -->
-<!-- //             alert("Please select Project name"); -->
-<!-- //             return false; -->
-<!-- //         } -->
-
-         
-<!-- //          return true; -->
-<!-- //         } -->
-<!-- //       function validation2(){ -->
-<!-- //     	     var x = document.getElementById("v1").value; -->
-<!-- //     	        if (x<8) { -->
-<!-- //     	            alert ('Total hours must be more than 8 Hours'); -->
-<!-- //     	            return false; -->
-<!-- //     	        } -->
-    	           
-    	  
-<!-- //     	        return true; -->
-    	       
-<!-- //     	} -->
   
 
 </head>
@@ -388,9 +367,11 @@ function toggle(source) {
             <div  style="  height: 100%; margin-top: 40px;">
            <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" value="<%=request.getAttribute("date")%>" name="date" required name="title"/>
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerDisplayTask';" /></span> 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+   <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
+<link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
+
                        
                         <!-- date time piv -->
                         <script type="text/javascript">
@@ -509,8 +490,7 @@ function toggle(source) {
 </table>
 
 <br><br>
-
-<input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(validatehours()){form.action='<%=request.getContextPath()%>/ManagerAddTask'}else{return false};" />
+   <input type="submit" value="Save" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(validatehours()){form.action='<%=request.getContextPath()%>/ManagerAddTask'}else{return false;};" / >
 
 <br><br><br><br><br><br>
 <table align="center" cellpadding="6" cellspacing="6" width="1100px" border="1">

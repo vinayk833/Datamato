@@ -48,11 +48,17 @@ body {
 </style>
 
 <script type="text/javascript">
-	$(function() {
-		$("#datepicker").datepicker({
-			dateFormat : "mm/dd/yy"
-		}).val()
-	});
+$(document).ready(
+        function() {
+            $("#datepicker").datepicker({
+        
+                changeMonth : true,
+                changeYear : true,
+                firstDay : 1,
+                dateFormat : 'mm/dd/yy',
+            })
+       
+        });
 	
 	function validate() {
 		var sdate = document.frm.date.value;

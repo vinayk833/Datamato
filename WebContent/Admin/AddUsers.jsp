@@ -62,7 +62,8 @@ function validateEmail(emailField){
 
     if (reg.test(emailField.value) == false)
     {
-        alert('Invalid Email Address');
+        alert('Please Enter valid Email id');
+        document.getElementById("id").value = "";
         return false;
     }
 
@@ -206,7 +207,7 @@ function validate() {
 <h1>Add Users</h1>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtNo">Employee ID:<span class="required">*</span></label></b></td><td><input type="text" name="EmployeeID" placeholder="Enter Employee ID"  onkeypress="return isNumber(event)"  style="width:200px"></td></tr>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtName">Employee Name:<span class="required">*</span></label></b></td><td><input type="text" name="EmployeeName" placeholder="Enter Employee Name" onkeypress="return isAlfa(event)" style="width:200px"></td></tr>
-<tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtEmail">Email ID:<span class="required">*</span></label></b></td><td><input type="text" name="EMAIL" placeholder="@mindacorporation.com"  onblur="validateEmail(this)" style="width:200px"></td></tr>
+<tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtEmail">Email ID:<span class="required">*</span></label></b></td><td><input type="text" id="id" name="EMAIL" placeholder="@mindacorporation.com"  onblur="validateEmail(this)" style="width:200px"></td></tr>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtName">Password:<span class="required">*</span></label></b></td><td><input type="password" name="PASSWORD" style="width:200px"></td></tr>
 <tr bordercolor=" #C0C0C0"><td align="center"><b>Role:<span class="required">*</span></b></td><td><select name="ROLE" style="width:205px">
  <%

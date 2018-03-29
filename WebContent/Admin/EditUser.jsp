@@ -148,7 +148,7 @@ function validateEmail(emailField){
 <h1>Update Users</h1>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtNo">Employee ID:</label></b></td><td><input type="text" name="EmployeeID"  value="<%=request.getAttribute("EmployeeID")%>" placeholder="Enter Employee ID"   style="width:200px" readonly="readonly"></td></tr>
 <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtName">Employee Name:</label></b></td><td><input type="text" name="EmployeeName" value="<%=request.getAttribute("EmployeeName")%>" placeholder="Enter Employee Name"  style="width:200px" readonly="readonly"></td></tr>
-<tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtEmail">Email ID:</label></b></td><td><input type="text" name="EMAIL" value="<%=request.getAttribute("EMAIL")%>" placeholder="@mindacorporation.com"  onblur="validateEmail(this)" style="width:200px"></td></tr>
+<tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtEmail">Email ID:</label></b></td><td><input type="text" name="EMAIL" value="<%=request.getAttribute("EMAIL")%>" placeholder="@mindacorporation.com"  onblur="validateEmail(this)" style="width:200px"readonly="readonly"></td></tr>
 <%-- <tr bordercolor=" #C0C0C0"><td align="center"><b><label for="txtName">Password:</label></b></td><td><input type="password" name="PASSWORD" value="<%=request.getAttribute("PASSWORD")%>" style="width:200px" readonly="readonly"></td></tr> --%>
 <tr bordercolor=" #C0C0C0"><td align="center"><b>Role:<span class="required">*</span></b></td><td><select name="ROLE" style="width:205px" >
 <OPTION value="<%=request.getAttribute("ROLE")%>"><%=request.getAttribute("ROLE")%></OPTION>

@@ -18,11 +18,46 @@
 <link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
 
 <script>
-  $(function() {
-    $( "#startdate" ).datepicker();
-    $( "#enddate" ).datepicker();
+jQuery( document ).ready(function( $ ) {
+	  // Code that uses jQuery's $ can follow here.
+	$( "#startdate,#enddate" ).datepicker({
+	changeMonth: true,
+	changeYear: true,
+	firstDay: 1,
+	dateFormat: 'mm/dd/yy',
+	})
 
-  });
+	$( "#startdate" ).datepicker({ dateFormat: 'mm/dd/yy' });
+	$( "#enddate" ).datepicker({ dateFormat: 'mm/dd/yy' });
+
+	$('#enddate').change(function() {
+	var start = $('#startdate').datepicker('getDate');
+	var end   = $('#enddate').datepicker('getDate');
+
+	if(start==null){
+		alert("Please Enter the Start Date")
+		$('#startdate').val("");
+		$('#enddate').val("");
+		$('#days').val("");}
+		
+	   else if (start<=end) {
+	 
+		var days   = (end - start)/1000/60/60/24;
+		$('#days').val(days)
+		
+	}
+
+	 else {
+		
+	alert ("End Date must be later than Start Date!");
+	$('#startdate').val("");
+	$('#enddate').val("");
+	$('#days').val("");
+	}
+	}
+	); //end change function
+	}); //end ready
+	 
   </script>
 
 <style type="text/css">
