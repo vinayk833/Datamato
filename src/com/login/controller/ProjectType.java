@@ -67,7 +67,8 @@ public class ProjectType extends HttpServlet {
 				System.out.println("connected");
 				
 					System.out.println(query);
-				
+					statement.close();
+					resultSet.close();
 				con.close();
 				System.out.println("Disconnected from database");
 			} catch (Exception e) {

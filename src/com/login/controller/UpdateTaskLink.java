@@ -84,6 +84,7 @@ public class UpdateTaskLink extends HttpServlet {
 		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
+		preparedStatement.close();
 		dbconnection.close();
 		
 		// Request dispatcher
@@ -141,6 +142,8 @@ public class UpdateTaskLink extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateTask.jsp");
              view.include(request, response);
+             rs.close();
+             st.close();
              con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {

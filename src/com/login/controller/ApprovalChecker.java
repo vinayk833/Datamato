@@ -122,6 +122,9 @@ public class ApprovalChecker extends HttpServlet {
 				           
 				           RequestDispatcher view = request.getRequestDispatcher("/ProjMag/Approval.jsp");
 				           view.forward(request, response);
+				           
+				           res.close();
+				           st.close();
 				           con.close();
 						   break;
 				
@@ -170,6 +173,8 @@ public class ApprovalChecker extends HttpServlet {
 					           
 					           RequestDispatcher view1 = request.getRequestDispatcher("/Director/Approval.jsp");
 					           view1.forward(request, response);
+					           rs2.close();
+					           st2.close();
 					           con.close();
 							break;
 

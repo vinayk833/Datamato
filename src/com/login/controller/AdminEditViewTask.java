@@ -93,6 +93,7 @@ public class AdminEditViewTask extends HttpServlet {
 		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
+		preparedStatement.close();
 		dbconnection.close();
 		
 		// Request dispatcher

@@ -114,6 +114,8 @@ public class DirectorDisplayTask extends HttpServlet {
            System.out.println("Summation of hours is --===>" + sum);
            RequestDispatcher view = request.getRequestDispatcher("/Director/DirectorTask.jsp");
            view.include(request, response);
+           rs.close();
+           st.close();
            
            con.close();
            System.out.println("Disconnected!");

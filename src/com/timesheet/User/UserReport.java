@@ -119,6 +119,10 @@ public class UserReport extends HttpServlet {
 			os.flush();
 			os.close();
 			is.close();
+			rs.close();
+			st.close();
+			con.close();
+			
 			
 			
 		}

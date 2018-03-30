@@ -107,7 +107,11 @@ public class AdminDisplayTask extends HttpServlet {
              RequestDispatcher view = request.getRequestDispatcher("/Admin/AddTask.jsp");
              view.include(request, response);
              
+             rs.close();
+             st.close();
              con.close();
+             
+             
              System.out.println("Disconnected!");
            
          } catch (Exception e) {

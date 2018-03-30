@@ -156,6 +156,9 @@ public class UserAddTask extends HttpServlet {
 				}
 			}
 			// Closing DB connection
+			s.close();
+			resultset1.close();
+			statement1.close();
 			dbconnection.close();
 		}
 

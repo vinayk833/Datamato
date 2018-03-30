@@ -97,6 +97,7 @@ public class TaskDirectorServlet extends HttpServlet {
 	            
 	            res.close();
 	            stt.close();
+	            con.close();
 	        }
 	        catch (Exception e)
 	        {

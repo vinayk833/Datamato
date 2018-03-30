@@ -116,7 +116,8 @@ public class DeleteHoliday extends HttpServlet {
 				System.out.println(" data has been found");
 			}*/
 			
-			
+			result.close();
+			st.close();
 			con.close();
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {

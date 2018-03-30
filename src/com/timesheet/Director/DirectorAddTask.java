@@ -149,6 +149,11 @@ public class DirectorAddTask extends HttpServlet {
 				}
 			}
 			// Closing DB connection
+			r.close();
+			
+			s.close();
+			resultset1.close();
+			statement1.close();
 			dbconnection.close();
 		}
 

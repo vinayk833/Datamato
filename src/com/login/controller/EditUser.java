@@ -73,6 +73,7 @@ public class EditUser extends HttpServlet {
 		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
+		preparedStatement.close();
 		dbconnection.close();
 		
 		// Request dispatcher
@@ -128,6 +129,7 @@ public class EditUser extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/EditUser.jsp");
              view.include(request, response);
+             st.close();
              con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {

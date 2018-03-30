@@ -113,6 +113,7 @@ public class ManagerDisplayTask extends HttpServlet {
            RequestDispatcher view = request.getRequestDispatcher("/ProjMag/CreateTask.jsp");
            view.include(request, response);
            
+           st.close();
            con.close();
            System.out.println("Disconnected!");
          

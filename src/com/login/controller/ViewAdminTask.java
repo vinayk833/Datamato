@@ -99,6 +99,7 @@ public class ViewAdminTask extends HttpServlet {
              
              RequestDispatcher view = request.getRequestDispatcher("/Admin/ViewTask.jsp");
              view.forward(request, response);
+             st.close();
              con.close();
              System.out.println("Disconnected!");
            

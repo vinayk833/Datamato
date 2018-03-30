@@ -8,9 +8,9 @@ public class DBConnection {
 	{
 		//test comment
 		Connection con = null;
-		String url = "jdbc:mysql://192.168.30.104:3306/customers";
-		String username = "priyanka";
-		String password = "Datamato@123";
+		String url = "jdbc:mysql://localhost:3306/customers";//localhost
+		String username = "root";//root
+		String password = "Dell@365";//Dell@365
 		String ConnectionDriver ="com.mysql.jdbc.Driver";
 		//String password = "root";
 		try

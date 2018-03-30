@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.login.util.DBConnection;
 
 /**
@@ -29,7 +31,10 @@ public class AddProject extends HttpServlet {
     }
 public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
-	
+    Connection con = null;
+    response.setContentType("text/html");
+    con = DBConnection.createConnection();
+
     // TODO Auto-generated method stub
          PrintWriter out = response.getWriter();
           String CustomerName = request.getParameter("CustomerName");
@@ -62,9 +67,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 
 
            try {
-               Connection con = null;
-                response.setContentType("text/html");
-            con = DBConnection.createConnection();
+             
                 String query = "insert into myproject values(?,?,?,?,?,?,?,?)";
              PreparedStatement ps = con.prepareStatement(query); // generates sql query
             ps.setString(1, CustomerName);
@@ -87,8 +90,9 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 					rd.include(request, response);
                 out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>Saved " +ProjName+ " failed</h4>");
             }
-            System.out.println("Successfully inserted into DB");        
-            con.close();
+            
+            ps.close();
+            
             System.out.println("Disconnected from database");
         } catch (Exception e) {
         e.printStackTrace();
@@ -97,6 +101,16 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 		rd.include(request, response);
 		out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>" +ProjName+ " Already Exist</h4>");
         }
+           finally{
+				try {
+					con.close();
+					System.out.println("Disconnected from Database.");
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
     }
     
 }

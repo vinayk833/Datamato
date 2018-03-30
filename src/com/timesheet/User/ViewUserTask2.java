@@ -110,6 +110,8 @@ public class ViewUserTask2 extends HttpServlet {
 	             
 	             RequestDispatcher view = request.getRequestDispatcher("/JSP/viewevent.jsp");
 	             view.forward(request, response);
+	             rs.close();
+	             st.close();
 	             con.close();
 	             System.out.println("Disconnected!");
 	           

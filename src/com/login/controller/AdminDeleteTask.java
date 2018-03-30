@@ -51,8 +51,9 @@ public class AdminDeleteTask extends HttpServlet {
 			rd.include(request, response);
 			out.println("<h4 style='color:red;margin-left:400px;margin-top:-190px;'>" +taskID+ " Deleted Successfully!</h4>");
 			
-			
+			prpStat.close();
 			con.close();
+			
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();

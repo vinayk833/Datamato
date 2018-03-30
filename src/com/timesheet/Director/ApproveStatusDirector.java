@@ -88,6 +88,7 @@ public class ApproveStatusDirector extends HttpServlet {
 	      	 }
 		
 	      	request.getRequestDispatcher("DisplayDirectorApproval").forward(request, response);
+		con.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

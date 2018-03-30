@@ -86,6 +86,9 @@ public class ManagerUpdateTask extends HttpServlet {
 		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
+		rs.close();
+		stt.close();
+		
 		dbconnection.close();
 		
 		// Request dispatcher

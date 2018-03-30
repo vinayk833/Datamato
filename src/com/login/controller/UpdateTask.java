@@ -107,6 +107,8 @@ public class UpdateTask extends HttpServlet {
 		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
+		rs.close();
+		stt.close();
 		dbconnection.close();
 		
 		// Request dispatcher
@@ -164,6 +166,9 @@ public class UpdateTask extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateAddTask.jsp");
              view.include(request, response);
+             rs.close();
+             st.close();
+             
              con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {

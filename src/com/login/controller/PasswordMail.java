@@ -55,6 +55,10 @@ public class PasswordMail extends HttpServlet {
 				request.getRequestDispatcher("/JSP/resetmail.jsp").forward(request,response);
 				
 			}
+			rs.close();
+			st.close();
+			con.close();
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();

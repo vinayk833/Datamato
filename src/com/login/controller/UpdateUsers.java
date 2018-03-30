@@ -82,7 +82,9 @@ public class UpdateUsers extends HttpServlet {
              System.out.println(pid_list);
              RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateUsers.jsp");
              view.forward(request, response);
-           
+             
+             rs.close();
+             st.close();
              con.close();
             
              System.out.println("Disconnected!");

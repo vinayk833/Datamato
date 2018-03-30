@@ -106,7 +106,8 @@ public class UserDisplayTask extends HttpServlet {
              System.out.println("Summation of hours is --===>" + sum);
              RequestDispatcher view = request.getRequestDispatcher("/JSP/emp_event.jsp");
              view.include(request, response);
-             
+             rs.close();
+             st.close();
              con.close();
              System.out.println("Disconnected!");
            

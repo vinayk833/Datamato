@@ -99,7 +99,7 @@ public class SearchProject extends HttpServlet {
              System.out.println(pid_list);
              RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateProjects.jsp");
              view.forward(request, response);
-            
+            st.close();
              con.close();
             
              System.out.println("Disconnected!");

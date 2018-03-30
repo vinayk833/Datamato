@@ -225,10 +225,11 @@ public class Drop extends HttpServlet {
                                   }
                             }
                             System.out.println(query2);
-                            ResultSet res2=st.executeQuery(query1);
+                            ResultSet res2=st.executeQuery(query2);
                             if(res2.next()==true) {
                           	  exportstatus=1;
-                          	rs2=st.executeQuery(query2);
+                          	  Statement stt = con.createStatement();
+                          	rs2=stt.executeQuery(query2);
                           	while(rs2.next()){
                                 HSSFRow rowhead=   sheet.createRow((short)0);
                                 HSSFCellStyle style = wb.createCellStyle();
@@ -283,10 +284,11 @@ public class Drop extends HttpServlet {
                                   }
                             }
                             System.out.println(query3);
-                            ResultSet res3=st2.executeQuery(query3);
+                            ResultSet res3=st.executeQuery(query3);
                             if(res3.next()==true) {
                           	  exportstatus=1;
-                          	  rs3 = st2.executeQuery(query3);
+                          	  Statement stt = con.createStatement();
+                          	rs3=stt.executeQuery(query3);
                           	while(rs3.next()){
                                 
                                 HSSFRow rowhead=   sheet.createRow((short)0);
@@ -412,6 +414,16 @@ public class Drop extends HttpServlet {
                       dropdownValues=null;
                       dropdownValues1=null;
                       dropdownValues2=null;
+                      
+                      rs4.close();
+                      rs3.close();
+                      rs2.close();
+                      rs1.close();
+                      
+                      st3.close();
+                      st2.close();
+                      st.close();
+                      
                       con.close();
             }
             catch (Exception e2) {

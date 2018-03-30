@@ -150,7 +150,10 @@ public class AdminAddTask extends HttpServlet {
 
 			}
 						// Closing DB connection
+			 s.close();
 			dbconnection.close();
+             
+			System.out.println("Connection close------------->");
 		}
 
 		catch(Exception e)

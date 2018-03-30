@@ -114,7 +114,7 @@ $(document).ready(function() {
 		$('#enddate').val("");
 		$('#days').val("");}
 		
-	   else if (start<end) {
+	   else if (start<=end) {
 	 
 		var days   = (end - start)/1000/60/60/24;
 		$('#days').val(days)

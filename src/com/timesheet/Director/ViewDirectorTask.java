@@ -106,6 +106,8 @@ public class ViewDirectorTask extends HttpServlet {
              
              RequestDispatcher view = request.getRequestDispatcher("/Director/ViewDirTask.jsp");
              view.forward(request, response);
+             rs.close();
+             st.close();
              con.close();
              System.out.println("Disconnected!");
            

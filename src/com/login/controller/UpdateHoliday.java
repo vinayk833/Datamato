@@ -72,6 +72,7 @@ public class UpdateHoliday extends HttpServlet {
              System.out.println(pid_list);
              RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
              view.forward(request, response);
+             st.close();
              con.close();
              System.out.println("Disconnected!");
            

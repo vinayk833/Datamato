@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -32,6 +33,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		Connection con = null;
+		con = DBConnection.createConnection();
+
+		System.out.println("Connected from Database.");
+
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -51,7 +56,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 			try
 			{
-				con = DBConnection.createConnection();
+				
 				
 				 String query = "insert into holidays values(?,?)";
 	             PreparedStatement ps = con.prepareStatement(query); // generates sql query
@@ -71,15 +76,20 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 				System.out.println("query " + query);
 				 //response.sendRedirect("/Admin/AddHolidays.jsp");
 				
-				
-				
-				con.close();
-				System.out.println("Disconnected from database");
 			} catch (Exception e) {
 				e.printStackTrace();
 				RequestDispatcher rd=request.getRequestDispatcher("/Admin/AddHolidays.jsp");
 				rd.include(request, response);
 				out.println("<h4 style='color:red;margin-left:600px;margin-top:50px;text-align='center';'>" +date+ " Already Exist</h4>");
+			}finally{
+				try {
+					con.close();
+					System.out.println("Disconnected from Database.");
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 		

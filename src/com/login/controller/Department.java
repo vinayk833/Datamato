@@ -61,7 +61,7 @@ public class Department extends HttpServlet {
 	                out.println("<h4 style='color:red;margin-left:400px;margin-top:-40px;'>Saved " +Department+ " failed</h4>");
 	            }
 				System.out.println("connected");
-				
+				ps.close();
 					con.close();
 					System.out.println("Disconnected from database");
 				} catch (Exception e) {

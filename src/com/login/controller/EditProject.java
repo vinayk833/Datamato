@@ -97,6 +97,7 @@ public class EditProject extends HttpServlet {
 		preparedStatement.executeUpdate();
 		
 		// Closing DB connection
+		preparedStatement.close();
 		dbconnection.close();
 		
 		// Request dispatcher
@@ -166,6 +167,7 @@ public class EditProject extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/EditProject.jsp");
              view.include(request, response);
+             rs.close();
              con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {

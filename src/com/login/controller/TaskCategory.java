@@ -65,7 +65,7 @@ public class TaskCategory extends HttpServlet {
 				 System.out.println("query " + query);
 				//out.println("query " + query);
 				 
-				
+				ps.close();
 				con.close();
 				System.out.println("Disconnected from database");
 			} catch (Exception e) {

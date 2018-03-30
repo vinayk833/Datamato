@@ -56,7 +56,7 @@ public class DeleteDepartment extends HttpServlet {
 			rd.include(request, response);
 			out.println("<h4 style='color:red;margin-left:250px;margin-top:-40px;'>" +Department+ " Deleted Successfully!</h4>");
 			
-			
+			prpStat.close();
 			con.close();
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {

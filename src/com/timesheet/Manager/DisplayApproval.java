@@ -127,6 +127,9 @@ public class DisplayApproval extends HttpServlet {
            
            RequestDispatcher view = request.getRequestDispatcher("/ProjMag/Approval.jsp");
            view.forward(request, response);
+           
+           st1.close();
+           st.close();
            con.close();
            System.out.println("Disconnected!");
          

@@ -171,6 +171,9 @@ public class GenerateReport extends HttpServlet {
             os.close();
             is.close();
             wb.close();
+            rs.close();
+            st.close();
+            con.close();
       }
  
  
@@ -254,6 +257,9 @@ public class GenerateReport extends HttpServlet {
             os.close();
             is.close();
             wb.close();
+            rs.close();
+            st.close();
+            con.close();
       }
  
 }

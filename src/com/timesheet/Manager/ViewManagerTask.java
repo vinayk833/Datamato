@@ -107,6 +107,8 @@ public class ViewManagerTask extends HttpServlet {
              
              RequestDispatcher view = request.getRequestDispatcher("/ProjMag/PmViewTask.jsp");
              view.forward(request, response);
+             rs.close();
+             st.close();
              con.close();
              System.out.println("Disconnected!");
            

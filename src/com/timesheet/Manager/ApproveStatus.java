@@ -77,10 +77,12 @@ public class ApproveStatus extends HttpServlet {
 									st.executeUpdate("Update task set approval='yes' where taskid="+l.get(i));
 								}*/
 								//request.getRequestDispatcher("DisplayApproval").forward(request, response);
-								break;
+	      	 	break;
 	      	 }
 		
 	      	request.getRequestDispatcher("DisplayApproval").forward(request, response);
+	      	
+	      	con.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -143,7 +143,9 @@ public class DirSendMailApproval extends HttpServlet {
 			if(errorstatus == 1) {
 				out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>You have already send mail on this date</h4>");
 			}
-			
+			r.close();
+			statement.clearBatch();
+			con.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

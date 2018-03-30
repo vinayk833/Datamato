@@ -74,6 +74,7 @@ public class AdminDeleteViewTask extends HttpServlet {
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/DeleteTask.jsp");
              view.include(request, response);
              con.close();
+             st.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -106,8 +107,9 @@ public class AdminDeleteViewTask extends HttpServlet {
 			rd.include(request, response);
 			out.println("<h4 style='color:red;margin-left:400px;margin-top:-120px;'>" +taskID+ " Deleted Successfully!</h4>");
 			
-			
+			prpStat.close();
 			con.close();
+			
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();

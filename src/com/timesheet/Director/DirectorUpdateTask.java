@@ -142,6 +142,8 @@ public class DirectorUpdateTask extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/Director/UpdateAddTask.jsp");
              view.include(request, response);
+             rs.close();
+             st.close();
              con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {

@@ -39,11 +39,17 @@ return "User_Role";
 else if(EmployeeID.equals(userNameDB) && password.equals(passwordDB) && roleDB.equals("Director"))
 return "Director_Role";
 }
+resultSet.close();
+statement.close();
+con.close();
+
 }
+
 catch(SQLException e)
 {
 e.printStackTrace();
 }
 return "Invalid user credentials";
 }
+
 }

@@ -39,6 +39,8 @@ public class ResetPassword extends HttpServlet {
 			String suc = "Password Updated Successfully";
 			System.out.println("Password Updated Successfully");
 			request.getRequestDispatcher("/JSP/Login.jsp").forward(request, response);;
+			st.close();
+			con.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

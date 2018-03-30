@@ -79,6 +79,7 @@ public class AddUsers extends HttpServlet {
           
          
            con.close();
+           ps.close();
            System.out.println("Disconnected from database");
        } catch (Exception e) {
        e.printStackTrace();

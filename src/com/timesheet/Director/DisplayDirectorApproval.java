@@ -123,6 +123,10 @@ public class DisplayDirectorApproval extends HttpServlet {
 		           
 		           RequestDispatcher view = request.getRequestDispatcher("/Director/Approval.jsp");
 		           view.forward(request, response);
+		           rs.close();
+		           rs1.close();
+		           st1.close();
+		           st.close();
 		           con.close();
 		           System.out.println("Disconnected!");
 		         

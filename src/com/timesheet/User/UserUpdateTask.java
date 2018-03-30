@@ -141,6 +141,13 @@ public class UserUpdateTask extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/JSP/UpdateAddTask.jsp");
              view.include(request, response);
+             
+             rs.close();
+             
+             st.close();
+             
+             
+             
              con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {
