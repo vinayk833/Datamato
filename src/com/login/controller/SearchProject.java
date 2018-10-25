@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,11 +41,13 @@ public class SearchProject extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-          try {
-        	Statement st=null;
-        	 Connection con = null;
-        	 con = DBConnection.createConnection();
-        	 System.out.println("connected!.....");
+        Statement st=null;
+   	 Connection con = null;
+   	 con = DBConnection.createConnection();
+   	 System.out.println("connected!.....");
+        		  
+        		  try {
+        	
         	 String CustomerName = request.getParameter("CustomerName");
              String ID = request.getParameter("ID");
              String ProjName = request.getParameter("ProjName");
@@ -100,12 +103,21 @@ public class SearchProject extends HttpServlet {
              RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateProjects.jsp");
              view.forward(request, response);
             st.close();
-             con.close();
             
              System.out.println("Disconnected!");
          } catch (Exception e) {
              e.printStackTrace();
          }
+        		  finally{
+        	             try {
+							con.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	  
+        			  
+        		  }
      }
 
      @Override

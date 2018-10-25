@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 
+import java.sql.SQLException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,11 +39,12 @@ public class DeleteTaskCategory extends HttpServlet {
 		String taskCategory  = request.getParameter("taskCategory");
 
 		System.out.println("MySQL Connect Example.");
+		con = DBConnection.createConnection();
 		
 
 		try
 		{
-			con = DBConnection.createConnection();
+		
 			String deleteQuery = "DELETE FROM taskcatlist WHERE taskCategory = ?";
 			PreparedStatement prpStat = con.prepareStatement(deleteQuery);
 			
@@ -54,11 +57,23 @@ public class DeleteTaskCategory extends HttpServlet {
 			out.println("<h4 style='color:red;margin-left:400px;margin-top:-10px;'>" +taskCategory+ " Deleted Successfully!</h4>");
 			
 			prpStat.close();
-			con.close();
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		finally{
+			try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+		}
+		
 	}
 
 

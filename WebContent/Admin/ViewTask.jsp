@@ -201,14 +201,23 @@ function myFunction() {
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
 
-				out.print("Welcome " + name+"   Admin" );
+				//out.print("Welcome " + name+"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -265,10 +274,10 @@ function myFunction() {
 <center>
 <article>
 <%
-
+Connection con = null;
+con = DBConnection.createConnection();
 try{
-	 Connection con = null;
-	 con = DBConnection.createConnection();
+	
     Statement statement1 = con.createStatement() ;
     Statement statement2 = con.createStatement() ;
     Statement statement = con.createStatement() ;
@@ -313,6 +322,7 @@ Set<String> keys = resultMap.keySet();
         <td><b>Task Category</b></td>
          <td><b>Task Description</b></td>
       	<td><b>hours</b></td> 
+      	<td><b>Approval Status</b></td> 
     	 <td><b>Update</b></td>
           <td><b>Delete</b></td>
            
@@ -341,9 +351,11 @@ Set<String> keys = resultMap.keySet();
                     <td><%=pList.get(5)%></td>
                      <td><%=pList.get(6)%></td>
                       <td><%=pList.get(7)%></td>
+                       <td><%=pList.get(8)%></td>
+                      
           
          <td><a href="<%=request.getContextPath()%>/UpdateTaskLink?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
-                    <td><a href="<%=request.getContextPath()%>/AdminDeleteViewTask?taskid=<%=pList.get(0)%>"><input  type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white"/></td> 
+                    <td><a href="<%=request.getContextPath()%>/AdminDeleteViewTask?taskid=<%=pList.get(0)%>&date=<%=pList.get(2)%>"><input  type="submit" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white"/></td> 
                  </tr>
             <%
                     }
@@ -367,6 +379,9 @@ Set<String> keys = resultMap.keySet();
         {
              out.println("wrong entry"+e);
         }
+finally{
+	con.close();
+}
 %>
 </body>
 </html>

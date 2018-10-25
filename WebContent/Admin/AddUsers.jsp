@@ -132,22 +132,32 @@ function validate() {
 </head>
 <body>
 <% 
+Connection con = null;
+con = DBConnection.createConnection();
    try{
-   	Connection con = null;
-		response.setContentType("text/html");
-	con = DBConnection.createConnection();
+   response.setContentType("text/html");
 
    %>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
-
-				out.print("Welcome " + name + "   Admin" );
+				//Connection con1 = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+			//	con.close();
+			//	System.out.println("Connection closed");
+				///out.print("Welcome " + name + "   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -221,7 +231,7 @@ function validate() {
 <tr bordercolor=" #C0C0C0"><td align="center"><b>Department:<span class="required">*</span></b></td><td><select name="Department" style="width:205px">
     <%
                     Statement statement1 = con.createStatement() ;
-                    resultset1 =statement1.executeQuery("select distinct Department from department") ;
+                    resultset1 =statement1.executeQuery("select distinct Department from department order by Department") ;
    while(resultset1.next()){ %>
             <option ><%= resultset1.getString(1)%></option>
            
@@ -230,7 +240,7 @@ function validate() {
   <% 
   
                     Statement statement2 = con.createStatement() ;
-                    resultset2 =statement2.executeQuery("select distinct EmployeeName from users") ;
+                    resultset2 =statement2.executeQuery("select distinct EmployeeName from users order by EmployeeName") ;
    while(resultset2.next()){ %>
             <option><%= resultset2.getString(1)%></option>
            
@@ -246,8 +256,11 @@ function validate() {
        {
             out.println("wrong entry"+e);
        }
+   finally{
+	   con.close();
+	   System.out.println("Disconnected from Db in UI");
+   }
 %>
-</form>
 </article></center>
  </div>
 </div>

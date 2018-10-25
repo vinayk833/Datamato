@@ -152,14 +152,24 @@ $('#days').val("");
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Manager") != null) {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
-
-				out.print("Welcome " + name+"   Manager");
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				con.close();
+				System.out.println("Connection closed");
+				//out.print("Welcome " + name+"   Manager");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -173,6 +183,8 @@ $('#days').val("");
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/ProjMag/CreateTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/ProjMag/PmViewTask.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/ProjMag/ManagerResubmit.jsp">Resubmit </a>
+      
       </div>
   </li>
   <li><a href="${pageContext.request.contextPath}/ProjMag/Approval.jsp">Approval</a></li>
@@ -185,15 +197,22 @@ $('#days').val("");
 <article>
 <br>
     <form method="post" name="frm">
-    <table border="1" cellspacing="4" cellpadding="4" width="50%" align="center">
-    <tr> <input id="name" type="text" name="EmpName" class="search" placeholder="Search Employee name"  onkeyup="showState(this.value)" required name="title"></tr>
+    <table border="1" cellspacing="4" cellpadding="4" width="70%" align="center">
+    <tr><input id="name" type="text" name="EmpName" class="search" placeholder="Search Employee name"  onkeyup="showState(this.value)" required name="title";/>
+    
+    
 <br><br><br><br>
 <tr><td style="width:100px"><b>Start Date:</b></td><td style="width:100px"><input type="text" name="startdate" id="startdate" placeholder=" mm/dd/yy" style="width:150px" required name="title";/>
- <td style="width:100px" ><b>End Date:</b></td><td style="width:100px"><input type="text" name="enddate" id="enddate"  placeholder=" mm/dd/yy" style="width:150px" required name="title";/></td>
+ <td style="width:100px" ><b>End Date:</b></td><td style="width:100px"><input type="text" name="enddate" id="enddate"  placeholder=" mm/dd/yy" style="width:150px" required name="title";/>
  
 
+<td style="width:100px" ><b>Filter</b></td><td style="width:100px"><select id="selectBox"  name="filter" style="width:100px;fontfamily:Calibri"required name="title">
+         <option value="Pending">Pending</option>
+         <option value="approve">Approved</option>
+         <option value="reject">Rejected</option>
+    </select> 
 <td border="0" align="center"><span><input  type="submit" name="show" value="View" onclick="form.action='<%=request.getContextPath()%>/ViewManagerTask';"></span></td>
-  
+  </tr>
     </table><br><br>
     </form>
    <!--   <span><input type="button" id="toggle" value="Select" onClick="do_this()" /></span>-->
@@ -211,7 +230,8 @@ $('#days').val("");
          <td><b>Project ID</b></td>
         <td><b>Task Category</b></td>
          <td><b>Task Description</b></td>
-      <td><b>hours</b></td> 
+      <td><b>Hours</b></td> 
+       <td><b>Approval Status</b></td> 
       
          
           </tr>
@@ -239,6 +259,7 @@ $('#days').val("");
                 <td><%=pList.get(5)%></td>
                 <td><%=pList.get(6)%></td>
                 <td><%=pList.get(7)%></td>
+                 <td><%=pList.get(8)%></td>
                  </tr>
                
             <%

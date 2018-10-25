@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
@@ -32,11 +33,13 @@ public class CalendarServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	//public static void main(String arg[]) {	
 	System.out.println("inside test serve");
+	// Db connection
+	 Connection con = null;
+	 con = DBConnection.createConnection();
 
         try
         {
-        	 Connection con = null;
-        	 con = DBConnection.createConnection();
+        	
         	 Statement stt = con.createStatement();
            
             /**
@@ -89,11 +92,23 @@ public class CalendarServlet extends HttpServlet {
             
             res.close();
             stt.close();
-            con.close();
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+        finally{
+        	
+            try {
+				con.close();
+				System.out.println(" Db Closed");
+				System.out.println("In Finally Block");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+        	
         }
 	}
 

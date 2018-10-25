@@ -75,24 +75,7 @@ $(document).ready(function() {
 	}
 	); //end change function
 	}); //end ready
- 
-//date picker 
-/* $(document).ready(
-        function() {
-            $("#picker").datepicker({
-                maxDate : "0",
-                changeMonth : true,
-                changeYear : true,
-                firstDay : 1,
-                dateFormat : 'yy-mm-dd', 
-            })    
-            var x=document.getElementById("picker").value;
-            //alert(x);
-            if(x == "null"){
-            	$( "#picker" ).datepicker( "setDate", new Date());	
-            } 
-        }); */
-        
+	
 
 
 //Check all checkboxes
@@ -160,14 +143,24 @@ h1{
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Manager") != null) {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
 
-				out.print("Welcome " + name+"   Manager" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				con.close();
+				System.out.println("Connection closed");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -181,6 +174,8 @@ h1{
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/ProjMag/CreateTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/ProjMag/PmViewTask.jsp">Display Task </a>
+                  <a href="${pageContext.request.contextPath}/ProjMag/ManagerResubmit.jsp">Resubmit </a>
+      
       </div>
   </li>
   <li><a href="${pageContext.request.contextPath}/ProjMag/Approval.jsp">Approval</a></li>
@@ -193,13 +188,11 @@ h1{
 <article>
  <br>
     <form name="form" id="formtest"  method="post">
-    <%-- <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" value="<%=request.getAttribute("MDate") %>" id="picker" name="date"/>
-          <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onClick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayApproval'}else{return false};" /><br><br> --%>
-          
-              <table border="none" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="60%" align="center" >
+ 
+      <table border="none" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="60%" align="center" >
 
-      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder=" dd/mm/yy"  style="width:200px" value="<%=request.getAttribute("startdate") %>" required name="title";/>
- <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder=" dd/mm/yy" style="width:200px" value="<%=request.getAttribute("enddate") %>" name="title";/></td>
+      <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="dd/mm/yy"  style="width:200px" value="<%=request.getAttribute("startdate") %>" required name="title";/>
+ <td ><b>End Date:</b></td><td><input type="text" id="enddate" name="enddate" placeholder="dd/mm/yy" style="width:200px" value="<%=request.getAttribute("enddate") %>" required name="title";/></td>
 
     <td colspan=1 align="center">
  <!-- <td><input type="submit" value="Report" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminReport';" /></td>-->
@@ -208,27 +201,21 @@ h1{
     
     </table>
           
- <table id="table" align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
+ <table id="table" align="center"  cellpadding="2" cellspacing="2" width="90%" border="1">
 <tr>
 </tr><br>
     <tr style="color:#090C9B">
-    	 <!--<td><input type="button" id="toggle" value="Select" onClick="do_this()" /></td>
-         <TD> <input type="checkbox" name="approve[]" value="1" style="width: 10px" /></TD>-->
-							<td><b><input type="checkbox" name="allselect" onClick="toggle(this);">Select All</b></td>
-							<td><b>Task ID</b></td>
+    					<td><b><input type="checkbox" name="allselect" onClick="toggle(this);">Select All</b></td>
+							
 							<td><b>Employee ID</b></td>
 							<td><b>Employee Name</b></td>
 							<td><b>Date</b></td>
-							<td><b>Project Name</b></td>
-							<td><b>Project ID</b></td>
-							<td><b>Task Category</b></td>
-							<td><b>Task Description</b></td>
-							<td><b>hours</b></td>
+							<td><b>Total hours</b></td>
 							<!-- <td><b>Approved</b></td> -->
 						    </tr>
             <%
                 int count = 0;
-                String color = "#F9EBB3";
+                String color = "#F9E BB3";
                 if (request.getAttribute("piList") != null) {
                     ArrayList al = (ArrayList) request.getAttribute("piList");
                     System.out.println(al);
@@ -242,18 +229,12 @@ h1{
             %>
     
              <tr style="background-color:<%=color%>;">
-                <td><input type="checkbox" name="list" value="<%=pList.get(0)%>"></td>
+                <td><input type="checkbox" name="list" value="<%=pList.get(0)%>,<%=pList.get(2)%>"></td>
                 <td><%=pList.get(0)%></td>
                 <td><%=pList.get(1)%></td>
-                <td><%=pList.get(2)%></td>
-                <td><%=pList.get(3)%></td>
-                <td><%=pList.get(4)%></td>
-                <td><%=pList.get(5)%></td>
-                <td><%=pList.get(6)%></td>
-                <td><%=pList.get(7)%></td>
-                <td><%=pList.get(8)%></td>
-                <%-- <td><%=pList.get(9)%></td> --%>
-                </tr>
+                 <td><%=pList.get(2)%></td>
+                <td><a href="${pageContext.request.contextPath}/DisplayApproval2?EmployeeId=<%=pList.get(0)%>&date= <%=pList.get(2) %>"><%=pList.get(3)%></a></td>
+               </tr>
                
             <%
                     }
@@ -275,9 +256,10 @@ h1{
     </select> 
     <input type="submit" value="submit" class="messageCheckbox" onClick="if(checkboxselect()){form.action='<%=request.getContextPath()%>/ApproveStatus'}else{return false};"/>
     			
-   </form>
+  </form>
 </article></center>
  </div>
 </div>
+
 </body>
 </html>

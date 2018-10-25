@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.login.util.DBConnection"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -48,14 +52,25 @@
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Manager") != null) {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
-
-				out.print("Welcome " + name+"   Manager" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				con.close();
+				System.out.println("Connection closed");
+				
+				//out.print("Welcome " + name+"   Manager" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -69,6 +84,8 @@
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/ProjMag/CreateTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/ProjMag/PmViewTask.jsp">Display Task </a>
+     <a href="${pageContext.request.contextPath}/ProjMag/ManagerResubmit.jsp">Resubmit </a>
+      
       </div>
   </li>
   <li><a href="${pageContext.request.contextPath}/ProjMag/Approval.jsp">Approval</a></li>
@@ -81,7 +98,7 @@
 <article>
     <form method="post" name="frm" action="empevent">
     <table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="55%" align="center" >
-    <h1>Export Reports</h1>
+    <h1>Export Report</h1>
 <tr></tr>
    <tr><b><TD colspan=2 style="font-size:12pt;color:#00000; font-family:calibri(body)"><b>Report Type:</b>&nbsp;&nbsp;<SELECT name="dropdown">
 					<OPTION value="My Report">My Report</OPTION>
@@ -147,6 +164,8 @@ $(document).ready(function() {
 <INPUT TYPE="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/GenerateReport';" style="height:40px;width:40px">
     </td></tr>
     </table>
+    <h4><span style='color:red;margin-left:600px;margin-top:10px;'><%if(request.getAttribute("errormsg")!=null){out.println(request.getAttribute("errormsg"));} %></span></h4>
+    
     </form>
 </article></center>
  </div>

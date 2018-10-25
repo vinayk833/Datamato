@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
@@ -36,10 +37,11 @@ public class TaskDirectorServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("inside task servlet");
+		 Connection con = null;
+    	 con = DBConnection.createConnection();
 		try
 	        {
-	        	 Connection con = null;
-	        	 con = DBConnection.createConnection();
+	        	
 	        	 Statement stt = con.createStatement();
 	           
 	            /**
@@ -97,12 +99,20 @@ public class TaskDirectorServlet extends HttpServlet {
 	            
 	            res.close();
 	            stt.close();
-	            con.close();
+	            
 	        }
 	        catch (Exception e)
 	        {
 	            e.printStackTrace();
 	        }
+		finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	

@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.login.util.DBConnection"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -97,14 +101,24 @@ $(document).ready(function() {
 <body>
  <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("User") != null) {
 				String name = (String) session.getAttribute("User");
 				session.setAttribute("User",name);
-
-				out.print("Welcome " + name+"   User" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				con.close();
+				System.out.println("Connection closed");
+				//out.print("Welcome " + name+"   User" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -118,6 +132,7 @@ $(document).ready(function() {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/JSP/emp_event.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/JSP/viewevent.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/JSP/Resubmit.jsp">Resubmit</a>
       </div>
   </li>
  <li> <a href="${pageContext.request.contextPath}/JSP/UserReport.jsp">My Report</a></li>

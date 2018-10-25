@@ -105,6 +105,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 				try {
 					con.close();
 					System.out.println("Disconnected from Database.");
+					System.out.println("In finally block");
 					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

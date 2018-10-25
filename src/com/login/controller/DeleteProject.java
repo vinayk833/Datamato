@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,9 +34,10 @@ public class DeleteProject extends HttpServlet {
 		 String ProjName = request.getParameter("PName");
 		System.out.println(ProjName);
 		System.out.println("MySQL Connect Example.");
+		con = DBConnection.createConnection();
 		try
 		{
-			con = DBConnection.createConnection();
+			
 			String deleteQuery = "DELETE FROM myproject WHERE ProjName = ?";
 			PreparedStatement prpStat = con.prepareStatement(deleteQuery);
 			
@@ -48,10 +50,19 @@ public class DeleteProject extends HttpServlet {
 			out.println("<h4 style='color:red;margin-left:400px;margin-top:-120px;'>" +projectName+ " Deleted Successfully!</h4>");
 			
 			prpStat.close();
-			con.close();
-			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
 		}
 	}
 

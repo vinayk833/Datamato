@@ -3,11 +3,13 @@
 <%@page import="java.util.*"%>
  <%@ page import="com.login.util.DBConnection" %>
  <% 
+ Connection con = null;
+ con = DBConnection.createConnection();
 	try{      
 		 String s[]=null;
-		 Connection con = null;
+		
 	        response.setContentType("text/html");
-	    con = DBConnection.createConnection();
+	   
 	     //Connection con =DriverManager.getConnection("jdbc:mysql://localhost:3306/customers","root","Datamato@123");
 	     System.out.println("test:"+con);
 	     Statement st=con.createStatement();
@@ -56,6 +58,10 @@
 		catch(Exception e){ 
  			e.printStackTrace(); 
  		}
+	finally{
+		con.close();
+		System.out.println("Disconnected in UI");
+	}
 
 //www.java4s.com
  %>

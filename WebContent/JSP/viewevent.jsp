@@ -145,14 +145,24 @@ function myFunction() {
 <body>
  <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("User") != null) {
 				String name = (String) session.getAttribute("User");
 				session.setAttribute("User",name);
-
-				out.print("Welcome " + name+"   User" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				con.close();
+				System.out.println("Connection closed");
+				//out.print("Welcome " + name+"   User" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -166,6 +176,7 @@ function myFunction() {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/JSP/emp_event.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/JSP/viewevent.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/JSP/Resubmit.jsp">Resubmit</a>
       </div>
   </li>
  <li> <a href="${pageContext.request.contextPath}/JSP/UserReport.jsp">My Report</a></li>
@@ -203,7 +214,9 @@ function myFunction() {
          <td><b>Project ID</b></td>
         <td><b>Task Category</b></td>
          <td><b>Task Description</b></td>
-      <td><b>hours</b></td> 
+      <td><b>Hours</b></td> 
+       <td><b>Approval Status</b></td> 
+      
       
           </tr>
             <%
@@ -230,6 +243,7 @@ function myFunction() {
                 <td><%=pList.get(5)%></td>
                 <td><%=pList.get(6)%></td>
                 <td><%=pList.get(7)%></td>
+                  <td><%=pList.get(8)%></td>
                  </tr>
                
             <%

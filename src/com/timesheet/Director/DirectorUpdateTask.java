@@ -31,6 +31,9 @@ public class DirectorUpdateTask extends HttpServlet {
 	private static String TaskCategory;
 	private static String Description;
 	private static String Hours;
+	public static String status;
+	
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -46,13 +49,22 @@ public class DirectorUpdateTask extends HttpServlet {
 	}
 
 	public static void updateQuery (HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		String employeeID  = (String) request.getSession().getAttribute("Director");
 
 		Connection dbconnection = null;
 		dbconnection = DBConnection.createConnection();
+		status = request.getParameter("status");
+		System.out.println(status);
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
+		System.out.println("Here the status is --------->>" +status);
+		
+		if(status==null){
+		try{
 		Statement stt = dbconnection.createStatement();
+		Statement st=dbconnection.createStatement();
+		
 		String q="select ProjName from task where proid='"+ProjectID+"'";
 		System.out.println(q);
 		ResultSet rs = stt.executeQuery(q);
@@ -60,6 +72,7 @@ public class DirectorUpdateTask extends HttpServlet {
 			ProjectName = rs.getString("ProjName");
 			System.out.println(ProjectName);
 		}
+		Float hr = Float.parseFloat(Hours);
 
 		// Setting update query
 		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
@@ -74,7 +87,7 @@ public class DirectorUpdateTask extends HttpServlet {
 		preparedStatement.setString(3,ProjectID);
 		preparedStatement.setString(4,TaskCategory);
 		preparedStatement.setString(5,Description);
-		preparedStatement.setString(6,Hours);
+		preparedStatement.setFloat(6, hr);
 		preparedStatement.setString(7,taskID);
 		System.out.println(taskID);
 		
@@ -84,15 +97,135 @@ public class DirectorUpdateTask extends HttpServlet {
 		// Execute update SQL statement
 		preparedStatement.executeUpdate();
 		
+
+		// code added by priyanka
+
+		String query= "select hours from task where date='"+Date+"'AND EmployeeId="+employeeID+"";
+		System.out.println("Retreive hours from database...."+query);
+		float sum1 = 0;
+		float sum= 0;
+		ResultSet r2= st.executeQuery(query);
+
+		while(r2.next()){
+			String s = r2.getString("hours");
+			System.out.println("hello"+s+"world");
+			sum1 = Float.parseFloat(s.trim());
+			
+			System.out.println("sum1....>"+sum1+"thanx");
+			float result1 = sum1;
+			
+			
+			sum += result1; 
+		}
+		System.out.println("Here the sum is...>>"+sum);
+		Statement supdate = dbconnection.createStatement();
+		supdate.executeUpdate("Update task set sum="+sum+" where date='"+Date+"' and EmployeeID="+employeeID+"");
+
+		request.setAttribute("Totalhour",sum);
+
+
+		}
+
+
+		
+		finally{
+		
 		// Closing DB connection
 		dbconnection.close();
-		
+		System.out.println("Db closed 1...");
+		}
 		// Request dispatcher
 		RequestDispatcher requestDispatcher=request.getRequestDispatcher("Director/DirectorTask.jsp");
 		requestDispatcher.include(request, response);
 		PrintWriter out = response.getWriter();
 		  out.println("<h4 style='color:red;margin-left:400px;margin-top:-190px;'>Updated Successfully...</h4>");
+		}
+		else{
+			
+			System.out.println("Here the status is --------->>" +status);
+			
+			
+			
+			
 
+			try{
+			Statement stt = dbconnection.createStatement();
+			Statement st=dbconnection.createStatement();
+			String q="select ProjName from task where proid='"+ProjectID+"'";
+			System.out.println(q);
+			ResultSet rs = stt.executeQuery(q);
+			while(rs.next()) {
+				ProjectName = rs.getString("ProjName");
+				System.out.println(ProjectName);
+			}
+			Float hr = Float.parseFloat(Hours);
+
+
+			// Setting update query
+			String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
+					+ "description= ? , hours= ? where taskId= ?";
+			
+			// Setting up Prepared Statement
+			PreparedStatement preparedStatement = (PreparedStatement) dbconnection.prepareStatement(updateQuery);
+			
+			//Passing parameters for Prepared Statement
+			preparedStatement.setString(1,Date);
+			preparedStatement.setString(2,ProjectName);
+			preparedStatement.setString(3,ProjectID);
+			preparedStatement.setString(4,TaskCategory);
+			preparedStatement.setString(5,Description);
+			preparedStatement.setFloat(6, hr);
+			preparedStatement.setString(7,taskID);
+			System.out.println(taskID);
+			
+			
+			System.out.println(preparedStatement);
+			
+			// Execute update SQL statement
+			preparedStatement.executeUpdate();
+			// code added by priyanka
+
+			String query= "select hours from task where date='"+Date+"'AND EmployeeId="+employeeID+"";
+			System.out.println("Retreive hours from database...."+query);
+			float sum1 = 0;
+			float sum= 0;
+			ResultSet r2= st.executeQuery(query);
+
+			while(r2.next()){
+				String s = r2.getString("hours");
+				System.out.println("hello"+s+"world");
+				sum1 = Float.parseFloat(s.trim());
+				
+				System.out.println("sum1....>"+sum1+"thanx");
+				float result1 = sum1;
+				
+				
+				sum += result1; 
+			}
+			System.out.println("Here the sum is...>>"+sum);
+			Statement supdate = dbconnection.createStatement();
+			supdate.executeUpdate("Update task set sum="+sum+" where date='"+Date+"' and EmployeeID="+employeeID+"");
+
+			request.setAttribute("Totalhour",sum);
+
+
+			}
+
+
+			
+			finally{
+			
+			// Closing DB connection
+			dbconnection.close();
+			System.out.println("Db closed 1...");
+			}
+			// Request dispatcher
+			RequestDispatcher requestDispatcher=request.getRequestDispatcher("Director/DirectorResubmit.jsp");
+			requestDispatcher.include(request, response);
+			PrintWriter out = response.getWriter();
+			  out.println("<h4 style='color:red;margin-left:400px;margin-top:0px;'>Updated Successfully...</h4>");
+				
+		}
 	}
 
 	public DirectorUpdateTask() {
@@ -111,9 +244,18 @@ public class DirectorUpdateTask extends HttpServlet {
 		Statement st=null;
 		Connection con = null;
 		con = DBConnection.createConnection();
-		System.out.println("connected!.....");
+		System.out.println("connected for both!.....");
 		String query = "SELECT * FROM task WHERE taskID =" +taskID;
 		System.out.println(query);
+		
+		
+		String status= request.getParameter("status");
+		System.out.println("Here the status is --------->>" +status);
+		
+		
+		if(status==null){
+			System.out.println("Here the status is --------->>" +status);
+
 		try {
 			st = con.createStatement();
 		} catch (SQLException e) {
@@ -144,12 +286,84 @@ public class DirectorUpdateTask extends HttpServlet {
              view.include(request, response);
              rs.close();
              st.close();
-             con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally{
+            try {
+				con.close();
+				System.out.println("Db closed 2..");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		}
+		
+		
+		else{
+			
+			System.out.println("Here the status is --------->>" +status);
+
+			
+			
+			try {
+				st = con.createStatement();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				String pname = null,projId = null,tdes = null,hours = null,date = null,taskCat=null;
+				ResultSet rs = st.executeQuery(query);
+				while (rs.next()) {
+	                pname =rs.getString(4);
+	                projId =rs.getString(5);
+	                taskCat =rs.getString(6);
+	                tdes =rs.getString(7);
+	                date =rs.getString(3);
+	                hours =rs.getString(8);
+	                
+	            }
+				System.out.println(tdes);
+				 request.setAttribute("pname", pname);
+				 request.setAttribute("projId", projId);
+				 request.setAttribute("taskCat", taskCat);
+				 request.setAttribute("tdes", tdes);
+				 request.setAttribute("hours", hours);
+				 request.setAttribute("date", date);
+				 
+				 RequestDispatcher view = request.getRequestDispatcher("/Director/UpdateAddTask2.jsp");
+	             view.include(request, response);
+	             rs.close();
+	             st.close();
+	             System.out.println("Disconnected!");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally{
+	            try {
+					con.close();
+					System.out.println("Db closed 2..");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			
+			
+			
+		}
+		
+			
+		
+		
+		
 	}
 
 	/**
@@ -157,6 +371,10 @@ public class DirectorUpdateTask extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		
+
+	
 		System.out.println("inside Edit  Task");
 		// Setter method to initialize the Attribute Values
 		setParameters(request);

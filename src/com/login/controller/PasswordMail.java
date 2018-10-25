@@ -3,6 +3,7 @@ package com.login.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
@@ -36,8 +37,9 @@ public class PasswordMail extends HttpServlet {
 		// TODO Auto-generated method stub
 		//System.out.println("inside PasswordMail");
 		Connection con = null;
+		con = DBConnection.createConnection();
 		try{
-			con = DBConnection.createConnection();
+			
 			Statement st = con.createStatement();
 			String email = request.getParameter("email");
 			ResultSet rs = st.executeQuery("select EmployeeID,EMAIL from users where EMAIL='" + email +"'");
@@ -57,14 +59,23 @@ public class PasswordMail extends HttpServlet {
 			}
 			rs.close();
 			st.close();
-			con.close();
 			
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		
+		finally{
+			try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 	}
 	
 	

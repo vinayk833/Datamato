@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -36,10 +37,11 @@ public class UpdateUsers extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        Connection con = null;
+   	 con = DBConnection.createConnection();
           try {
         	Statement st=null;
-        	 Connection con = null;
-        	 con = DBConnection.createConnection();
+        	
         	 System.out.println("connected!.....");
         	 String EmployeeID = request.getParameter("EmployeeID");
       		  String EmployeeName = request.getParameter("EmployeeName");
@@ -85,12 +87,22 @@ public class UpdateUsers extends HttpServlet {
              
              rs.close();
              st.close();
-             con.close();
-            
+             
              System.out.println("Disconnected!");
          } catch (Exception e) {
              e.printStackTrace();
          }
+          finally{
+        	  try {
+				con.close();
+				System.out.println("Connection close 2------------->");
+				System.out.println("In Finally Block 2------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+                
+          }
      }
 
      @Override

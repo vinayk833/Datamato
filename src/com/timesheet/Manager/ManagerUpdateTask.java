@@ -46,10 +46,11 @@ public class ManagerUpdateTask extends HttpServlet {
 	}
 
 	public static void updateQuery (HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		String employeeID  = (String) request.getSession().getAttribute("Manager");
 
 		Connection dbconnection = null;
 		dbconnection = DBConnection.createConnection();
-
+try{
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
 		
@@ -57,10 +58,13 @@ public class ManagerUpdateTask extends HttpServlet {
 		String q="select ProjName from task where proid='"+ProjectID+"'";
 		System.out.println(q);
 		ResultSet rs = stt.executeQuery(q);
+		Statement st= dbconnection.createStatement();
 		while(rs.next()) {
 			ProjectName = rs.getString("ProjName");
 			System.out.println(ProjectName);
 		}
+		Float hr = Float.parseFloat(Hours);
+
 		
 		// Setting update query
 		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
@@ -75,7 +79,7 @@ public class ManagerUpdateTask extends HttpServlet {
 		preparedStatement.setString(3,ProjectID);
 		preparedStatement.setString(4,TaskCategory);
 		preparedStatement.setString(5,Description);
-		preparedStatement.setString(6,Hours);
+		preparedStatement.setFloat(6, hr);
 		preparedStatement.setString(7,taskID);
 		System.out.println(taskID);
 		
@@ -84,13 +88,38 @@ public class ManagerUpdateTask extends HttpServlet {
 		
 		// Execute update SQL statement
 		preparedStatement.executeUpdate();
+	// code added by priyanka
 		
-		// Closing DB connection
-		rs.close();
-		stt.close();
+		String query= "select hours from task where date='"+Date+"'AND EmployeeId="+employeeID+"";
+		System.out.println("Retreive hours from database...."+query);
+		float sum1 = 0;
+		float sum= 0;
+		ResultSet r2= st.executeQuery(query);
 		
+		while(r2.next()){
+			String s = r2.getString("hours");
+			System.out.println("hello"+s+"world");
+			sum1 = Float.parseFloat(s.trim());
+			
+			System.out.println("sum1....>"+sum1+"thanx");
+			float result1 = sum1;
+			
+			
+			sum += result1; 
+		}
+		System.out.println("Here the sum is...>>"+sum);
+		Statement supdate = dbconnection.createStatement();
+		supdate.executeUpdate("Update task set sum="+sum+" where date='"+Date+"' and EmployeeID="+employeeID+"");
+	
+		request.setAttribute("Totalhour",sum);
+		
+
+}
+finally{
 		dbconnection.close();
-		
+System.out.println(" Db closed 1..");
+
+}	
 		// Request dispatcher
 		RequestDispatcher requestDispatcher=request.getRequestDispatcher("ProjMag/CreateTask.jsp");
 		requestDispatcher.include(request, response);
@@ -146,11 +175,22 @@ public class ManagerUpdateTask extends HttpServlet {
 			 
 			 RequestDispatcher view = request.getRequestDispatcher("/ProjMag/UpdateAddTask.jsp");
              view.include(request, response);
-             con.close();
+             
              System.out.println("Disconnected!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+				System.out.println("Connection close 2------------->");
+				System.out.println("In Finally Block 2------------>");
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

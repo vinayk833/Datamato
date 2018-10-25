@@ -1815,14 +1815,22 @@
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
-
-				out.print("Welcome " + name +"   Admin" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				//out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -1876,18 +1884,19 @@
 </ul>
 </div>
 <%
+Connection con = null;
+
+con = DBConnection.createConnection();
     try{
-    	 Connection con = null;
-        
-     con = DBConnection.createConnection();
+    	 
         Statement statement1 = con.createStatement() ;
         Statement statement2 = con.createStatement() ;
         Statement statement3 = con.createStatement() ;
         Statement statement4 = con.createStatement() ;
         
-        resultset1 =statement1.executeQuery("select * from myproject") ;  
-        resultset2 =statement2.executeQuery("select * from myproject") ; 
-        resultset3 =statement3.executeQuery("select * from users") ; 
+        resultset1 =statement1.executeQuery("select * from myproject order by ProjName") ;  
+        resultset2 =statement2.executeQuery("select * from myproject order by CustomerName") ; 
+        resultset3 =statement3.executeQuery("select * from users order by EmployeeName") ; 
         
            
         
@@ -1977,7 +1986,7 @@ if(start==null){
 	$('#enddate').val("");
 	$('#days').val("");}
 	
-   else if (start<end) {
+   else if (start<=end) {
  
 	var days   = (end - start)/1000/60/60/24;
 	$('#days').val(days)
@@ -2015,6 +2024,10 @@ $('#days').val("");
         {
              out.println("wrong entry"+e);
         }
+    finally{
+    	con.close();
+    	System.out.println("Disconnected from Db in UI");
+    }
 %>
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,11 +41,11 @@ public class DeleteDepartment extends HttpServlet {
 
 		System.out.println("MySQL Connect Example.");
 		// validate given input
+		con = DBConnection.createConnection();
 
 
 		try
 		{
-			con = DBConnection.createConnection();
 			String deleteQuery = "DELETE FROM department WHERE Department = ?";
 			PreparedStatement prpStat = con.prepareStatement(deleteQuery);
 			
@@ -57,10 +58,23 @@ public class DeleteDepartment extends HttpServlet {
 			out.println("<h4 style='color:red;margin-left:250px;margin-top:-40px;'>" +Department+ " Deleted Successfully!</h4>");
 			
 			prpStat.close();
-			con.close();
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally{
+			
+			try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			
 		}
 	}
 	}

@@ -3,6 +3,7 @@ package com.timesheet.Manager;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ import com.login.util.DBConnection;
 public class ManagerDisplayTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static String mydate = null;
-	public int sum = 0;
+	public float  sum = 0;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,12 +47,12 @@ public class ManagerDisplayTask extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-        
+		 Connection con = null;
+      	 con = DBConnection.createConnection();
         try {
       	 System.out.println("inside Admin display");
       	 Statement st=null;
-      	 Connection con = null;
-      	 con = DBConnection.createConnection();
+      	
       	 System.out.println("connected!.....");
       	 String employeeID  = (String) request.getSession().getAttribute("Manager");
            String date = request.getParameter("date");
@@ -83,7 +84,7 @@ public class ManagerDisplayTask extends HttpServlet {
           if(date!=null && !date.equals("")){
                query = "select * from holidays where date='" + date + "' ";
            }*/
-           String query = "select taskId,date,ProjName,proid,TaskCat,description,hours from task where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "' ";
+           String query = "select taskId,date,ProjName,proid,TaskCat,description,hours from task where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "'AND approval='Pending'";
            System.out.println("query " + query);
             st = con.createStatement();
            ResultSet rs = st.executeQuery(query);
@@ -102,7 +103,7 @@ public class ManagerDisplayTask extends HttpServlet {
                pid_list.add(al);
                
           
-               sum = sum + Integer.parseInt(rs.getString(7).replaceAll("\\D+",""));
+               sum = sum + Float.parseFloat(rs.getString(7));
               
            }
            
@@ -110,16 +111,29 @@ public class ManagerDisplayTask extends HttpServlet {
            request.setAttribute("piList", pid_list);
            request.setAttribute("AgencyRating", sum);
            System.out.println("Summation of hours is --===>" + sum);
+           System.out.println("Summation of hours is --===>" + sum);
+           Statement stt =con.createStatement();
+				//stt.executeUpdate("Update task set sum='" + sum + "'where date='" + reformattedStr + "' AND EmployeeID='" + employeeID + "' ");
+				System.out.println("Updated successfully");
            RequestDispatcher view = request.getRequestDispatcher("/ProjMag/CreateTask.jsp");
            view.include(request, response);
            
            st.close();
-           con.close();
-           System.out.println("Disconnected!");
-         
+           
        } catch (Exception e) {
            e.printStackTrace();
        }
+        finally{
+        	try {
+				con.close();
+				 System.out.println("Disconnected!");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+           
+          	
+        }
    }
 
    @Override

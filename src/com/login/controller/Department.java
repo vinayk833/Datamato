@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,6 +36,7 @@ public class Department extends HttpServlet {
 		String  Department = request.getParameter("Department");
 		
 		System.out.println("MySQL Connect Example.");
+		con = DBConnection.createConnection();
 		// validate given input
 		
 		if (Department.isEmpty()) {
@@ -45,7 +48,7 @@ public class Department extends HttpServlet {
 		
 			try
 			{
-				con = DBConnection.createConnection();
+				
 				 String query = "insert into department values(?)";
 	             PreparedStatement ps = con.prepareStatement(query); // generates sql query
 	            ps.setString(1, Department);
@@ -62,7 +65,6 @@ public class Department extends HttpServlet {
 	            }
 				System.out.println("connected");
 				ps.close();
-					con.close();
 					System.out.println("Disconnected from database");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,6 +72,17 @@ public class Department extends HttpServlet {
 					rd.include(request, response);
 					out.println("<h4 style='color:red;margin-left:400px;margin-top:-40px;'>" +Department+ " Already Exist</h4>");
 				}
+			finally{
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+
+			}
 			}
 		
 	

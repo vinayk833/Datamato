@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
@@ -45,11 +46,12 @@ public class ViewUserTask2 extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			response.setContentType("text/html");
 	        PrintWriter out = response.getWriter();
+	        Connection con = null;
+       	 con = DBConnection.createConnection();
+       	 System.out.println("connected!.....");
 	          try {
 	        	Statement st=null;
-	        	 Connection con = null;
-	        	 con = DBConnection.createConnection();
-	        	 System.out.println("connected!.....");
+	        	 
 	        		String employeeID  = (String) request.getSession().getAttribute("User");
 	        	 String EmployeeName = request.getParameter("EmpName");
 	             String startDate = request.getParameter("startdate");
@@ -79,15 +81,14 @@ public class ViewUserTask2 extends HttpServlet {
 	             ArrayList al = null;
 	             ArrayList pid_list = new ArrayList();
 	            
-	           String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours from task where EmployeeID='" + employeeID + "'";
+	           String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
 	             if((reformattedStr1!=null && !reformattedStr1.equals(""))||(reformattedStr2!=null && !reformattedStr2.equals(""))){
 	          
-	             query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
+	             query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval FROM task WHERE date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
 	                   + "EmployeeID='" + employeeID +"'";
 	             } 
-	        /*  String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
-	                  + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";*/
-	             System.out.println("query " + query);
+	             
+	         System.out.println("query " + query);
 	             st = con.createStatement();
 	            ResultSet rs = st.executeQuery(query);
 
@@ -101,6 +102,14 @@ public class ViewUserTask2 extends HttpServlet {
 	                 al.add(rs.getString(6));
 	                 al.add(rs.getString(7));
 	                 al.add(rs.getString(8));
+	                 al.add(rs.getString(9));
+//	                 if(rs.getString(9)=="Email sent")
+//	                 {
+//	                	 al.add("Pending");
+//	                 }else{
+//	                	 al.add(rs.getString(9)); 
+//	                 }
+	                 al.add(rs.getString(9));
 	                 System.out.println("al :: " + al);
 	                 pid_list.add(al);
 	             }
@@ -112,12 +121,21 @@ public class ViewUserTask2 extends HttpServlet {
 	             view.forward(request, response);
 	             rs.close();
 	             st.close();
-	             con.close();
-	             System.out.println("Disconnected!");
+	           
+	            
 	           
 	         } catch (Exception e) {
 	             e.printStackTrace();
 	         }
+	          finally{
+	        	  try {
+					con.close();
+					System.out.println("Connection close....In Finally Block");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+	          }
 		}
 
 	}

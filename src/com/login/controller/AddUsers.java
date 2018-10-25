@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +28,7 @@ public class AddUsers extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		Connection con = null;
+		 con = DBConnection.createConnection();
 		response.setContentType("text/html");
 		  PrintWriter out = response.getWriter();
 		  String EmployeeID = request.getParameter("EmployeeID");
@@ -53,7 +56,7 @@ public class AddUsers extends HttpServlet {
 
           try {
              
-           con = DBConnection.createConnection();
+          
                String query = "insert into users values(?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(query); // generates sql query
            ps.setString(1, bigInt);
@@ -87,6 +90,17 @@ public class AddUsers extends HttpServlet {
 		rd.include(request, response);
 		out.println("<h4 style='color:red;margin-left:400px;margin-top:5px;'>" +EmployeeID+ " Already Exist</h4>");
        }
+          finally{
+        	  try {
+				con.close();
+				System.out.println("In finally block");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        		
+        	}
+          
    }
    
 	}

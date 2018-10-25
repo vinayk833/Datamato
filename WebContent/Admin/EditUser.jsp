@@ -73,22 +73,33 @@ function validateEmail(emailField){
 </head>
 <body>
 <% 
+Connection con = null;
+con = DBConnection.createConnection();
    try{
-   	Connection con = null;
+   	
 		response.setContentType("text/html");
-	con = DBConnection.createConnection();
+	
 
    %>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management Systemtm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
-
-				out.print("Welcome " + name +"   Admin" );
+				//Connection con1 = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				//con1.close();
+				//out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -190,6 +201,10 @@ function validateEmail(emailField){
        {
             out.println("wrong entry"+e);
        }
+   finally{
+	   con.close();
+	   System.out.println("Disconnected in UI");
+   }
 %>
 </form>
 </article></center>

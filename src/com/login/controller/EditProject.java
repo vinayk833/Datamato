@@ -168,11 +168,21 @@ public class EditProject extends HttpServlet {
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/EditProject.jsp");
              view.include(request, response);
              rs.close();
-             con.close();
              System.out.println("Disconnected!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+            try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	}
 

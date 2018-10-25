@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 
+import java.sql.SQLException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +30,7 @@ public class TaskCategory extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection con = null;
-		
+		con = DBConnection.createConnection();
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String  taskCategory  = request.getParameter("taskCategory");
@@ -47,7 +49,7 @@ public class TaskCategory extends HttpServlet {
 
 			try
 			{
-				con = DBConnection.createConnection();
+				
 				 String query = "insert into taskCatList values(?)";
 				 PreparedStatement ps = con.prepareStatement(query); // generates sql query
 				 ps.setString(1, taskCategory);
@@ -66,13 +68,24 @@ public class TaskCategory extends HttpServlet {
 				//out.println("query " + query);
 				 
 				ps.close();
-				con.close();
 				System.out.println("Disconnected from database");
 			} catch (Exception e) {
 				e.printStackTrace();
 				 RequestDispatcher rd=request.getRequestDispatcher("/Admin/TaskCategory.jsp");
 					rd.include(request, response);
 					out.println("<h4 style='color:red;margin-left:400px;margin-top:-70px;'>" + taskCategory+ " Already Exist</h4>");
+			}
+			finally{
+				try {
+					con.close();
+					System.out.println("Connection close------------->");
+					System.out.println("In Finally Block------------>");
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		}
 	}

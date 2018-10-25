@@ -3,6 +3,7 @@ package com.timesheet.Director;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,12 +44,14 @@ public class DisplayDirectorApproval extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 try {
+		 Connection con = null;
+      	 con = DBConnection.createConnection();
+      	 System.out.println("connected!.....");
+		
+		try {
 		      	Statement st=null;
 		     	Statement st1=null;
-		      	 Connection con = null;
-		      	 con = DBConnection.createConnection();
-		      	 System.out.println("connected!.....");
+		      	
 		      	 String employeeID  = (String) request.getSession().getAttribute("Director");
 		      	 String EmployeeName = request.getParameter("EmpName");
 		           //String startDate = request.getParameter("startdate");
@@ -89,7 +92,7 @@ public class DisplayDirectorApproval extends HttpServlet {
 		         //  String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where EmployeeID='" + employeeID + "'";
 		             //String query = "SELECT distinct task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users  INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where task.approval='Pending' AND task.hours>8 AND users.Approver='"+var+"' AND MONTH(task.date)=MONTH(CURRENT_DATE()) AND YEAR(task.date) = YEAR(CURRENT_DATE())";
 		        //String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date BETWEEN '"+reformattedStr+"' AND '"+reformattedStr1+"' AND task.approval IN('Pending','emailsent'))";  
-		        String query = "SELECT task.taskid,task.EmployeeID,users.EmployeeName,task.date,task.ProjName,task.proid,task.TaskCat,task.description,task.hours,task.approval FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date";
+		        String query = "SELECT distinct task.EmployeeID,users.EmployeeName,task.date,task.sum FROM customers.users INNER JOIN customers.task ON users.EmployeeID=task.EmployeeID where users.Approver='"+var+"' AND date IN(SELECT DISTINCT a.date FROM(SELECT date FROM task GROUP BY date,EmployeeID HAVING SUM(hours)>8)a WHERE date";
 		        if(endDate.isEmpty()) {
 		        	   System.out.println("null enddate");
 		        	   query += "='"+reformattedStr+"'";
@@ -97,7 +100,7 @@ public class DisplayDirectorApproval extends HttpServlet {
 		        	   reformattedStr1 = myFormat.format(fromUser.parse(endDate));
 		        	   query += " BETWEEN '"+reformattedStr+"' AND '"+reformattedStr1 +"'";
 		           }
-		           query += " AND task.approval IN('Pending','emailsent'))";
+		           query += " AND task.approval IN('Email sent'))";
 		           System.out.println("query " + query);
 		           st = con.createStatement();
 		          ResultSet rs = st.executeQuery(query);
@@ -108,12 +111,7 @@ public class DisplayDirectorApproval extends HttpServlet {
 		               al.add(rs.getString(2));
 		               al.add(rs.getString(3));
 		               al.add(rs.getString(4));
-		               al.add(rs.getString(5));
-		               al.add(rs.getString(6));
-		               al.add(rs.getString(7));
-		               al.add(rs.getString(8));
-		               al.add(rs.getString(9));
-		               al.add(rs.getString(10));
+		         
 		               System.out.println("al :: " + al);
 		               pid_list.add(al);
 		           }
@@ -127,12 +125,23 @@ public class DisplayDirectorApproval extends HttpServlet {
 		           rs1.close();
 		           st1.close();
 		           st.close();
-		           con.close();
 		           System.out.println("Disconnected!");
 		         
 		       } catch (Exception e) {
 		           e.printStackTrace();
 		       }
+		finally{
+	           try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+		}
 			}
 
 		}

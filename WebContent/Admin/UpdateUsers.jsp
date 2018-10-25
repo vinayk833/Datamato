@@ -67,14 +67,23 @@ jQuery(function(){
 <form name="form"  method="post" >
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
 
-				out.print("Welcome " + name+"   Admin" );
+				//out.print("Welcome " + name+"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -132,10 +141,12 @@ jQuery(function(){
 <article>
 <h2>Employees</h2>
 <% 
+	Connection con = null;
+con = DBConnection.createConnection();
    try{
-   	Connection con = null;
+  
 		response.setContentType("text/html");
-	con = DBConnection.createConnection();
+	
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
        
@@ -211,6 +222,10 @@ jQuery(function(){
         {
              out.println("wrong entry"+e);
         }
+   finally{
+	   con.close();
+	   System.out.println("Disconnected in UI");
+   }
 %>
 </form>
 </body>

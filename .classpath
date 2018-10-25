@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/gson-2.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/java-json.jar"/>
@@ -14,15 +17,47 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/poi-3.17.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5 (2)">
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_161">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/catalina-storeconfig.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/ecj-4.6.3.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/jaspic-api.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-api.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-jdbc.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-jni.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-util-scan.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/tomcat-websocket.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-9.0.5/lib/websocket-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

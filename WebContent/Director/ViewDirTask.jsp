@@ -193,14 +193,25 @@ function myFunction() {
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Director") != null) {
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
-
-				out.print("Welcome " + name+"   Director" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				con.close();
+				System.out.println("Connection closed");
+				//out.print("Welcome " + name+"   Director" );
+				
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}
@@ -215,6 +226,8 @@ function myFunction() {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Director/DirectorTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Director/ViewDirTask.jsp">Display Task </a>
+                  <a href="${pageContext.request.contextPath}/Director/DirectorResubmit.jsp">Resubmit </a>
+                                                                                                                                                           
       </div>
   </li>
    <li><a href="${pageContext.request.contextPath}/Director/Approval.jsp">Approval</a></li>
@@ -234,19 +247,22 @@ function myFunction() {
 <tr><td style="width:100px"><b>Start Date:</b></td><td style="width:100px"><input type="text" name="startdate" id="startdate" placeholder=" mm/dd/yy" style="width:150px" required name="title";/>
  <td style="width:100px" ><b>End Date:</b></td><td style="width:100px"><input type="text" name="enddate" id="enddate" placeholder=" mm/dd/yy" style="width:150px" required name="title";/></td>
  
+<td style="width:100px" ><b>Filter</b></td><td style="width:100px"><select id="selectBox"  name="filter" style="width:100px;fontfamily:Calibri"required name="title">
+         <option value="Pending">Pending</option>
+         <option value="approve">Approved</option>
+         <option value="reject">Rejected</option>
+    </select> 
 
 <td border="0" align="center"><span><input  type="submit" name="show" value="View" onclick="form.action='<%=request.getContextPath()%>/ViewDirectorTask';"></span></td>
   
     </table><br><br>
     </form>
-   <!--   <span><input type="button" id="toggle" value="Select" onClick="do_this()" /></span>-->
     
     <table align="left"  cellpadding="2" cellspacing="2" width="100%" border="1">
 <tr>
 </tr><br>
     <tr style="color:#090C9B">
-    	 <!--<td><input type="button" id="toggle" value="Select" onClick="do_this()" /></td>
-         <TD> <input type="checkbox" name="approve[]" value="1" style="width: 10px" /></TD>-->
+    	
         <td><b>Task ID</b></td>
        <td><b>Employee ID</b></td>
         <td><b>Date</b></td>
@@ -255,9 +271,8 @@ function myFunction() {
         <td><b>Task Category</b></td>
          <td><b>Task Description</b></td>
       <td><b>hours</b></td> 
-      
-         
-          </tr>
+        <td><b>Approval Status</b></td> 
+       </tr>
             <%
                 int count = 0;
                 String color = "#F9EBB3";
@@ -282,6 +297,11 @@ function myFunction() {
                 <td><%=pList.get(5)%></td>
                 <td><%=pList.get(6)%></td>
                 <td><%=pList.get(7)%></td>
+                <td><%=pList.get(8)%></td>
+                
+                
+                
+                
                  </tr>
                
             <%

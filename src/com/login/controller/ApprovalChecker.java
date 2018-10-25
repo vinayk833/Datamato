@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,10 @@ public class ApprovalChecker extends HttpServlet {
 		String employeeId = request.getParameter("empid");
 		BigInteger bi=null;
 		  String bigInt=null;
+		  // db connection...
+		  Connection con = null;
+			con = DBConnection.createConnection();
+			System.out.println("connected!.....");
 		  try{
 			  bi = new BigInteger(employeeId);
 			  System.out.println(bi);
@@ -65,10 +70,9 @@ public class ApprovalChecker extends HttpServlet {
 		//String employeeId = request.getParameter("empid");
 		System.out.println(approvalStatus);
 		System.out.println(bigInt);
+		
 		try {
-			Connection con = null;
-			con = DBConnection.createConnection();
-			System.out.println("connected!.....");
+			
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT ROLE,EmployeeName FROM users WHERE EmployeeName=(SELECT Approver FROM users WHERE EmployeeID='"+employeeId+"')");
 			String approverRole = null;
@@ -176,7 +180,7 @@ public class ApprovalChecker extends HttpServlet {
 					           rs2.close();
 					           st2.close();
 					           con.close();
-							break;
+					           break;
 
 			default:
 				break;
@@ -185,40 +189,18 @@ public class ApprovalChecker extends HttpServlet {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		finally{
+			
+			try {
+				con.close();
+				System.out.println("In Finally Block");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
 		
-		/*if(approvalStatus.equalsIgnoreCase("yes")){
-			try {
-				Connection con = null;
-				con = DBConnection.createConnection();
-				System.out.println("connected!.....");
-				
-				String query = "UPDATE task SET approval='yes' WHERE EmployeeID="+ bigInt + " AND " + "date='" +reformattedStr+"'";
-				System.out.println(query);
-				Statement stmt = null;
-				stmt = con.createStatement();
-				stmt.executeUpdate(query);
-				RequestDispatcher view = request.getRequestDispatcher("/Admin/confrimApproval.jsp");
-		        view.include(request, response);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}else if(approvalStatus.equalsIgnoreCase("no")){
-			try {
-				Connection con = null;
-				con = DBConnection.createConnection();
-				System.out.println("connected!.....");
-				
-				String query = "UPDATE task SET approval='no' WHERE EmployeeID="+ bigInt + " AND " + "date='" +reformattedStr+"'";
-				System.out.println(query);
-				Statement stmt = null;
-				stmt = con.createStatement();
-				stmt.executeUpdate(query);
-				RequestDispatcher view = request.getRequestDispatcher("/Admin/rejectApproval.jsp");
-		        view.include(request, response);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}*/
+		
 		RequestDispatcher view = request.getRequestDispatcher("/Director/Approval.jsp");
         view.include(request, response);
 	

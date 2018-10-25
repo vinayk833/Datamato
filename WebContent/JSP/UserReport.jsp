@@ -1,3 +1,8 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.login.util.DBConnection"%>
+<%@page import="java.sql.Connection"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -48,14 +53,24 @@
 <body>
  <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("User") != null) {
 				String name = (String) session.getAttribute("User");
 				session.setAttribute("User",name);
-
-				out.print("Welcome " + name+"   User");
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				con.close();
+				System.out.println("Connection closed");
+				//out.print("Welcome " + name+"   User");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -69,6 +84,7 @@
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/JSP/emp_event.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/JSP/viewevent.jsp">Display Task </a>
+       <a href="${pageContext.request.contextPath}/JSP/Resubmit.jsp">Resubmit</a>
       </div>
   </li>
  <li> <a href="${pageContext.request.contextPath}/JSP/UserReport.jsp">My Report</a></li>
@@ -80,12 +96,20 @@
 <article>
  <form method="post" name="frm" >
     <table border="1" bordercolor="#C0C0C0" cellspacing="4" cellpadding="4" width="60%" align="center" >
-    <h1>Export Reports</h1>
+    <h1>Export Report</h1>
 <tr></tr>
   
      <tr><td ><b>Start Date:</b></td><td><input type="text" name="startdate" id="startdate" placeholder="mm/dd/yy" style="width:150px" required name="title"/>
  <td ><b>End Date:</b></td><td><input type="text" name="enddate" id="enddate"  placeholder=" mm/dd/yy" style="width:150px" required name="title"/></td>
+  <td colspan=1 align="center">
  
+  <INPUT TYPE="image" id="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/UserReport';clear();" style="height:40px;width:40px">
+    </td></tr>
+    
+    </table>
+    
+    <h4><span style='color:red;margin-left:600px;margin-top:10px;'><%if(request.getAttribute("errormsg")!=null){out.println(request.getAttribute("errormsg"));} %></span></h4>
+    
  
  
 </script>
@@ -132,14 +156,7 @@ $(document).ready(function() {
 	); //end change function
 	}); //end ready
 	   </script>
-											 
-											 
-							
- 
-    <td colspan=1 align="center">
-    
- <INPUT TYPE="image" SRC="${pageContext.request.contextPath}/images/icon11.jpg" name="show" class="button1" onclick="form.action='<%=request.getContextPath()%>/UserReport';" style="height:40px;width:40px">
-    </td></tr>
+											 </tr>
     </table>
     </form>
     </article></center>

@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,6 +40,8 @@ public class DeleteHoliday extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection con = null;
+		// Db connection
+		con = DBConnection.createConnection();
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -62,8 +65,7 @@ public class DeleteHoliday extends HttpServlet {
 
 		try
 		{
-			con = DBConnection.createConnection();
-			
+		
 			String selectquiery = "SELECT date FROM holidays where date='" + reformattedStr +"'";
 			//PreparedStatement prpStat1 = con.prepareStatement(selectquiery);
 			//ResultSet result = prpStat1.getResultSet();
@@ -118,12 +120,21 @@ public class DeleteHoliday extends HttpServlet {
 			
 			result.close();
 			st.close();
-			con.close();
 			System.out.println("Disconnected from database");
 		} catch (Exception e) {
 			e.printStackTrace();
 	}
-		
+	finally{
+		try {
+			con.close();
+			System.out.println("Connection close------------->");
+			System.out.println("In Finally Block------------>");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}	
 		
 		
 	}

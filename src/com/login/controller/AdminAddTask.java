@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ public class AdminAddTask extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static String mydate;
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -82,25 +84,47 @@ public class AdminAddTask extends HttpServlet {
 		String  projectName1  = request.getParameter("proname");
 
 
-		//validate given input
+		//Global db connectivity
+		Connection dbconnection = null;
+		dbconnection = DBConnection.createConnection();
+		// Printing out Connection
+		System.out.println("Connection------------->" + dbconnection);
 
 
 		try{
 
-			Connection dbconnection = null;
-			dbconnection = DBConnection.createConnection();
-			// Printing out Connection
-			System.out.println("Connection------------->" + dbconnection);
+		
 			//select Query
 			Statement statement1 = dbconnection.createStatement() ;
+			Statement s1 = dbconnection.createStatement();
+			Statement s2 = dbconnection.createStatement();
 			ResultSet resultset1 =null;
 			
 			Statement s = dbconnection.createStatement();
-			
+			String q1 = "select distinct date from task where date='"+ reformattedStr +"' AND EmployeeID="+ bigInt +" and approval='Email sent'";
 			//checks if user have filled data on particular date
-			ResultSet r = s.executeQuery("select date from task where date='"+ reformattedStr +"' AND EmployeeID="+ bigInt +" HAVING SUM(hours)>8");
+			ResultSet r2 = s2.executeQuery("select distinct sum from task where date='"+ reformattedStr +"' AND EmployeeID="+ bigInt +"");
+			String sum1 =  null; 
+			while(r2.next()){
+				sum1 = r2.getString("sum");
+				System.out.println(sum1);
+			}
+			System.out.println(sum1);
+			String totalhours = request.getParameter("AgencyRating");
+			System.out.println(totalhours);
+				
+			float result1 = Float.parseFloat(totalhours);
+			float su=result1;
+			if(sum1!=null){
+				float result = Float.parseFloat(sum1);
+				System.out.println(result);
+				su = result+result1;
+				System.out.println(su);
+			}
 			
-			if(r.next()) {
+			ResultSet r = s.executeQuery("select date from task where approval <>'Pending' AND date='"+ reformattedStr +"' AND EmployeeID="+ bigInt +" HAVING SUM(hours)>10");
+			ResultSet r1 = s1.executeQuery(q1);
+			if((r.next()==true)||(r1.next()==true)) {
 				System.out.println("date already exists");
 				status = 2;
 			}else {
@@ -147,20 +171,35 @@ public class AdminAddTask extends HttpServlet {
 
 
 				}
+				if(sum1!=null){
+					Statement supdate = dbconnection.createStatement();
+					supdate.executeUpdate("Update task set sum="+su+" where date='"+reformattedStr+"' and EmployeeID="+bigInt+"");
+				
+					}
 
 			}
 						// Closing DB connection
 			 s.close();
-			dbconnection.close();
-             
-			System.out.println("Connection close------------->");
+			
 		}
 
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-
+finally{
+	try {
+		dbconnection.close();
+		System.out.println("Connection close------------->");
+		System.out.println("In finally block");
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    
+	
+}
 		// Request dispatcher
 		RequestDispatcher requestDispatcher=request.getRequestDispatcher("/Admin/AddTask.jsp");
 		requestDispatcher.include(request, response);

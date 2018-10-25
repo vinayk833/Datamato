@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +34,8 @@ import com.login.util.DBConnection;
 public class UserSendMailApproval extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	BigInteger bi=null;
-	  String bigInt=null;  
+	  String bigInt=null; 
+	  
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -47,6 +49,7 @@ public class UserSendMailApproval extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+	
 	}
 
 	/**
@@ -54,11 +57,15 @@ public class UserSendMailApproval extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		try {
 
-			Connection con = null;
-			con = DBConnection.createConnection();
-			System.out.println("connected!.....");
+		Connection con = null;
+		con = DBConnection.createConnection();
+		System.out.println("connected for Both!.....");
+		String Status= request.getParameter("Reject");
+		System.out.println("Here the status is --------->>" +Status);
+			if(Status==null)	{
+		try {
+			System.out.println("Here the status is --------->>" +Status);
 			String employeeID  = (String) request.getSession().getAttribute("User");
 			
 			Statement statement = con.createStatement();
@@ -108,12 +115,12 @@ public class UserSendMailApproval extends HttpServlet {
 			String query = "select date,ProjName,proid,TaskCat,description,hours,approval from task "
 					+ "where date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
 			System.out.println("query " + query);
+			
+			
+			
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
-			/*while(rs.next()){
-				System.out.println(rs.getString(1) + "/"+rs.getString(2) + "/"+rs.getString(3) + "/"+rs.getString(4) + "/"+
-						rs.getString(5) + "/" + rs.getString(6));
-			}*/
+			
 			
 			String approve = null;
 			int errorstatus = 0;
@@ -121,26 +128,36 @@ public class UserSendMailApproval extends HttpServlet {
 				approve = rs.getString("approval");
 			}
 			System.out.println(approve);
+
+			
+			
+		
+			
 			Statement st1 = con.createStatement();
 			rs = st1.executeQuery(query);
 			//check if mail is sent or not 
-			if((approve.equals("yes"))||(approve.equals("no"))||(approve.equals("emailsent"))) {
+			if((approve.equals("Approved"))||(approve.equals("Rejected"))||(approve.equals("Email sent"))) {
 				System.out.println("error");
 				errorstatus=1;
 			}else {
 				//execute if mail is not sent
 				sendMail(rs,employeeName,emailid,date,request);
 				Statement s = con.createStatement();
-				String sql = "Update task set approval='emailsent' where date='"+reformattedStr+"'";
+				String sql = "Update task set approval='Email sent' where  date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
 				System.out.println(sql);
 				s.executeUpdate(sql);
 				System.out.println("updated successfully");
 			}
+			
 			RequestDispatcher requestDispatcher=request.getRequestDispatcher("/JSP/emp_event.jsp");
 			//request.getRequestDispatcher("/Admin/AddTask.jsp").forward(request, response);
 			requestDispatcher.include(request, response);
 			if(errorstatus == 1) {
 				out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>You have already send mail on this date</h4>");
+			}
+			else{
+				out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Sent mail Successfully</h4>");
+
 			}
 			rs.close();
 			st.close();
@@ -149,12 +166,173 @@ public class UserSendMailApproval extends HttpServlet {
 			
 			r.close();
 			statement.close();
-			con.close();
+			
 			
 			
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		finally{
+			try {
+				con.close();
+				System.out.println("db closed for status null..In finally block");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			}
+		else{
+System.out.println("Here the Status is---------->>" +Status);
+            
+			try {
+
+				String employeeID  = (String) request.getSession().getAttribute("User");
+				
+				
+				
+				
+				
+				Statement statement = con.createStatement();
+				ResultSet r = statement.executeQuery("Select EmployeeName from users where EmployeeID ='"+ employeeID+"'");
+				String employeeName = null;
+				while(r.next()) {
+					employeeName = r.getString("EmployeeName");
+				}
+				try{
+					  bi = new BigInteger(employeeID);
+					  System.out.println(bi);
+					  bigInt=bi.toString();
+					  System.out.println(bigInt);
+				  }catch(Exception e){
+					  System.out.println("Error in converting String to BIG INT");
+				  }
+				String date = request.getParameter("startdate");
+				
+				System.out.println("After get parameter" +date);
+				//String employeeID = request;
+				System.out.println(bigInt);
+				request.setAttribute("startdate",date);
+				System.out.println("After set parameter" +date);
+				
+				SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String reformattedStr = null;
+				String emailid = null;
+				try {
+
+					reformattedStr = myFormat.format(fromUser.parse(date));
+					System.out.println(reformattedStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+//				///////////////////////////////////////
+//				
+//              Statement statement1 = con.createStatement();
+//              ResultSet r2=statement1.executeQuery("select sum from task  date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' " );		
+//
+//              String sum = null;
+//				while(r2.next()) {
+//					employeeName = r.getString("sum");
+//					System.out.println(sum);
+//				}
+//				
+//				request.setAttribute("Totalhour",sum);
+//				
+//				
+//				
+//				
+//				
+//				
+//				
+//				
+//			///////////////////////////////////////////////	
+				
+				Statement stt = con.createStatement();
+
+				String squery = "select EMAIL from users where EmployeeName =(select Approver from users where EmployeeID='"+ bigInt+"')";
+
+				ResultSet res = stt.executeQuery(squery);
+				
+				
+				while(res.next()){
+					emailid = res.getString("EMAIL");
+					System.out.println(emailid);
+				}
+				
+				String query = "select date,ProjName,proid,TaskCat,description,hours,approval from task "
+						+ "where date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
+				System.out.println("query " + query);
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(query);
+				/*while(rs.next()){
+					System.out.println(rs.getString(1) + "/"+rs.getString(2) + "/"+rs.getString(3) + "/"+rs.getString(4) + "/"+
+							rs.getString(5) + "/" + rs.getString(6));
+				}*/
+				
+				String approve = null;
+				int errorstatus = 0;
+				while(rs.next()) {
+					approve = rs.getString("approval");
+				}
+				System.out.println(approve);
+				Statement st1 = con.createStatement();
+				rs = st1.executeQuery(query);
+				//check if mail is sent or not  
+				if((approve.equals("Approved"))||(approve.equals("Email sent"))) {
+					System.out.println("error");
+					errorstatus=1;
+				}else {
+				
+					//execute if mail is not sent
+					sendMail(rs,employeeName,emailid,date,request);
+					Statement s = con.createStatement();
+					String sql = "Update task set approval='Email sent' where approval='Rejected' AND date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
+					System.out.println(sql);
+					s.executeUpdate(sql);
+					System.out.println("updated successfully");
+					
+				}
+				RequestDispatcher requestDispatcher=request.getRequestDispatcher("/JSP/Resubmit.jsp");
+				//request.getRequestDispatcher("/Admin/AddTask.jsp").forward(request, response);
+				requestDispatcher.include(request, response);
+				
+				if(errorstatus == 1) {
+					System.out.println("Here error status is" +errorstatus);
+					out.println("<h4 style='color:red;margin-left:600px;margin-top:0px;'>You have already send mail on this date</h4>");
+				}
+				else{
+					out.println("<h4 style='color:red;margin-left:600px;margin-top:0px;'>Sent mail Successfully</h4>");
+
+				}				
+				
+				rs.close();
+				st.close();
+				res.close();
+				stt.close();
+				
+				r.close();
+				statement.close();
+				
+				
+				
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			finally{
+				try {
+					con.close();
+					System.out.println("db closed for status Reject..In finally block");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
 		}
 	}
 
@@ -168,9 +346,12 @@ public class UserSendMailApproval extends HttpServlet {
 		String from = Constants.setFrom;
 		final String username = Constants.setFrom;//change accordingly
 		final String password =  Constants.setPassword;//change accordingly
-
+		
+		System.out.println(username);
+		System.out.println(password);
 		// Assuming you are sending email through relay.jangosmtp.net
 		String host = Constants.mailhost;
+		System.out.println(host);
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -226,7 +407,7 @@ public class UserSendMailApproval extends HttpServlet {
 		      			textbody += "<tr><td>" + rs.getString("date") + "</td><td>" + rs.getString("ProjName") + "</td><td>" + rs.getString("proid")+ "</td><td>" + rs.getString("TaskCat") + "</td><td>" + rs.getString("description")+ "</td><td>" + rs.getString("hours") +"</td></tr>\r\n";
 		      		}
 
-					textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+bigInt+"&date="+date+"\">APPROVE OR REJECT </a>\r\n" /*+ 
+					textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=Approve&empid="+bigInt+"&date="+date+"\">APPROVE OR REJECT </a>\r\n" /*+ 
 		              		" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+bigInt+"&date="+date+"\">REJECT</a></center></body></html>"*/;
               		/*textbody +="\r\n</table><a href=" + baseUrl + "/ApprovalChecker?approval=yes&empid="+bigInt+"&date="+date+"\">APPROVE </a>\r\n" + 
               				" OR " + "<a href=" + baseUrl + "/ApprovalChecker?approval=no&empid="+bigInt+"&date="+date+"\">REJECT</a></center></body></html>";*/
@@ -242,6 +423,7 @@ public class UserSendMailApproval extends HttpServlet {
 			Transport.send(message);
 
 			System.out.println("Sent message successfully....");
+
 
 		} catch (Exception e) {
 			e.printStackTrace();

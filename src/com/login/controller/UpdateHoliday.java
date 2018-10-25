@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -31,11 +32,12 @@ public class UpdateHoliday extends HttpServlet {
 		public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        Connection con = null;
+   	 con = DBConnection.createConnection();
+   	 System.out.println("connected!.....");
           try {
         	Statement st=null;
-        	 Connection con = null;
-        	 con = DBConnection.createConnection();
-        	 System.out.println("connected!.....");
+        	
              String date = request.getParameter("date");
              request.setAttribute(date, "date");
              System.out.println(date);
@@ -73,12 +75,22 @@ public class UpdateHoliday extends HttpServlet {
              RequestDispatcher view = request.getRequestDispatcher("/Admin/UpdateHoliday.jsp");
              view.forward(request, response);
              st.close();
-             con.close();
              System.out.println("Disconnected!");
            
          } catch (Exception e) {
              e.printStackTrace();
          }
+          finally{
+              try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+          }
      }
 
      @Override

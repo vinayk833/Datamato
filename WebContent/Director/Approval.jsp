@@ -6,6 +6,8 @@
     <%@ page import="com.login.util.DBConnection" %>
 <%ResultSet resultset =null;%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -163,14 +165,23 @@ h1{
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		/* if (session != null) { */
 			if (session.getAttribute("Director") != null) {
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
-
-				out.print("Welcome " + name+ "   Director" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				con.close();
+			//	out.print("Welcome " + name+ "   Director" );
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}
@@ -185,6 +196,8 @@ h1{
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Director/DirectorTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Director/ViewDirTask.jsp">Display Task </a>
+                  <a href="${pageContext.request.contextPath}/Director/DirectorResubmit.jsp">Resubmit </a>
+      
       </div>
   </li>
    <li><a href="${pageContext.request.contextPath}/Director/Approval.jsp">Approval</a></li>
@@ -197,9 +210,7 @@ h1{
 <article>
  <br>
     <form name="form" id="formtestdir" method="post">
-    <%-- <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" value="<%=request.getAttribute("MDate") %>" id="picker" name="date" />
-          <input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if(IsEmpty()){form.action='<%=request.getContextPath()%>/DisplayDirectorApproval'}else{return false};" /><br><br> --%> 
- 	
+   
  	<table border="none" bordercolor="#C0C0C0" cellspacing="2" cellpadding="2" width="60%" align="center" >
 
       <tr><td ><b>Start Date:</b></td><td><input type="text" id="startdate" name="startdate" placeholder="dd/mm/yy"  style="width:200px" value="<%=request.getAttribute("startdate") %>" required name="title";/>
@@ -219,15 +230,14 @@ h1{
     	 <!--<td><input type="button" id="toggle" value="Select" onClick="do_this()" /></td>
          <TD> <input type="checkbox" name="approve[]" value="1" style="width: 10px" /></TD>-->
         <td><b><input type="checkbox" name="allselect" onClick="toggle(this);">Select All</b></td>
-					<td><b>Task ID</b></td>
+					
 					<td><b>Employee ID</b></td>
 					<td><b>Employee Name</b></td>
 					<td><b>Date</b></td>
-					<td><b>Project Name</b></td>
-					<td><b>Project ID</b></td>
-					<td><b>Task Category</b></td>
-					<td><b>Task Description</b></td>
-					<td><b>hours</b></td>
+					<td><b> Total hours</b></td>
+					
+					
+					
 					<!-- <td><b>Approved</b></td> -->
 
          
@@ -247,19 +257,15 @@ h1{
                         count++;
                         ArrayList pList = (ArrayList) itr.next();
             %>
-             <tr style="background-color:<%=color%>;">
-               <td><input type="checkbox" name="listDir" value="<%=pList.get(0)%>"></td>
+              <tr style="background-color:<%=color%>;">
+                <td><input type="checkbox" name="list" value="<%=pList.get(0)%>,<%=pList.get(2)%>"></td>
                 <td><%=pList.get(0)%></td>
                 <td><%=pList.get(1)%></td>
-                <td><%=pList.get(2)%></td>
-                <td><%=pList.get(3)%></td>
-                <td><%=pList.get(4)%></td>
-                <td><%=pList.get(5)%></td>
-                <td><%=pList.get(6)%></td>
-                <td><%=pList.get(7)%></td>
-                <td><%=pList.get(8)%></td>
-                <%-- <td><%=pList.get(9)%></td> --%>
-                 </tr>
+                 <td><%=pList.get(2)%></td>
+                
+                <td><a href="${pageContext.request.contextPath}/DirectorDisplayApproval2?EmployeeId=<%=pList.get(0)%>&date= <%=pList.get(2) %>"><%=pList.get(3)%></a></td>
+               
+               </tr>
                
             <%
                     }
@@ -272,13 +278,14 @@ h1{
             </tr>
             <%            }
             %>
-    </table><br><br><br><br>
+            
+    </table><br><br><br><br> 
      <select name="select">
          <option value="Pending">Pending</option>
          <option value="approve">Approve</option>
          <option value="reject">Reject</option>
     </select> 
-    <input type="submit" value="submit" class="messageCheckbox" onClick="if(checkboxselect()){form.action='<%=request.getContextPath()%>/ApproveStatusDirector'}else{return false};"/>
+    <input type="submit" value="submit" class="messageCheckbox" onClick="if(checkboxselect()){form.action='<%=request.getContextPath()%>/ApproveStatusDirector?'}else{return false};"/>
 	</form>
 </article></center>
  </div>

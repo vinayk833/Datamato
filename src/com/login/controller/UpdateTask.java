@@ -17,9 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.login.util.DBConnection;
 
-/**
- * Servlet implementation class UpdateTask
- */
+
 @WebServlet("/UpdateTask")
 public class UpdateTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,9 +28,6 @@ public class UpdateTask extends HttpServlet {
 	private static String TaskCategory;
 	private static String Description;
 	private static String Hours;
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	
 	public static void setParameters(HttpServletRequest request){
 		Date = request.getParameter("date");
@@ -47,27 +42,22 @@ public class UpdateTask extends HttpServlet {
 		System.out.println(TaskCategory);
 		System.out.println(Description);
 		System.out.println(Hours);
-		/*SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-		try {
-
-		    reformattedStr = myFormat.format(fromUser.parse(Date));
-		} catch (ParseException e) {
-		    e.printStackTrace();
-		}
-*/
 	}
 
 	public static void updateQuery (HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		String employeeID  = (String) request.getSession().getAttribute("Admin");
 
 		Connection dbconnection = null;
 		dbconnection = DBConnection.createConnection();
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
+		try{
 		
 		Statement stt = dbconnection.createStatement();
+		Statement st= dbconnection.createStatement();
+
 		String q="select ProjName from task where proid='"+ProjectID+"'";
 		System.out.println(q);
 		ResultSet rs = stt.executeQuery(q);
@@ -75,14 +65,8 @@ public class UpdateTask extends HttpServlet {
 			ProjectName = rs.getString("ProjName");
 			System.out.println(ProjectName);
 		}
+		Float hr = Float.parseFloat(Hours);
 
-		// Setting update query
-		/*
-		String updateQuery = "UPDATE task  set date=?, ProjName=? , proid=?, TaskCat=?," + 
-							 "description=?, hours=? where taskId=?";
-		Statement st = dbconnection.createStatement();
-		System.out.println(updateQuery);
-		st.executeUpdate(updateQuery);*/
 		
 		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
 				+ "description= ? , hours= ? where taskId= ?";
@@ -96,7 +80,7 @@ public class UpdateTask extends HttpServlet {
 		preparedStatement.setString(3,ProjectID);
 		preparedStatement.setString(4,TaskCategory);
 		preparedStatement.setString(5,Description);
-		preparedStatement.setString(6,Hours);
+		preparedStatement.setFloat(6, hr);
 		preparedStatement.setString(7,taskID);
 		System.out.println(taskID);
 		
@@ -106,10 +90,40 @@ public class UpdateTask extends HttpServlet {
 		// Execute update SQL statement
 		preparedStatement.executeUpdate();
 		
+		String query= "select hours from task where date='"+Date+"'AND EmployeeId="+employeeID+"";
+		System.out.println("Retreive hours from database...."+query);
+		float sum1 = 0;
+		float sum= 0;
+		ResultSet r2= st.executeQuery(query);
+
+		while(r2.next()){
+			String s = r2.getString("hours");
+			System.out.println("hello"+s+"world");
+			sum1 = Float.parseFloat(s.trim());
+			
+			System.out.println("sum1....>"+sum1+"thanx");
+			float result1 = sum1;
+			
+			
+			sum += result1; 
+		}
+		System.out.println("Here the sum is...>>"+sum);
+		Statement supdate = dbconnection.createStatement();
+		supdate.executeUpdate("Update task set sum="+sum+" where date='"+Date+"' and EmployeeID="+employeeID+"");
+
+		request.setAttribute("Totalhour",sum);
+
+
+		}
+		finally{
+			
+			// Closing DB connection
+			dbconnection.close();
+			System.out.println("Connection close...");
+			}
+		
+
 		// Closing DB connection
-		rs.close();
-		stt.close();
-		dbconnection.close();
 		
 		// Request dispatcher
 		RequestDispatcher requestDispatcher=request.getRequestDispatcher("Admin/AddTask.jsp");
@@ -169,11 +183,21 @@ public class UpdateTask extends HttpServlet {
              rs.close();
              st.close();
              
-             con.close();
+            
              System.out.println("Disconnected!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			 try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

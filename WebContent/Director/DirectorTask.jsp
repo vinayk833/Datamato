@@ -79,17 +79,17 @@
             }
     </style>
 <%
-
+Connection con = null;
+con = DBConnection.createConnection();
 try{
-	 Connection con = null;
-	 con = DBConnection.createConnection();
+	 
     Statement statement1 = con.createStatement() ;
     Statement statement2 = con.createStatement() ;
     Statement statement = con.createStatement() ;
     
    
-    resultset1 =statement1.executeQuery("select * from myproject") ;   
-    resultset2 =statement2.executeQuery("select * from myproject") ;  
+    resultset1 =statement1.executeQuery("select * from myproject order by ProjName") ;   
+    resultset2 =statement2.executeQuery("select * from myproject order by ProjName") ;  
 LinkedHashMap<String,String> resultMap = new LinkedHashMap<String,String>();
 while(resultset1.next()){
 	resultMap.put(resultset1.getString(2),resultset1.getString(3));
@@ -360,7 +360,12 @@ else if(x=="null"){
         	alert ('Please Select date and Display Record then click on Submit');
             return false;
         }
-           
+else if(x>=10){
+	
+	alert ('Are you sure to add more than 10 Hours');
+	 return true;
+}
+    
            
   
         return true;
@@ -373,14 +378,23 @@ else if(x=="null"){
 <form name="frm"  method="post">
      <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Director") != null) {
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
-
-				out.print("Welcome " + name+"   Director" );
+				Connection con1 = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				//out.print("Welcome " + name+"   Director" );
+				
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}
@@ -395,6 +409,8 @@ else if(x=="null"){
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/Director/DirectorTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/Director/ViewDirTask.jsp">Display Task </a>
+                  <a href="${pageContext.request.contextPath}/Director/DirectorResubmit.jsp">Resubmit </a>
+      
       </div>
   </li>
    <li><a href="${pageContext.request.contextPath}/Director/Approval.jsp">Approval</a></li>
@@ -451,7 +467,7 @@ else if(x=="null"){
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
        
-        resultset =statement.executeQuery("SELECT taskCategory FROM taskcatlist;") ;
+        resultset =statement.executeQuery("SELECT taskCategory FROM taskcatlist order by taskCategory;") ;
 %>
 				  <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>
@@ -467,7 +483,7 @@ else if(x=="null"){
 %>
 </select></td>		
 			
-			<TD> <textarea rows="1" cols="20" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
+			<TD> <textarea rows="1" cols="20" maxlength="200" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
 			<TD><input type="text" name="hours" pattern="[0-9]+([\.,][0-9]+)?" title="Enter only numeric or decimal value" step="0.01"  style="fontfamily:Calibri;width:120px"class="code" id="code" onKeyUp = "calculateSum()"/></TD>
 		</TR>
 	</TABLE>
@@ -529,7 +545,7 @@ else if(x=="null"){
                    <td><%=pList.get(5)%></td>
                       <td><%=pList.get(6)%></td>
                        <td><a href="<%=request.getContextPath()%>/DirectorUpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
-                    <td><a href="<%=request.getContextPath()%>/DirectorDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DirectorDeleteTask'}else { return false; };"/></td> 
+                    <td><a href="<%=request.getContextPath()%>/DirectorDeleteTask?taskid=<%=pList.get(0)%>&date=<%=pList.get(1)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/DirectorDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }
@@ -559,6 +575,10 @@ else if(x=="null"){
         {
              out.println("wrong entry"+e);
         }
+finally{
+	con.close();
+	System.out.println("Disconnected in UI");
+}
 %>
 </body>
 </html>

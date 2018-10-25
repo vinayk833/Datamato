@@ -52,7 +52,7 @@ public class EditUser extends HttpServlet {
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
-
+ try{
 		// Setting update query
 		String updateQuery = "UPDATE users set ROLE= ? , Department= ? , Approver= ? where EmployeeName= ?";
 		System.out.println(updateQuery);
@@ -74,8 +74,13 @@ public class EditUser extends HttpServlet {
 		
 		// Closing DB connection
 		preparedStatement.close();
-		dbconnection.close();
 		
+ }
+ finally{
+		dbconnection.close();
+		System.out.println("Connection close 1------------->");
+		System.out.println("In Finally Block 1------------>");
+ } 
 		// Request dispatcher
 		RequestDispatcher requestDispatcher=request.getRequestDispatcher("/Admin/UpdateUsers.jsp");
 		requestDispatcher.include(request, response);
@@ -97,7 +102,7 @@ public class EditUser extends HttpServlet {
 		Statement st=null;
 		Connection con = null;
 		con = DBConnection.createConnection();
-		System.out.println("connected!.....");
+		System.out.println("connected 2.....");
 		String query = "SELECT * FROM users WHERE EmployeeName = '" +Name+"'";
 		System.out.println(query);
 		try {
@@ -130,11 +135,21 @@ public class EditUser extends HttpServlet {
 			 RequestDispatcher view = request.getRequestDispatcher("/Admin/EditUser.jsp");
              view.include(request, response);
              st.close();
-             con.close();
-             System.out.println("Disconnected!");
+             
+           
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+				System.out.println("Connection close 2------------->");
+				System.out.println("In Finally Block 2------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

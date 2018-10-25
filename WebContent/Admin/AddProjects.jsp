@@ -121,14 +121,23 @@
 
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
 
-				out.print("Welcome " + name + "   Admin");
+				//out.print("Welcome " + name + "   Admin");
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -198,14 +207,16 @@
 </textarea></td></tr>
 <tr  bordercolor=" #C0C0C0"><td ><b>Project Type:<span class="required">*</span></b></td><td><select name="Type" style="width:202px"  >
    <%
+   Connection con = null;
+   con = DBConnection.createConnection();
+   System.out.println("Connected 1 in UI");
     try{
-        Connection con = null;
+        
         response.setContentType("text/html");
-    con = DBConnection.createConnection();
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
         Statement statement = con.createStatement() ;
-        resultset =statement.executeQuery("select ProjectType from addprojecttype") ;
+        resultset =statement.executeQuery("select ProjectType from addprojecttype order by ProjectType") ;
 %>
    <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>
@@ -218,17 +229,23 @@
         {
              out.println("wrong entry"+e);
         }
+    finally{
+    	con.close();
+    	System.out.println("Disconnected 1 in UI ");
+    }
 %> </select></td></tr>
     <tr  bordercolor=" #C0C0C0"><td ><b>Product Managers:<span class="required">*</span></b></td><td><select name="Product Manager" style="width:202px">
     <%
-    try{
-        Connection con = null;
-        response.setContentType("text/html");
     con = DBConnection.createConnection();
+    System.out.println("Connected 2 in UI");
+    try{
+       
+        response.setContentType("text/html");
+    
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
         Statement statement = con.createStatement() ;
-        resultset =statement.executeQuery("select EmployeeName from users") ;
+        resultset =statement.executeQuery("select EmployeeName from users order by EmployeeName ") ;
 %>
    <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>
@@ -241,6 +258,10 @@
         {
              out.println("wrong entry"+e);
         }
+    finally{
+    	con.close();
+    	System.out.println("Db disconnected 2 in UI");
+    }
 %>
     </select></td></tr>
       <tr bordercolor=" #C0C0C0"><td ><b>Planned Start Date:<span class="required">*</span></b></td><td><input type="text" name="StartDate" id="startdate" placeholder="mm/dd/yyyy" style="width:190px"  required name="title";/>

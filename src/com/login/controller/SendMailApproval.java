@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,10 +58,11 @@ public class SendMailApproval extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 
+		Connection con = null;
+		con = DBConnection.createConnection();
+
 		try {
 
-			Connection con = null;
-			con = DBConnection.createConnection();
 			System.out.println("connected!.....");
 			String employeeID  = (String) request.getSession().getAttribute("Admin");
 			
@@ -127,14 +129,14 @@ public class SendMailApproval extends HttpServlet {
 			Statement st1 = con.createStatement();
 			rs = st1.executeQuery(query);
 			//check if mail is sent or not 
-			if((approve.equals("yes"))||(approve.equals("no"))||(approve.equals("emailsent"))) {
+			if((approve.equals("Approved"))||(approve.equals("Rejected"))||(approve.equals("Email sent"))) {
 				System.out.println("error");
 				errorstatus=1;
 			}else {
 				//execute if mail is not sent
 				sendMail(rs,employeeName,emailid,date,request);
 				Statement s = con.createStatement();
-				String sql = "Update task set approval='emailsent' where date='"+reformattedStr+"'";
+				String sql = "Update task set approval='Email sent' where date='" + reformattedStr + "' AND EmployeeID='" + bigInt + "' ";
 				System.out.println(sql);
 				s.executeUpdate(sql);
 				System.out.println("updated successfully");
@@ -145,12 +147,26 @@ public class SendMailApproval extends HttpServlet {
 			if(errorstatus == 1) {
 				out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>You have already send mail on this date</h4>");
 			}
+			else{
+				out.println("<h4 style='color:red;margin-left:600px;margin-top:-230px;'>Sent mail Successfully</h4>");
+
+			}
 			r.close();
 			statement.close();
-		con.close();
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		finally{
+			try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 			
 	}

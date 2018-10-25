@@ -23,36 +23,7 @@
 <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-1.8.3.js'></script>
 <script type="text/javascript" src='${pageContext.request.contextPath }/js/jquery-ui-1.10.2.custom.js'></script>
 <link type="text/css" href='${pageContext.request.contextPath}/css/jquery-ui-1.10.2.custom.css' rel='stylesheet' />
-<script>
-/* $(document).ready(function() {
 
-	$( "#startdate,#enddate" ).datepicker({
-	changeMonth: true,
-	changeYear: true,
-	firstDay: 1,
-	dateFormat: 'dd/mm/yy',
-	})
-
-	$( "#startdate" ).datepicker({ dateFormat: 'dd/mm/yy' });
-	$( "#enddate" ).datepicker({ dateFormat: 'dd/mm/yy' });
-
-	$('#enddate').change(function() {
-	var start = $('#startdate').datepicker('getDate');
-	var end   = $('#enddate').datepicker('getDate');
-
-	if(start==null){
-		alert("Please Enter the Start Date")
-		$('#startdate').val("");
-		$('#enddate').val("");
-		$('#days').val("");}
-		
-	   else if (start<end) {
-	 
-		var days   = (end - start)/1000/60/60/24;
-		$('#days').val(days)
-		
-	}
- */  </script>
 
 <style type="text/css">
 #startdate
@@ -1872,14 +1843,22 @@
 <body>
 <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Director") != null) {
 				String name = (String) session.getAttribute("Director");
 				session.setAttribute("Director",name);
-
-				out.print("Welcome " + name+"   Director" );
+				Connection con = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				//out.print("Welcome " + name+"   Director" );
 			} else {
 				response.sendRedirect("/TimeSheet/"); 
 			}
@@ -1902,18 +1881,19 @@
 </ul>
 </div>
 <%
+Connection con = null;
+
+con = DBConnection.createConnection();
     try{
-    	 Connection con = null;
-        
-     con = DBConnection.createConnection();
+    	
         Statement statement1 = con.createStatement() ;
         Statement statement2 = con.createStatement() ;
         Statement statement3 = con.createStatement() ;
         Statement statement4 = con.createStatement() ;
         
-        resultset1 =statement1.executeQuery("select * from myproject") ;  
-        resultset2 =statement2.executeQuery("select * from myproject") ; 
-        resultset3 =statement3.executeQuery("select * from users") ; 
+        resultset1 =statement1.executeQuery("select * from myproject order by ProjName") ;  
+        resultset2 =statement2.executeQuery("select * from myproject order by CustomerName") ; 
+        resultset3 =statement3.executeQuery("select * from users order by EmployeeName") ; 
         
            
         
@@ -1995,6 +1975,9 @@
         {
              out.println("wrong entry"+e);
         }
+    finally{
+    	con.close();
+    }
 %>
 </body>
 </html>

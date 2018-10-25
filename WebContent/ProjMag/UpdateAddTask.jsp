@@ -147,7 +147,22 @@ function toggle(source) {
 	    document.getElementById('proId').value = selectedCustomerId; 
 	} 
  
- 
+    function validation2(){
+        var x = document.getElementById("v1").value;
+           if (x==0) {
+               alert ('Hours should not be 0 hr');
+               return false;
+           }
+           else if(x=="null"){
+           	
+           	alert ('Please fill hours.');
+               return false;
+           }
+              
+     
+           return true;
+          
+   }
  
 </SCRIPT>
 <style type="text/css">
@@ -172,10 +187,10 @@ h1{
 </head>
 <body>
 <%
-
+Connection con = null;
+con = DBConnection.createConnection();
 try{
-	 Connection con = null;
-	 con = DBConnection.createConnection();
+	 
     Statement statement1 = con.createStatement() ;
     Statement statement2 = con.createStatement() ;
     Statement statement = con.createStatement() ;
@@ -198,8 +213,17 @@ Set<String> keys = resultMap.keySet();
 			if (session.getAttribute("Manager") != null) {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
-
-				out.print("Welcome " + name+"   Manager" );
+				//Connection con1 = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				//out.print("Welcome " + name+"   Manager" );
+				//con1.close();
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -213,6 +237,8 @@ Set<String> keys = resultMap.keySet();
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/ProjMag/CreateTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/ProjMag/PmViewTask.jsp">Display Task </a>
+                  <a href="${pageContext.request.contextPath}/ProjMag/ManagerResubmit.jsp">Resubmit </a>
+      
       </div>
   </li>
   <li><a href="${pageContext.request.contextPath}/ProjMag/Approval.jsp">Approval</a></li>
@@ -272,7 +298,7 @@ Set<String> keys = resultMap.keySet();
 %>
 </select></td>		
 			
-			<TD> <input type ="text"  name="description" value="<%=request.getAttribute("tdes")%>" style="width:224px;fontfamily:Calibri"></textarea></TD>
+			<TD> <input type ="text" textarea rows="1" cols="20" maxlength="200" name="description" value="<%=request.getAttribute("tdes")%>" style="width:224px;fontfamily:Calibri"></textarea></TD>
 			<TD><input type="text" name="date" id="startdate" value="<%=request.getAttribute("date")%> " style="width:160px;" /></TD>
 			 <!-- for date picker -->
 <script
@@ -288,11 +314,11 @@ $( "#startdate,#enddate" ).datepicker({
 changeMonth: true,
 changeYear: true,
 firstDay: 1,
-dateFormat: 'mm/dd/yy',
+dateFormat: 'yy/mm/dd',
 })
 
-$( "#startdate" ).datepicker({ dateFormat: 'mm/dd/yy' });
-$( "#enddate" ).datepicker({ dateFormat: 'mm/dd/yy' });
+$( "#startdate" ).datepicker({ dateFormat: 'yy/mm/dd' });
+$( "#enddate" ).datepicker({ dateFormat: 'yy/mm/dd' });
 
 $('#enddate').change(function() {
 var start = $('#startdate').datepicker('getDate');
@@ -322,14 +348,14 @@ $('#days').val("");
 ); //end change function
 }); //end ready
 </script>
-			<TD><input type="text" name="hours" value="<%=request.getAttribute("hours")%> " style="width:80px;"/></TD>
+			<TD><input type="text" id="v1"  name="hours" value="<%=request.getAttribute("hours")%> " style="width:80px;"/></TD>
 			
 		</TR>
 	</TABLE>
 	<br>
 
 <br><br>
-<input type="submit" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerUpdateTask';" />
+<input type="submit" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/ManagerUpdateTask';return validation2(this)" />
 
                     </article>
                 </center>
@@ -342,6 +368,10 @@ $('#days').val("");
         {
              out.println("wrong entry"+e);
         }
+finally{
+	con.close();
+	System.out.println("Disconnected in UI");
+}
 %>
     </form>
 </body>

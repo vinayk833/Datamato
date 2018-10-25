@@ -55,17 +55,17 @@
             }
     </style>
 <%
-
+Connection con = null;
+con = DBConnection.createConnection();
 try{
-	 Connection con = null;
-	 con = DBConnection.createConnection();
+	 
     Statement statement1 = con.createStatement() ;
     Statement statement2 = con.createStatement() ;
     Statement statement = con.createStatement() ;
     
    
-    resultset1 =statement1.executeQuery("select * from myproject") ;   
-    resultset2 =statement2.executeQuery("select * from myproject") ;  
+    resultset1 =statement1.executeQuery("select * from myproject order by ProjName") ;   
+    resultset2 =statement2.executeQuery("select * from myproject order by ProjName") ;  
 LinkedHashMap<String,String> resultMap = new LinkedHashMap<String,String>();
 while(resultset1.next()){
 	resultMap.put(resultset1.getString(2),resultset1.getString(3));
@@ -336,14 +336,23 @@ function toggle(source) {
 <form name="frm"  method="post">
     <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Manager") != null) {
 				String name = (String) session.getAttribute("Manager");
 				session.setAttribute("Manager",name);
 
-				out.print("Welcome " + name+"   Manager" );
+			
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename);
+				//con1.close();
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -357,6 +366,7 @@ function toggle(source) {
     <div class="dropdown-content">
       <a href="${pageContext.request.contextPath}/ProjMag/CreateTask.jsp">Create Task</a>
       <a href="${pageContext.request.contextPath}/ProjMag/PmViewTask.jsp">Display Task </a>
+      <a href="${pageContext.request.contextPath}/ProjMag/ManagerResubmit.jsp">Resubmit</a>
       </div>
   </li>
   <li><a href="${pageContext.request.contextPath}/ProjMag/Approval.jsp">Approval</a></li>
@@ -401,7 +411,12 @@ function toggle(source) {
                                    	alert ('Please Select date and Display Record then click on Submit');
                                        return false;
                                    }
-                                      
+                                   else if(x>=10){
+                       	        	
+                       	        	alert ('Are you sure to add more than 10 Hours');
+                       	        	 return true;
+                       	        }
+                       	           
                                       
                              
                                    return true;
@@ -447,14 +462,16 @@ function toggle(source) {
 			<TD>
 				 <SELECT name="TaskCat"  style="fontfamily:Calibri;width:155px">
 				<%
+				
+				
     try{
     	 
 		response.setContentType("text/html");
-	con = DBConnection.createConnection();
+	
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
        
-        resultset =statement.executeQuery("SELECT taskCategory FROM taskcatlist;") ;
+        resultset =statement.executeQuery("SELECT taskCategory FROM taskcatlist order by taskCategory;") ;
 %>
 				  <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>
@@ -467,10 +484,13 @@ function toggle(source) {
         {
              out.println("wrong entry"+e);
         }
+  
+ 
+
 %>
 </select></td>		
 			
-			<TD> <textarea rows="1" cols="20" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
+			<TD> <textarea rows="1" cols="20" maxlength="200" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
 			<TD><input type="text" name="hours" pattern="[0-9]+([\.,][0-9]+)?" title="Enter only numeric or decimal value" step="0.01"  style="fontfamily:Calibri;width:120px"class="code" id="code" onKeyUp = "calculateSum()"/></TD>
 		</TR>
 	</TABLE>
@@ -531,7 +551,7 @@ function toggle(source) {
                    <td><%=pList.get(5)%></td>
                       <td><%=pList.get(6)%></td>
                        <td><a href="<%=request.getContextPath()%>/ManagerUpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
-                    <td><a href="<%=request.getContextPath()%>/ManagerDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/ManagerDeleteTask'}else { return false; };"/></td> 
+                    <td><a href="<%=request.getContextPath()%>/ManagerDeleteTask?taskid=<%=pList.get(0)%>&date=<%=pList.get(1)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/ManagerDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }
@@ -563,6 +583,11 @@ function toggle(source) {
         {
              out.println("wrong entry"+e);
         }
+finally{
+	con.close();
+	
+	System.out.println("Disconnected in UI");
+}
 %>
 </body>
 </html>

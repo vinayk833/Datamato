@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.sql.Statement;
@@ -41,15 +42,19 @@ public class ViewDirectorTask extends HttpServlet {
           
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        Connection con = null;
+   	 con = DBConnection.createConnection();
+   	 System.out.println("connected!.....");
           try {
         	Statement st=null;
-        	 Connection con = null;
-        	 con = DBConnection.createConnection();
-        	 System.out.println("connected!.....");
         	 
+       	 String employeeID  = (String) request.getSession().getAttribute("Director");
+
         	 String EmployeeName = request.getParameter("EmpName");
              String startDate = request.getParameter("startdate");
              String endDate = request.getParameter("enddate");
+             String selectopt = request.getParameter("filter");
+             System.out.println("Here select option is"+selectopt);
              System.out.println("MySQL Connect Example.");
        		
      		 SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
@@ -75,15 +80,20 @@ public class ViewDirectorTask extends HttpServlet {
              ArrayList al = null;
              ArrayList pid_list = new ArrayList();
             
-           String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours from task;";
-             if(( reformattedStr1!=null && ! reformattedStr1.equals(""))||( reformattedStr2!=null && !reformattedStr2.equals(""))){
+             switch(selectopt) {
+             case "approve": System.out.println(" In Approved case");
+            
+            	System.out.println("In "+selectopt);
+           String query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where approval='Approved' and EmployeeID='" + employeeID + "'";
+             if((reformattedStr1!=null && !reformattedStr1.equals(""))||(reformattedStr2!=null && !reformattedStr2.equals(""))){
           
-             query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
+             query = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval FROM task WHERE approval='Approved' AND date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
                   + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
              } 
-        /*  String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" + startDate +"'" + " AND " + "'"+ endDate + "'" + " AND " 
-                  + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";*/
+        
              System.out.println("query " + query);
+             
+             
              st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
 
@@ -97,6 +107,7 @@ public class ViewDirectorTask extends HttpServlet {
                  al.add(rs.getString(6));
                  al.add(rs.getString(7));
                  al.add(rs.getString(8));
+                 al.add(rs.getString(9));
                  System.out.println("al :: " + al);
                  pid_list.add(al);
              }
@@ -104,16 +115,98 @@ public class ViewDirectorTask extends HttpServlet {
              request.setAttribute("piList", pid_list);
              System.out.println(pid_list);
              
+             break;
+             case "Pending": System.out.println("Pending case");
+             
+             String query1 = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where approval='Email sent' AND EmployeeID='" + employeeID + "'";
+             if((reformattedStr1!=null && !reformattedStr1.equals(""))||(reformattedStr2!=null && !reformattedStr2.equals(""))){
+          
+             query1 = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval FROM task WHERE approval='Email sent' AND date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
+                  + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
+             } 
+        
+             System.out.println("query1 " + query1);
+             
+             
+             st = con.createStatement();
+            ResultSet rs1 = st.executeQuery(query1);
+
+             while (rs1.next()) {
+                 al = new ArrayList();
+                 al.add(rs1.getString(1));
+                 al.add(rs1.getString(2));
+                 al.add(rs1.getString(3));
+                 al.add(rs1.getString(4));
+                 al.add(rs1.getString(5));
+                 al.add(rs1.getString(6));
+                 al.add(rs1.getString(7));
+                 al.add(rs1.getString(8));
+                 al.add(rs1.getString(9));
+                 System.out.println("al :: " + al);
+                 pid_list.add(al);
+             }
+
+             request.setAttribute("piList", pid_list);
+             System.out.println(pid_list);
+             
+             break;
+             
+case "reject": System.out.println("Reject case");
+             
+             String query3 = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval from task where approval='Rejected' AND EmployeeID='" + employeeID + "'";
+             if((reformattedStr1!=null && !reformattedStr1.equals(""))||(reformattedStr2!=null && !reformattedStr2.equals(""))){
+          
+             query3 = "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours,approval FROM task WHERE approval='Rejected' AND date BETWEEN " +"'" + reformattedStr1 +"'" + " AND " + "'"+ reformattedStr2 + "'" + " AND " 
+                  + "EmployeeID= (SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
+             } 
+        
+             System.out.println("query1 " + query3);
+             
+             
+             st = con.createStatement();
+            ResultSet rs3 = st.executeQuery(query3);
+
+             while (rs3.next()) {
+                 al = new ArrayList();
+                 al.add(rs3.getString(1));
+                 al.add(rs3.getString(2));
+                 al.add(rs3.getString(3));
+                 al.add(rs3.getString(4));
+                 al.add(rs3.getString(5));
+                 al.add(rs3.getString(6));
+                 al.add(rs3.getString(7));
+                 al.add(rs3.getString(8));
+                 al.add(rs3.getString(9));
+                 System.out.println("al :: " + al);
+                 pid_list.add(al);
+             }
+
+             request.setAttribute("piList", pid_list);
+             System.out.println(pid_list);
+             
+             
+             break;
+             
+             }
+             
              RequestDispatcher view = request.getRequestDispatcher("/Director/ViewDirTask.jsp");
              view.forward(request, response);
-             rs.close();
+             
              st.close();
-             con.close();
+             
              System.out.println("Disconnected!");
            
          } catch (Exception e) {
              e.printStackTrace();
          }
+          finally{
+        	  try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+          }
 	}
 
 }

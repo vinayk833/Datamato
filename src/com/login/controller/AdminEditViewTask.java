@@ -69,7 +69,7 @@ public class AdminEditViewTask extends HttpServlet {
 
 		// Printing out Connection
 		System.out.println("Connection------------->" + dbconnection);
-
+try{
 		// Setting update query
 		String updateQuery = "UPDATE task  set date=?, ProjName= ? , proid= ?, TaskCat= ? ,"
 				+ "description= ? , hours= ? where taskId= ?";
@@ -91,10 +91,17 @@ public class AdminEditViewTask extends HttpServlet {
 		
 		// Execute update SQL statement
 		preparedStatement.executeUpdate();
+		preparedStatement.close();
+}
+
 		
 		// Closing DB connection
-		preparedStatement.close();
+		finally{
 		dbconnection.close();
+		System.out.println("Db closed...");
+
+		System.out.println("In Finally Block...");
+		}
 		
 		// Request dispatcher
 		RequestDispatcher requestDispatcher=request.getRequestDispatcher("/Admin/ViewTask.jsp");
@@ -127,5 +134,6 @@ public class AdminEditViewTask extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 }

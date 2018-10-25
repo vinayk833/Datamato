@@ -61,17 +61,18 @@
             }
     </style>
 <%
+Connection con = null;
+con = DBConnection.createConnection();
 
 try{
-	 Connection con = null;
-	 con = DBConnection.createConnection();
+	
     Statement statement1 = con.createStatement() ;
     Statement statement2 = con.createStatement() ;
     Statement statement = con.createStatement() ;
     
    
-    resultset1 =statement1.executeQuery("select * from myproject") ;   
-    resultset2 =statement2.executeQuery("select * from myproject") ;  
+    resultset1 =statement1.executeQuery("select * from myproject order by ProjName") ;   
+    resultset2 =statement2.executeQuery("select * from myproject order by ProjName") ;  
 LinkedHashMap<String,String> resultMap = new LinkedHashMap<String,String>();
 while(resultset1.next()){
 	resultMap.put(resultset1.getString(2),resultset1.getString(3));
@@ -90,7 +91,8 @@ function validatehours(){
        alert("Total hours should not be greater than 24 hours");
        stat=1;
        return false;
-       }else{
+       }else
+       {
 	    for(var i = 0; i < inputs.length; ++i)
 	       if(inputs[i].type === 'text')
 	    	   {
@@ -332,23 +334,31 @@ function toggle(source) {
 	 }
 	 
 	 }
+ 
  function validation2(){
      var x = document.getElementById("v1").value;
         if (x<8) {
             alert ('Total hours must be more than 8 Hours');
             return false;
         }
-        else if(x=="null"){
+else if(x=="null"){
         	
         	alert ('Please Select date and Display Record then click on Submit');
             return false;
         }
+else if(x>=10){
+	
+	alert ('Are you sure to add more than 10 Hours');
+	 return true;
+}
+    
            
   
         return true;
        
 }
-
+ 
+ 
  </SCRIPT> 
 
 </head>
@@ -356,14 +366,24 @@ function toggle(source) {
 <form name="frm"  method="post">
       <div class="container">
 <header><img src="${pageContext.request.contextPath}/images/logo.png" alt="Avatar" class="avatar">
-<tm style="font-family:calibri">Timesheet Management System</tm>
+<tm style="font-family:calibri">TimeSheet Management System</tm>
   <user><%
 		if (session != null) {
 			if (session.getAttribute("Admin") != null) {
 				String name = (String) session.getAttribute("Admin");
 				session.setAttribute("Admin",name);
+			//	Connection con1 = null;
+				con = DBConnection.createConnection();
+				System.out.println("connected!.....");
+				PreparedStatement pst=con.prepareStatement("SELECT employeename FROM users where employeeid=?");
+				pst.setString(1, name);
+				ResultSet rs=pst.executeQuery();
+				rs.next();
+				String ename=rs.getString(1);
+				out.print("Welcome " + ename );
+				
 
-				out.print("Welcome " + name +"   Admin" );
+				//out.print("Welcome " + name +"   Admin" );
 			} else {
 				response.sendRedirect("/TimeSheet/");  			}
 		}
@@ -416,6 +436,15 @@ function toggle(source) {
        <li style="float:right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></li>
 </ul>
 </div>
+
+
+
+
+
+
+
+
+
             <div  style="  height: 100%; margin-top: 30px;">
            <span style=" margin-left:5px;margin-top:80px;width:222px;fontfamily:Calibri;color:#007BC0;bordercolor:rgb(211,211,211)">Date:</span> <input type="text" id="startdate" value="<%=request.getAttribute("date")%>" name="date" required name="title"/>
            <span><input type="submit" value="Display" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/AdminDisplayTask';" /></span> 
@@ -440,6 +469,9 @@ function toggle(source) {
                                         } 
                                     });
                         </script>
+                     
+                        
+                        
                 <center>
                     <article>
                  
@@ -478,14 +510,16 @@ function toggle(source) {
 			<TD>
 				 <SELECT name="TaskCat"  style="fontfamily:Calibri;width:155px">
 				<%
+				//con = DBConnection.createConnection();
+			//	System.out.println("Connection UI ");
     try{
     	 
 		response.setContentType("text/html");
-	con = DBConnection.createConnection();
+	
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/customers?user=root&password=Datamato@123");
        
-        resultset =statement.executeQuery("SELECT taskCategory FROM taskcatlist;") ;
+        resultset =statement.executeQuery("SELECT taskCategory FROM taskcatlist order by taskCategory;") ;
 %>
 				  <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>
@@ -498,10 +532,14 @@ function toggle(source) {
         {
              out.println("wrong entry"+e);
         }
+				//finally{
+					//con.close();
+					//System.out.println(" Db Connection close in UI");
+				//}
 %>
 </select></td>		
 			
-			<TD> <textarea rows="1" cols="20" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
+			<TD> <textarea rows="1" cols="20" maxlength="200" name="taskDescription" style="width:200px;fontfamily:Calibri"></textarea></TD>
 			<TD><input type="text" name="hours" pattern="[0-9]+([\.,][0-9]+)?" title="Enter only numeric or decimal value" step="0.01"  style="fontfamily:Calibri;width:120px"class="code" id="code" onKeyUp = "calculateSum()"/></TD>
 		</TR>
 	</TABLE>
@@ -564,7 +602,7 @@ function toggle(source) {
                    <td><%=pList.get(5)%></td>
                      <td><%=pList.get(6)%></td>
                    <td><a href="<%=request.getContextPath()%>/UpdateTask?taskid=<%=pList.get(0)%>"><input type="button" value="Update" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" /></a></td>
-                    <td><a href="<%=request.getContextPath()%>/AdminDeleteTask?taskid=<%=pList.get(0)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/AdminDeleteTask'}else { return false; };"/></td> 
+                    <td><a href="<%=request.getContextPath()%>/AdminDeleteTask?taskid=<%=pList.get(0)%>&date=<%=pList.get(1)%>"><input  type="button" value="Delete" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="if (confirm('Are you sure you want to delete?')){form.action='<%=request.getContextPath()%>/AdminDeleteTask'}else { return false; };"/></td> 
                  </tr>
             <%
                     }
@@ -580,7 +618,10 @@ function toggle(source) {
         
 	
 	</table><br><br>
-	<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validation2(this)"/ >
+	
+	
+		<input type="submit" id="submitt" value="Submit" style="margin-left: 0%;width:80px;height:32px;background-color:#007BC0;color:white" onclick="form.action='<%=request.getContextPath()%>/SendMailApproval';return validation2(this)"/ >
+	
 	</article>
                 </center>
             </div>
@@ -592,10 +633,19 @@ function toggle(source) {
     <%
 //**Should I input the codes here?**
         }
+
         catch(Exception e)
         {
              out.println("wrong entry"+e);
         }
+finally{
+	con.close();
+	System.out.println("Disconnected in UI");
+}
+
 %>
+
+ 
+
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -42,11 +43,12 @@ public class ViewAdminTask extends HttpServlet {
           
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        Connection con = null;
+   	 con = DBConnection.createConnection();
+   	 System.out.println("connected!.....");
+   	 
           try {
         	Statement st=null;
-        	 Connection con = null;
-        	 con = DBConnection.createConnection();
-        	 System.out.println("connected!.....");
         	 
         	 String EmployeeName = request.getParameter("EmpName");
              String startDate = request.getParameter("startdate");
@@ -74,7 +76,7 @@ public class ViewAdminTask extends HttpServlet {
              ArrayList al = null;
              ArrayList pid_list = new ArrayList();
          
-          String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours FROM task WHERE date BETWEEN " +"'" +  reformattedStr1 +"'" + " AND " + "'"+  reformattedStr2 + "'" + " AND " 
+          String query =  "SELECT taskId,EmployeeID,date,ProjName,proid,TaskCat,description,hours, approval FROM task WHERE date BETWEEN " +"'" +  reformattedStr1 +"'" + " AND " + "'"+  reformattedStr2 + "'" + " AND " 
                   + "EmployeeID IN(SELECT EmployeeID FROM users WHERE EmployeeName=\""+ EmployeeName +"\")";
              System.out.println("query " + query);
              st = con.createStatement();
@@ -90,6 +92,8 @@ public class ViewAdminTask extends HttpServlet {
                  al.add(rs.getString(6));
                  al.add(rs.getString(7));
                  al.add(rs.getString(8));
+                 al.add(rs.getString(9));
+
                  System.out.println("al :: " + al);
                  pid_list.add(al);
              }
@@ -100,12 +104,22 @@ public class ViewAdminTask extends HttpServlet {
              RequestDispatcher view = request.getRequestDispatcher("/Admin/ViewTask.jsp");
              view.forward(request, response);
              st.close();
-             con.close();
-             System.out.println("Disconnected!");
+            
            
          } catch (Exception e) {
              e.printStackTrace();
          }
+          finally{
+              try {
+				con.close();
+				System.out.println("Connection close------------->");
+				System.out.println("In Finally Block------------>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+  
+          }
 	}
 
 }
