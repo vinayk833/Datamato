@@ -43,7 +43,7 @@ html {
 					<span style='color: red'>Mi</span><span style='color: #0000b2'>nda</span>
 					<span style='color: red'>T</span><span style='color: #0000b2'>echnical
 						Center</span> <span style='color: #0000b2'>(</span><span
-					style='color: red'>SMIT 29 october 11:40am</span><span style='color: #0000b2'>)</span></b>
+					style='color: red'>SMIT 29 october 11:40 </span><span style='color: #0000b2'>)</span></b>
 			</h1>
 			<br>
 			<h2 style="margin-left: 30%">
