@@ -41,7 +41,7 @@ html {
 			<h1 style="margin-left: 40%">
 				<b><span style='color: red'>D</span><span style='color: #0000b2'>atamato</span>
 					<span style='color: red'>T</span><span style='color: #0000b2'>echnologies</span> <span style='color: #0000b2'>(</span><span
-					style='color: red'>BETA 30 october 12pm</span><span style='color: #0000b2'>)</span></b>
+					style='color: red'>30 october 17:13 pm</span><span style='color: #0000b2'>)</span></b>
 			</h1>
 			<br>
 			<h2 style="margin-left: 30%">
