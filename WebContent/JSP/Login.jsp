@@ -38,7 +38,7 @@ html {
 		<header>
 			<br>
 			<br> <img border="0" src="images/logo2.png" alt="Pulpit rock" width="250" height="120" style="margin-left: 30%"><br>
-			<h1 style="margin-left: 30%">
+			<h1 style="margin-left: 40%">
 				<b><span style='color: red'>D</span><span style='color: #0000b2'>atamato</span>
 					<span style='color: red'>T</span><span style='color: #0000b2'>echnologies</span> <span style='color: #0000b2'>(</span><span
 					style='color: red'>BETA 30 october 12pm</span><span style='color: #0000b2'>)</span></b>
