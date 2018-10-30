@@ -37,13 +37,12 @@ html {
 		<!--/ Codrops top bar -->
 		<header>
 			<br>
-			<br> <img border="0" src="images/logo.png" alt="Pulpit rock" width="250" height="120" style="margin-left: 30%"><br>
+			<br> <img border="0" src="images/logo2.png" alt="Pulpit rock" width="250" height="120" style="margin-left: 30%"><br>
 			<h1 style="margin-left: 30%">
-				<b><span style='color: red'>S</span><span style='color: #0000b2'>park</span>
-					<span style='color: red'>Mi</span><span style='color: #0000b2'>nda</span>
+				<b><span style='color: red'>D</span><span style='color: #0000b2'>ata</span><span style='color: red'>M</span><span style='color: #0000b2'>ato</span>
 					<span style='color: red'>T</span><span style='color: #0000b2'>echnical
 						Center</span> <span style='color: #0000b2'>(</span><span
-					style='color: red'>SMIT 29 october 7:53pm</span><span style='color: #0000b2'>)</span></b>
+					style='color: red'>SMIT 30 october 12pm</span><span style='color: #0000b2'>)</span></b>
 			</h1>
 			<br>
 			<h2 style="margin-left: 30%">
