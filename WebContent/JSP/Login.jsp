@@ -39,10 +39,9 @@ html {
 			<br>
 			<br> <img border="0" src="images/logo2.png" alt="Pulpit rock" width="250" height="120" style="margin-left: 30%"><br>
 			<h1 style="margin-left: 30%">
-				<b><span style='color: red'>D</span><span style='color: #0000b2'>ata</span><span style='color: red'>M</span><span style='color: #0000b2'>ato</span>
-					<span style='color: red'>T</span><span style='color: #0000b2'>echnical
-						Center</span> <span style='color: #0000b2'>(</span><span
-					style='color: red'>SMIT 30 october 12pm</span><span style='color: #0000b2'>)</span></b>
+				<b><span style='color: red'>D</span><span style='color: #0000b2'>atamato</span>
+					<span style='color: red'>T</span><span style='color: #0000b2'>echnologies</span> <span style='color: #0000b2'>(</span><span
+					style='color: red'>BETA 30 october 12pm</span><span style='color: #0000b2'>)</span></b>
 			</h1>
 			<br>
 			<h2 style="margin-left: 30%">
