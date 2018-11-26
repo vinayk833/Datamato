@@ -41,9 +41,10 @@ html {
 			<h1 style="margin-left: 40%">
 				<b><span style='color: red'>D</span><span style='color: #0000b2'>atamato</span>
 					<span style='color: red'>T</span><span style='color: #0000b2'>echnologies</span> <span style='color: #0000b2'>(</span><span
-					style='color: red'>23 November 7pm demo001 pm</span><span style='color: #0000b2'>)</span></b>
+					style='color: red'>26 November 7pm pm</span><span style='color: #0000b2'>)</span></b>
 			</h1>
 			<br>
+			
 			<h2 style="margin-left: 30%">
 				<b>TimeSheet Management System </b>
 			</h2>
